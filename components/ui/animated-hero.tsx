@@ -29,18 +29,21 @@ function AnimatedHero() {
       className="min-h-screen flex items-center bg-brand-white pt-16"
     >
       <div className="container mx-auto">
-        <div className="flex gap-6 py-20 lg:py-40 items-start justify-center flex-col">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-8 py-20 lg:py-40 items-center justify-between">
+          
+          {/* Left Column: Text Content */}
+          <div className="flex flex-col gap-5 items-start justify-center w-full lg:w-[55%]">
 
           {/* Eyebrow label */}
           <div>
-            <Button variant="secondary" size="sm" className="gap-3 font-sans text-label uppercase tracking-widest">
-              The Big 3 <MoveRight className="w-3.5 h-3.5" />
+            <Button variant="secondary" size="sm" className="gap-2.5 font-sans text-[10px] uppercase tracking-widest h-8 px-2.5">
+              The Big 3 <MoveRight className="w-3 h-3" />
             </Button>
           </div>
 
           {/* Headline */}
-          <div className="flex gap-4 flex-col">
-            <h1 className="font-display text-display-xl max-w-3xl tracking-tighter text-left text-brand-ink">
+          <div className="flex gap-3 flex-col">
+            <h1 className="font-display text-[clamp(2.4rem,6.4vw,4.8rem)] leading-[1.05] tracking-tighter max-w-2xl text-left text-brand-ink">
               <span>Think Big. We Build</span>
               <span className="relative flex w-full justify-start overflow-hidden text-left md:pb-4 md:pt-1">
                 &nbsp;
@@ -66,24 +69,38 @@ function AnimatedHero() {
             </h1>
 
             {/* Subtext */}
-            <p className="font-sans text-body-xl text-brand-ink-muted max-w-2xl text-left">
+            <p className="font-sans text-body-md text-brand-ink-muted max-w-xl text-left">
               Websites, apps, software, and AI automation — built to your exact
               requirements.
             </p>
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-row gap-3 flex-wrap justify-start">
-            <Button size="lg" variant="outline" className="gap-3" asChild>
+          <div className="flex flex-row gap-2.5 flex-wrap justify-start">
+            <Button size="default" variant="outline" className="gap-2.5" asChild>
               <a href="#contact">
-                Jump on a call <PhoneCall className="w-4 h-4" />
+                Jump on a call <PhoneCall className="w-3.5 h-3.5" />
               </a>
             </Button>
-            <Button size="lg" className="gap-3" asChild>
+            <Button size="default" className="gap-2.5" asChild>
               <a href="#portfolio">
-                See our work <MoveRight className="w-4 h-4" />
+                See our work <MoveRight className="w-3.5 h-3.5" />
               </a>
             </Button>
+          </div>
+
+          </div>
+
+          {/* Right Column: Video */}
+          <div className="w-full lg:w-[45%] flex justify-center items-center">
+            <video
+              src="/video/hero_video.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full max-w-lg lg:max-w-[40rem] object-contain"
+            />
           </div>
 
         </div>

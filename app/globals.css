@@ -25,6 +25,23 @@
   }
 }
 
+@layer components {
+  /* Override default Tailwind container to be fluid and match header alignments */
+  .container {
+    max-width: 100% !important;
+    padding-left: 1.25rem !important; /* 20px matches mobile header left-5 */
+    padding-right: 1.25rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  @media (min-width: 768px) {
+    .container {
+      padding-left: 3rem !important; /* 48px matches desktop header md:left-12 */
+      padding-right: 3rem !important;
+    }
+  }
+}
+
 @layer utilities {
   /* Character mascot float animation */
   @keyframes float {
