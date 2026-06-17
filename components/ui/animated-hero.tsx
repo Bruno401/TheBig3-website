@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react"
 import { motion } from "framer-motion"
 import { MoveRight, PhoneCall } from "lucide-react"
+import { HeroWorkflowVisuals } from "@/components/ui/hero-workflow-visuals"
+import { HeroKpiCard } from "@/components/ui/hero-kpi-card"
 import { Button } from "@/components/ui/button"
 
 function AnimatedHero() {
@@ -41,6 +43,12 @@ function AnimatedHero() {
             className="w-full max-w-lg lg:max-w-3xl scale-[1.2] translate-x-[5%] translate-y-[15%] object-contain"
           />
         </div>
+
+        {/* Right-side floating workflow UI elements */}
+        <HeroWorkflowVisuals />
+
+        {/* Cycling KPI stats card — centered temporarily */}
+        <HeroKpiCard />
 
         <div className="relative z-10 flex flex-col lg:flex-row gap-12 lg:gap-8 py-20 lg:py-40 items-center justify-between pointer-events-none">
           
