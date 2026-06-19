@@ -14,9 +14,8 @@ import { motion } from "framer-motion"
  *   5. Process automation card
  *   6. Small decorative purple ring
  *
- * All elements use absolute positioning within the hero's
- * right column area. The character (video) sits behind these
- * elements — this component only renders the floating UI.
+ * All elements use absolute positioning within the local hero
+ * visual stage. The character video sits behind these elements.
  * ──────────────────────────────────────────────────────────── */
 
 /* ── Shared animation config ── */
@@ -55,7 +54,7 @@ const fadeInUp = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
   },
 }
 
@@ -71,16 +70,16 @@ const staggerContainer = {
 function BrowserDots() {
   return (
     <div className="flex items-center gap-[5px]">
-      <span className="w-[7px] h-[7px] rounded-full bg-[#FF6259]" />
-      <span className="w-[7px] h-[7px] rounded-full bg-[#FFBF2F]" />
-      <span className="w-[7px] h-[7px] rounded-full bg-[#29CE42]" />
+      <span className="h-[6px] w-[6px] rounded-full bg-[#FF6259] md:h-[7px] md:w-[7px]" />
+      <span className="h-[6px] w-[6px] rounded-full bg-[#FFBF2F] md:h-[7px] md:w-[7px]" />
+      <span className="h-[6px] w-[6px] rounded-full bg-[#29CE42] md:h-[7px] md:w-[7px]" />
     </div>
   )
 }
 
 function CodeCardContent() {
   return (
-    <div className="font-mono text-[12px] md:text-[13px] leading-[1.8] text-brand-ink-muted select-none">
+    <div className="select-none font-mono text-[11px] leading-[1.8] text-brand-ink-muted md:text-[12px] lg:text-[13px]">
       <p>
         <span className="text-brand-ink-muted/60">{"// "}</span>
         <span>automate</span>
@@ -93,7 +92,7 @@ function CodeCardContent() {
         <span className="text-brand-ink-muted/60">{"// "}</span>
         <span>scale</span>
       </p>
-      <p className="mt-3 text-brand-purple font-medium">
+      <p className="mt-2 font-medium text-brand-purple md:mt-3">
         {"<the big 3 />"}
       </p>
     </div>
@@ -108,7 +107,7 @@ function CodeCardContent() {
 function HeroWorkflowVisuals() {
   return (
     <motion.div
-      className="absolute inset-0 pointer-events-none z-20"
+      className="pointer-events-none absolute inset-0 z-20 overflow-visible"
       variants={staggerContainer}
       initial="hidden"
       animate="visible"
@@ -116,28 +115,18 @@ function HeroWorkflowVisuals() {
     >
       {/* ── 1. Purple dot node ── */}
       <motion.div
-        className="absolute"
-        style={{
-          top: "2%",
-          right: "18%",
-        }}
+        className="absolute right-[24%] top-[2%] md:right-[14%] md:top-[7%] lg:right-[18%] lg:top-[2%]"
         variants={fadeInUp}
       >
         <motion.div
-          className="w-[10px] h-[10px] rounded-full bg-brand-purple"
+          className="h-[9px] w-[9px] rounded-full bg-brand-purple md:h-[10px] md:w-[10px]"
           animate={pulseNode}
         />
       </motion.div>
 
       {/* ── 2. Dashed vertical line from dot to code card ── */}
       <motion.div
-        className="absolute"
-        style={{
-          top: "5%",
-          right: "calc(18% + 4px)",
-          width: "1.5px",
-          height: "8%",
-        }}
+        className="absolute right-[calc(24%_+_4px)] top-[5%] h-[8%] w-[1.5px] md:right-[calc(14%_+_4px)] md:top-[10%] md:h-[7%] lg:right-[calc(18%_+_4px)] lg:top-[5%] lg:h-[8%]"
         variants={fadeInUp}
       >
         <svg
@@ -160,20 +149,16 @@ function HeroWorkflowVisuals() {
 
       {/* ── 3. Browser-style Code Card ── */}
       <motion.div
-        className="absolute"
-        style={{
-          top: "13%",
-          right: "14%",
-        }}
+        className="absolute right-[3%] top-[13%] md:right-0 md:top-[17%] lg:right-[9%] lg:top-[13%]"
         variants={fadeInUp}
       >
         <motion.div
           className="
-            w-[180px] md:w-[210px] lg:w-[230px]
+            w-[194px] md:w-[190px] lg:w-[230px]
             bg-white
             border border-brand-border
-            rounded-[20px] md:rounded-[24px]
-            px-5 py-4 md:px-6 md:py-5
+            rounded-[18px] md:rounded-[20px] lg:rounded-[24px]
+            px-4 py-3.5 md:px-5 md:py-4 lg:px-6 lg:py-5
           "
           style={{
             boxShadow: "0 4px 24px rgba(18, 14, 30, 0.06), 0 1px 4px rgba(18, 14, 30, 0.03)",
@@ -192,9 +177,9 @@ function HeroWorkflowVisuals() {
         {/* ── 4. SVG Dashed L-connector from code card to process card ── */}
         <svg
           className="absolute pointer-events-none"
-          width="150"
-          height="150"
-          viewBox="0 0 150 150"
+          width="142"
+          height="142"
+          viewBox="0 0 142 142"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{
@@ -205,7 +190,7 @@ function HeroWorkflowVisuals() {
           aria-hidden="true"
         >
           <path
-            d="M0 0 L0 80 Q0 100 20 100 L110 100"
+            d="M0 0 L0 76 Q0 96 20 96 L110 96"
             stroke="#A392C6"
             strokeWidth="1.5"
             strokeDasharray="6 4"
@@ -217,20 +202,16 @@ function HeroWorkflowVisuals() {
 
       {/* ── 5. Process Automation Card ── */}
       <motion.div
-        className="absolute"
-        style={{
-          top: "54%",
-          right: "8%",
-        }}
+        className="absolute right-[2%] top-[54%] md:right-0 md:top-[58%] lg:right-[2%] lg:top-[54%]"
         variants={fadeInUp}
       >
         <motion.div
           className="
-            w-[130px] md:w-[140px] lg:w-[150px]
+            w-[120px] md:w-[126px] lg:w-[150px]
             bg-white
             border border-brand-border
-            rounded-[18px] md:rounded-[20px]
-            px-4 py-3.5 md:px-5 md:py-4
+            rounded-[16px] md:rounded-[18px] lg:rounded-[20px]
+            px-3.5 py-3 md:px-4 md:py-3.5 lg:px-5 lg:py-4
           "
           style={{
             boxShadow: "0 4px 20px rgba(18, 14, 30, 0.05), 0 1px 3px rgba(18, 14, 30, 0.02)",
@@ -238,9 +219,9 @@ function HeroWorkflowVisuals() {
           animate={floatProcessCard}
         >
           {/* Top row — icon + status dot */}
-          <div className="flex items-start justify-between mb-2.5">
+          <div className="mb-2.5 flex items-start justify-between">
             {/* Purple circle icon */}
-            <div className="w-[36px] h-[36px] md:w-[40px] md:h-[40px] rounded-full bg-brand-lavender flex items-center justify-center">
+            <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-brand-lavender md:h-[36px] md:w-[36px] lg:h-[40px] lg:w-[40px]">
               <svg
                 width="18"
                 height="18"
@@ -256,14 +237,14 @@ function HeroWorkflowVisuals() {
             </div>
 
             {/* Tiny status indicator */}
-            <div className="w-[8px] h-[8px] rounded-full bg-[#29CE42] mt-1" />
+            <div className="mt-1 h-[8px] w-[8px] rounded-full bg-[#29CE42]" />
           </div>
 
           {/* Text */}
-          <p className="font-sans text-[13px] md:text-[14px] font-medium text-brand-ink leading-tight">
+          <p className="font-sans text-[12px] font-medium leading-tight text-brand-ink md:text-[13px] lg:text-[14px]">
             Process
           </p>
-          <p className="font-sans text-[11px] md:text-[12px] text-brand-ink-muted leading-tight mt-0.5">
+          <p className="mt-0.5 font-sans text-[10px] leading-tight text-brand-ink-muted md:text-[11px] lg:text-[12px]">
             Automated
           </p>
         </motion.div>
@@ -271,14 +252,10 @@ function HeroWorkflowVisuals() {
 
       {/* ── 6. Decorative outlined purple ring ── */}
       <motion.div
-        className="absolute"
-        style={{
-          top: "60%",
-          right: "30%",
-        }}
+        className="absolute right-[44%] top-[64%] md:right-[34%] md:top-[60%] lg:right-[30%]"
         variants={fadeInUp}
       >
-        <div className="w-[14px] h-[14px] rounded-full border-[1.5px] border-brand-purple-light" />
+        <div className="h-[14px] w-[14px] rounded-full border-[1.5px] border-brand-purple-light" />
       </motion.div>
     </motion.div>
   )
