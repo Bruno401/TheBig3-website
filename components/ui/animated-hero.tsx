@@ -159,7 +159,7 @@ function AnimatedHero() {
                 label="Jump on a call"
                 variant="purple"
                 StaticIcon={PhoneCall}
-                gifSrc="/gif/chat.gif"
+                gifSrc="/gif/call-48.gif"
               />
               <HeroPill
                 href="#portfolio"

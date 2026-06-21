@@ -15,6 +15,7 @@ const springTransition = {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('portfolio')
   
   const [isChatHovered, setIsChatHovered] = useState(false)
   const [chatKey, setChatKey] = useState(0)
@@ -23,8 +24,23 @@ export default function Navbar() {
   const [menuKey, setMenuKey] = useState(0)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+      
+      const sections = ['home', 'about', 'services', 'portfolio', 'ai-automation', 'contact']
+      for (const section of sections.reverse()) {
+        const el = document.getElementById(section)
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          if (rect.top <= window.innerHeight / 3) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
     window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -152,50 +168,51 @@ export default function Navbar() {
         </motion.button>
       </nav>
 
-      {/* ── Full-screen mobile nav overlay ── */}
+      {/* ── Dropdown Nav Menu ── */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            className="fixed inset-0 z-[10000] bg-brand-ink flex flex-col px-8 pt-24 pb-12"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25 }}
-          >
-            <button
-              className="absolute top-5 right-6 text-white text-body-sm uppercase tracking-wider font-semibold"
+          <>
+            <motion.div
+              className="fixed inset-0 z-[9998]"
               onClick={() => setMenuOpen(false)}
-              aria-label="Close menu"
+            />
+            <motion.div
+              className="fixed z-[10000] top-[5.5rem] right-5 md:top-[6.5rem] md:right-12 bg-[#F3F4F6] shadow-[0_20px_50px_rgba(0,0,0,0.15)] flex flex-col px-8 py-8 rounded-[2rem] min-w-[220px]"
+              initial={{ opacity: 0, y: -10, scale: 0.95, transformOrigin: 'top right' }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
             >
-              Close ✕
-            </button>
-
-            <nav className="flex flex-col gap-8 mt-4">
-              {[
-                { href: '#portfolio', label: 'Portfolio' },
-                { href: '#services', label: 'Services' },
-                { href: '#about', label: 'About' },
-                { href: '#contact', label: 'Contact' },
-              ].map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="font-display text-display-md text-white hover:text-brand-purple-light transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-
-            <a
-              href="#contact"
-              onClick={() => setMenuOpen(false)}
-              className="mt-auto flex items-center justify-center px-6 py-3.5 rounded-full bg-brand-purple text-white font-semibold text-body-md hover:bg-brand-purple-light transition-colors"
-            >
-              Get in touch
-            </a>
-          </motion.div>
+              <nav className="flex flex-col gap-4">
+                {[
+                  { href: '#home', label: 'Home' },
+                  { href: '#about', label: 'About Us' },
+                  { href: '#services', label: 'Service' },
+                  { href: '#portfolio', label: 'Portfolio' },
+                  { href: '#ai-automation', label: 'Ai Automation' },
+                  { href: '#contact', label: 'Contact' },
+                ].map((link) => {
+                  const isActive = activeSection === link.href.slice(1)
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => {
+                        setMenuOpen(false)
+                        setActiveSection(link.href.slice(1))
+                      }}
+                      className={cn(
+                        "font-sans text-[32px] md:text-[36px] font-bold tracking-tight transition-colors",
+                        isActive ? "text-brand-ink/40" : "text-brand-ink hover:text-brand-purple"
+                      )}
+                    >
+                      {link.label}
+                    </a>
+                  )
+                })}
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
