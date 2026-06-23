@@ -17,11 +17,23 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('portfolio')
   
-  const [isChatHovered, setIsChatHovered] = useState(false)
-  const [chatKey, setChatKey] = useState(0)
+  const [chatState, setChatState] = useState({ playing: false, key: 0 })
+  const playChat = () => {
+    if (chatState.playing) return
+    setChatState({ playing: true, key: Date.now() })
+    setTimeout(() => {
+      setChatState(prev => ({ playing: false, key: prev.key }))
+    }, 1500)
+  }
   
-  const [isMenuHovered, setIsMenuHovered] = useState(false)
-  const [menuKey, setMenuKey] = useState(0)
+  const [menuState, setMenuState] = useState({ playing: false, key: 0 })
+  const playMenu = () => {
+    if (menuState.playing) return
+    setMenuState({ playing: true, key: Date.now() })
+    setTimeout(() => {
+      setMenuState(prev => ({ playing: false, key: prev.key }))
+    }, 1500)
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,11 +95,8 @@ export default function Navbar() {
             whileHover={{ scale: 1.05, boxShadow: '0 6px 24px rgba(0,0,0,0.14)' }}
             transition={springTransition}
             style={{ boxShadow: '0 2px 10px rgba(0,0,0,0.08)' }}
-            onMouseEnter={() => {
-              setIsChatHovered(true)
-              setChatKey(Date.now())
-            }}
-            onMouseLeave={() => setIsChatHovered(false)}
+            onMouseEnter={playChat}
+            onClick={playChat}
           >
             Chat with us
             <motion.div
@@ -96,7 +105,7 @@ export default function Navbar() {
               transition={springTransition}
             >
               <Image
-                src={isChatHovered ? `/gif/chat.gif?t=${chatKey}` : '/gif/chat-static.png'}
+                src={chatState.playing ? `/gif/chat.gif?t=${chatState.key}` : '/gif/chat-static.png'}
                 alt="Chat"
                 width={25}
                 height={25}
@@ -109,7 +118,10 @@ export default function Navbar() {
           {/* Menu pill */}
           <motion.button
             aria-label="Open menu"
-            onClick={() => setMenuOpen((prev) => !prev)}
+            onClick={() => {
+              playMenu()
+              setMenuOpen((prev) => !prev)
+            }}
             className={cn(
               'flex items-center gap-4 pl-6 pr-2.5 py-2.5 rounded-full cursor-pointer select-none',
               'bg-brand-purple text-white font-sans font-semibold text-[17.5px] uppercase tracking-wider',
@@ -118,11 +130,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.05, boxShadow: '0 6px 24px rgba(0,0,0,0.40)' }}
             transition={springTransition}
             style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.25)' }}
-            onMouseEnter={() => {
-              setIsMenuHovered(true)
-              setMenuKey(Date.now())
-            }}
-            onMouseLeave={() => setIsMenuHovered(false)}
+            onMouseEnter={playMenu}
           >
             Menu
             <motion.div
@@ -131,7 +139,7 @@ export default function Navbar() {
               transition={springTransition}
             >
               <Image
-                src={isMenuHovered ? `/gif/menu.gif?t=${menuKey}` : '/gif/menu-static.png'}
+                src={menuState.playing ? `/gif/menu.gif?t=${menuState.key}` : '/gif/menu-static.png'}
                 alt="Menu"
                 width={22}
                 height={22}
@@ -148,7 +156,11 @@ export default function Navbar() {
             'md:hidden pointer-events-auto absolute top-5 right-5 flex items-center gap-2.5 pl-5 pr-2 py-2 rounded-full cursor-pointer',
             'bg-brand-purple text-white font-sans font-semibold text-[17.5px] uppercase tracking-wider',
           )}
-          onClick={() => setMenuOpen((prev) => !prev)}
+          onClick={() => {
+            playMenu()
+            setMenuOpen((prev) => !prev)
+          }}
+          onMouseEnter={playMenu}
           aria-label="Open menu"
           aria-expanded={menuOpen}
           whileHover={{ scale: 1.05 }}
@@ -157,7 +169,7 @@ export default function Navbar() {
           Menu
           <span className="flex items-center justify-center w-9 h-9 rounded-full bg-white">
             <Image
-              src="/gif/menu-static.png"
+              src={menuState.playing ? `/gif/menu.gif?t=${menuState.key}` : '/gif/menu-static.png'}
               alt="Menu"
               width={20}
               height={20}
@@ -197,6 +209,7 @@ export default function Navbar() {
                     <a
                       key={link.href}
                       href={link.href}
+                      data-sound-hover="pop"
                       onClick={() => {
                         setMenuOpen(false)
                         setActiveSection(link.href.slice(1))

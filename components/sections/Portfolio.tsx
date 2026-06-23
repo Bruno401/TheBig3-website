@@ -120,6 +120,7 @@ export default function Portfolio() {
             return (
               <motion.div
                 key={image.src}
+                data-project="true"
                 className="absolute shadow-2xl rounded-2xl overflow-hidden hover:scale-105 hover:z-[60] transition-all duration-300 bg-brand-purple/5"
                 style={{
                   top: layout.top,

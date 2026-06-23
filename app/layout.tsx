@@ -4,36 +4,25 @@ import { SITE_URL, SITE_NAME } from '@/lib/constants'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import SmoothScrollProvider from '@/components/layout/SmoothScrollProvider'
+import AudioProvider from '@/components/AudioProvider'
 
-/*
- * ──────────────────────────────────────────────────────────────
- * TODO: Restore localFont once .woff2 files are placed in app/fonts/
- *
- * import localFont from 'next/font/local'
- *
- * const nhGrotesk = localFont({
- *   src: [
- *     { path: './fonts/NHaasGroteskTXPro-55Rg.woff2', weight: '400', style: 'normal' },
- *     { path: './fonts/NHaasGroteskTXPro-65Md.woff2', weight: '500', style: 'normal' },
- *     { path: './fonts/NHaasGroteskTXPro-75Bd.woff2', weight: '700', style: 'normal' },
- *   ],
- *   variable: '--font-primary',
- *   display: 'swap',
- *   preload: true,
- *   fallback: ['system-ui', 'sans-serif'],
- * })
- *
- * const teknaf = localFont({
- *   src: './fonts/Teknaf-Regular.woff2',
- *   variable: '--font-display',
- *   display: 'swap',
- *   preload: false,
- *   fallback: ['system-ui', 'sans-serif'],
- * })
- *
- * Then update <html> className to: `${nhGrotesk.variable} ${teknaf.variable}`
- * ──────────────────────────────────────────────────────────────
- */
+import localFont from 'next/font/local'
+
+const nhGrotesk = localFont({
+  src: './fonts/NHaasGroteskTXPro-55Rg.woff2',
+  variable: '--font-primary',
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'sans-serif'],
+})
+
+const teknaf = localFont({
+  src: './fonts/Teknaf-Regular.woff2',
+  variable: '--font-display',
+  display: 'swap',
+  preload: false,
+  fallback: ['system-ui', 'sans-serif'],
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -72,15 +61,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${nhGrotesk.variable} ${teknaf.variable}`}>
       <body>
         <a href="#main" className="skip-to-content">
           Skip to main content
         </a>
         <SmoothScrollProvider>
-          <Navbar />
-          <main id="main">{children}</main>
-          <Footer />
+          <AudioProvider>
+            <Navbar />
+            <main id="main">{children}</main>
+            <Footer />
+          </AudioProvider>
         </SmoothScrollProvider>
       </body>
     </html>

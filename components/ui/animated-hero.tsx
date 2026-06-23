@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { motion } from "framer-motion"
-import { PhoneCall, ArrowRight, MoveRight } from "lucide-react"
+import { MoveRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { HeroWorkflowVisuals } from "@/components/ui/hero-workflow-visuals"
 import Image from "next/image"
@@ -18,13 +18,20 @@ interface HeroPillProps {
   href: string
   label: string
   variant: 'purple' | 'light'
-  StaticIcon: React.ElementType
+  staticSrc: string
   gifSrc: string
 }
 
-function HeroPill({ href, label, variant, StaticIcon, gifSrc }: HeroPillProps) {
-  const [hovered, setHovered] = useState(false)
-  const [gifKey, setGifKey] = useState(0)
+function HeroPill({ href, label, variant, staticSrc, gifSrc }: HeroPillProps) {
+  const [state, setState] = useState({ playing: false, key: 0 })
+
+  const playGif = () => {
+    if (state.playing) return
+    setState({ playing: true, key: Date.now() })
+    setTimeout(() => {
+      setState(prev => ({ playing: false, key: prev.key }))
+    }, 1500)
+  }
 
   return (
     <motion.a
@@ -49,8 +56,8 @@ function HeroPill({ href, label, variant, StaticIcon, gifSrc }: HeroPillProps) {
           ? '0 2px 12px rgba(0,0,0,0.25)'
           : '0 2px 10px rgba(0,0,0,0.08)',
       }}
-      onMouseEnter={() => { setHovered(true); setGifKey(Date.now()) }}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={playGif}
+      onClick={playGif}
     >
       {label}
       <motion.div
@@ -61,25 +68,14 @@ function HeroPill({ href, label, variant, StaticIcon, gifSrc }: HeroPillProps) {
         whileHover={{ scale: 1.1 }}
         transition={springTransition}
       >
-        {hovered ? (
           <Image
-            key={gifKey}
-            src={`${gifSrc}?t=${gifKey}`}
+            src={state.playing ? `${gifSrc}?t=${state.key}` : staticSrc}
             alt=""
             width={25}
             height={25}
             className="object-contain"
             unoptimized
           />
-        ) : (
-          <StaticIcon
-            className={cn(
-              'h-5 w-5',
-              variant === 'purple' ? 'text-brand-purple' : 'text-brand-ink',
-            )}
-            aria-hidden="true"
-          />
-        )}
       </motion.div>
     </motion.a>
   )
@@ -105,7 +101,7 @@ function AnimatedHero() {
 
   return (
     <section
-      id="hero"
+      id="home"
       className="min-h-screen overflow-hidden bg-brand-white pt-24 md:pt-28 lg:pt-16"
     >
       <div className="container mx-auto">
@@ -158,15 +154,15 @@ function AnimatedHero() {
                 href="#contact"
                 label="Jump on a call"
                 variant="purple"
-                StaticIcon={PhoneCall}
-                gifSrc="/gif/call-48.gif"
+                staticSrc="/gif/call-static.png"
+                gifSrc="/gif/call.gif"
               />
               <HeroPill
                 href="#portfolio"
                 label="See our work"
                 variant="light"
-                StaticIcon={ArrowRight}
-                gifSrc="/gif/meeting.gif"
+                staticSrc="/gif/arrow-static.png"
+                gifSrc="/gif/arrow.gif"
               />
             </div>
           </div>
