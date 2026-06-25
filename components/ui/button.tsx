@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -42,12 +44,39 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, onClick, onMouseEnter, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      try {
+        if (typeof window !== "undefined") {
+          const audio = new Audio("/audio/click.mp3")
+          audio.volume = 0.4
+          audio.play().catch(() => {})
+        }
+      } catch (err) {}
+      
+      if (onClick) onClick(e)
+    }
+
+    const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+      try {
+        if (typeof window !== "undefined") {
+          const audio = new Audio("/audio/pop.mp3")
+          audio.volume = 0.4
+          audio.play().catch(() => {})
+        }
+      } catch (err) {}
+      
+      if (onMouseEnter) onMouseEnter(e)
+    }
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
         {...props}
       />
     )

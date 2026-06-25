@@ -1,6 +1,7 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
 import { company } from '@/data/company'
 import { navigationLinks } from '@/data/navigation'
 import { ArrowRight, ArrowUp } from 'lucide-react'
@@ -14,6 +15,129 @@ export default function Footer() {
   const rightEyeRef = useRef<HTMLDivElement>(null)
   const leftEyeSvgRef = useRef<HTMLDivElement>(null)
   const rightEyeSvgRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    let blinkTimeout: NodeJS.Timeout
+    let idleTimeout: NodeJS.Timeout
+    let moveTimeout: NodeJS.Timeout
+    let isMoving = false
+
+    // BLINKING
+    const blink = () => {
+      if (!isMoving) {
+        ;[leftEyeSvgRef, rightEyeSvgRef].forEach((eyeSvg) => {
+          if (!eyeSvg.current) return
+          gsap.to(eyeSvg.current, {
+            scaleY: 0.1,
+            duration: 0.055, // ~110ms total for open-close-open
+            ease: 'power2.inOut',
+            yoyo: true,
+            repeat: 1,
+            transformOrigin: 'center center'
+          })
+        })
+      }
+      blinkTimeout = setTimeout(blink, Math.random() * 8000 + 6000) // 6-14s
+    }
+    blinkTimeout = setTimeout(blink, 6000)
+
+    // IDLE GLANCE
+    const scheduleGlance = () => {
+      clearTimeout(idleTimeout)
+      idleTimeout = setTimeout(() => {
+        if (!isMoving) {
+          const type = Math.floor(Math.random() * 4)
+          let gX = 0; let gY = 0;
+          if (type === 0) gX = -0.5
+          else if (type === 1) gX = 0.5
+          else if (type === 2) gY = 0.5
+          
+          ;[leftEyeRef, rightEyeRef].forEach((eyeRef, i) => {
+            if (!eyeRef.current) return
+            let finalX = gX;
+            if (type === 3) finalX = i === 0 ? 0.3 : -0.3 // inward for laptop
+            let finalY = type === 3 ? 0.5 : gY;
+            
+            const dur = 0.8 + Math.random() * 0.4 // 0.8-1.2s
+            
+            gsap.to(eyeRef.current, {
+              x: finalX,
+              y: finalY,
+              duration: dur,
+              ease: 'sine.inOut',
+              overwrite: 'auto',
+              onComplete: () => {
+                if (!isMoving) {
+                  gsap.to(eyeRef.current, {
+                    x: 0,
+                    y: 0,
+                    duration: dur,
+                    delay: 1,
+                    ease: 'sine.inOut',
+                    overwrite: 'auto'
+                  })
+                }
+              }
+            })
+          })
+        }
+        scheduleGlance()
+      }, Math.random() * 4000 + 8000) // 8-12s
+    }
+    scheduleGlance()
+
+    // MOUSE TRACKING
+    const handleMouseMove = (e: MouseEvent) => {
+      isMoving = true
+      clearTimeout(moveTimeout)
+      moveTimeout = setTimeout(() => { isMoving = false }, 500)
+      
+      scheduleGlance() // Reset idle timer
+      
+      ;[leftEyeRef, rightEyeRef].forEach((eyeRef) => {
+        if (!eyeRef.current) return
+        
+        const rect = eyeRef.current.getBoundingClientRect()
+        const eyeCenterX = rect.left + rect.width / 2
+        const eyeCenterY = rect.top + rect.height / 2
+        
+        const deltaX = e.clientX - eyeCenterX
+        const deltaY = e.clientY - eyeCenterY
+        const angle = Math.atan2(deltaY, deltaX)
+        const distance = Math.hypot(deltaX, deltaY)
+        
+        const DEAD_ZONE = 80
+        const maxRadius = 1.5
+        const dampen = 0.65
+        
+        let moveX = 0
+        let moveY = 0
+        
+        if (distance > DEAD_ZONE) {
+          const activeDistance = distance - DEAD_ZONE
+          const radius = Math.min(maxRadius, activeDistance * 0.05)
+          moveX = Math.cos(angle) * radius * dampen
+          moveY = Math.sin(angle) * radius * dampen
+        }
+        
+        gsap.to(eyeRef.current, {
+          x: moveX,
+          y: moveY,
+          duration: 0.35,
+          ease: 'power2.out',
+          overwrite: 'auto'
+        })
+      })
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      clearTimeout(blinkTimeout)
+      clearTimeout(idleTimeout)
+      clearTimeout(moveTimeout)
+    }
+  }, [])
 
   return (
     <footer className="bg-[#fbf9f8] pt-72 md:pt-[440px] pb-12 px-4 sm:px-6 md:px-12 lg:px-20">
@@ -36,7 +160,7 @@ export default function Footer() {
 
               {/* Left eye — SVG asset */}
               <div ref={leftEyeRef} className="eye-anchor eye-left absolute w-[22px] h-[22px] pointer-events-none rounded-full left-[44.5%] top-[19.3%]">
-                <div ref={leftEyeSvgRef} className="absolute w-[90%] h-[90%] left-[10%] top-[0%]">
+                <div ref={leftEyeSvgRef} className="absolute w-[80%] h-[80%] left-[10%] top-[0%]" style={{ transform: 'translate(-0.3px, 0.5px)', opacity: 0.75 }}>
                   <Image
                     src="/images/left-eye.svg"
                     alt=""
@@ -49,7 +173,7 @@ export default function Footer() {
 
               {/* Right eye — SVG asset */}
               <div ref={rightEyeRef} className="eye-anchor eye-right absolute w-[22px] h-[22px] pointer-events-none rounded-full left-[53.3%] top-[19.3%]">
-                <div ref={rightEyeSvgRef} className="absolute w-[90%] h-[90%] left-[-1%] top-[0%] opacity-0.5">
+                <div ref={rightEyeSvgRef} className="absolute w-[80%] h-[80%] left-[-1%] top-[0%]" style={{ transform: 'translate(0.3px, 0.5px)', opacity: 0.75 }}>
                   <Image
                     src="/images/right-eye.svg"
                     alt=""

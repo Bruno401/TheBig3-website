@@ -104,7 +104,7 @@ function BookingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
         >
           <X className="w-5 h-5 text-white" />
         </button>
-        <div className="w-full h-full overflow-y-auto" id="my-cal-inline" />
+        <div className="w-full h-full overflow-y-auto" id="my-cal-inline" data-lenis-prevent="true" />
       </motion.div>
     </motion.div>
   )
@@ -185,7 +185,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
         </button>
 
         {/* ── Step content ── */}
-        <div className="flex-1 overflow-y-auto relative flex flex-col justify-center px-8 md:px-16 lg:px-24 pb-24 md:pb-28">
+        <div className="flex-1 overflow-y-auto relative flex flex-col justify-center px-8 md:px-16 lg:px-24 pb-24 md:pb-28" data-lenis-prevent="true">
           <AnimatePresence custom={dir} mode="wait">
 
             {/* LANDING */}
@@ -573,7 +573,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
   )
 }
 
-interface PillButtonProps {
+export interface PillButtonProps {
   href?: string
   onClick?: (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => void
   label: string
@@ -585,7 +585,7 @@ interface PillButtonProps {
   soundHover?: boolean
 }
 
-function PillButton({ href, onClick, label, variant, staticSrc, gifSrc, iconLeft = false, mirrorIcon = false, soundHover = false }: PillButtonProps) {
+export function PillButton({ href, onClick, label, variant, staticSrc, gifSrc, iconLeft = false, mirrorIcon = false, soundHover = false }: PillButtonProps) {
   const [state, setState] = useState({ playing: false, key: 0 })
 
   const handleHover = () => {
@@ -711,6 +711,12 @@ function ContactCopy({
 export default function Contact() {
   const [isBookingOpen, setIsBookingOpen] = useState(false)
   const [isContactOpen, setIsContactOpen] = useState(false)
+
+  useEffect(() => {
+    const handleOpenContact = () => setIsContactOpen(true)
+    document.addEventListener('openContactForm', handleOpenContact)
+    return () => document.removeEventListener('openContactForm', handleOpenContact)
+  }, [])
 
   return (
     <section id="contact" aria-label="Contact" className="relative overflow-hidden bg-[#fbf9f8]">
