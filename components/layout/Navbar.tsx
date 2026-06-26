@@ -201,6 +201,7 @@ export default function Navbar() {
                   { href: '#about', label: 'About Us' },
                   { href: '#services', label: 'Service' },
                   { href: '#portfolio', label: 'Portfolio' },
+                  { href: '#products', label: 'Products' },
                   { href: '#ai-automation', label: 'Ai Automation' },
                   { href: '#contact', label: 'Contact' },
                 ].map((link) => {

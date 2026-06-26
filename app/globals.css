@@ -87,3 +87,269 @@
   @apply not-sr-only absolute top-4 left-4 z-[9999];
   @apply bg-brand-purple text-white px-4 py-2 rounded-lg font-medium text-body-sm;
 }
+
+@layer components {
+/* =============================================
+   SAAS PRODUCTS SECTION
+   ============================================= */
+
+.saas-section {
+  padding: 100px 0;
+  /* Inherit background/color from the site — do not hardcode */
+}
+
+.saas-section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* Section header */
+.saas-section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.saas-section-kicker {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 12px;
+}
+
+.saas-section-title {
+  /* Uses the WEBSITE'S own heading style — no font override here */
+  margin-bottom: 14px;
+}
+
+.saas-section-sub {
+  font-size: 16px;
+  opacity: 0.55;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Product grid */
+.saas-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 32px;
+}
+
+/* Product card */
+.saas-product-card {
+  border-radius: 20px;
+  overflow: hidden;
+  /* Inherit border/background from site theme */
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.saas-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Label pill above preview */
+.saas-product-label {
+  padding: 10px 18px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.4;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.12);
+}
+
+/* Preview window — the crop container */
+.saas-preview-window {
+  width: 100%;
+  height: 560px;        /* Height of the visible preview crop */
+  overflow: hidden;
+  position: relative;
+  background: #F6F3ED;  /* FieldTrack's background — prevents flash on load */
+}
+
+.saas-preview-window iframe {
+  width: 100%;
+  height: 2400px;       /* Tall enough to render the whole landing page */
+  border: none;
+  display: block;
+  pointer-events: none;
+  margin-top: -580px;   /* Fallback offset — JS overrides this automatically */
+  transform-origin: top left;
+}
+
+/* Transparent overlay to block iframe interaction */
+.saas-preview-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: default;
+}
+
+/* Card footer */
+.saas-card-footer {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid rgba(128, 128, 128, 0.12);
+}
+
+.saas-card-tagline {
+  font-size: 13px;
+  opacity: 0.55;
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+/* Know More button — inherits site's own button style via these neutral defaults */
+.saas-know-more-btn {
+  flex-shrink: 0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid currentColor;
+  background: transparent;
+  opacity: 0.85;
+  transition: opacity 0.2s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.saas-know-more-btn:hover {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+
+/* =============================================
+   MODAL
+   ============================================= */
+
+.saas-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: saasBackdropIn 0.2s ease;
+}
+
+@keyframes saasBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.saas-modal {
+  width: 100%;
+  max-width: 1050px;
+  height: 88vh;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: saasModalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes saasModalIn {
+  from { opacity: 0; transform: scale(0.94) translateY(20px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+/* Modal top bar */
+.saas-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  flex-shrink: 0;
+  /* Inherits website background/border */
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+.saas-modal-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+.saas-modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.saas-modal-close:hover {
+  opacity: 1;
+  background: rgba(128, 128, 128, 0.12);
+}
+
+/* The full landing page inside the modal */
+.saas-modal-iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+  display: block;
+}
+
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+@media (max-width: 768px) {
+  .saas-section {
+    padding: 64px 0;
+  }
+
+  .saas-preview-window {
+    height: 400px;
+  }
+
+  .saas-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .saas-know-more-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .saas-modal {
+    height: 92vh;
+    border-radius: 12px;
+  }
+
+  .saas-modal-backdrop {
+    padding: 10px;
+    align-items: flex-end;
+  }
+}
+}

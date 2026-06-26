@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FieldTrack Pro - Field Employee Tracking &amp; Expense Management | Global</title>
+<meta name="description" content="Real-time GPS tracking every 15 minutes plus automated expense approvals for companies with field employees worldwide. Free 2-week pilot available.">
+<meta name="keywords" content="field employee tracking, expense management software, GPS tracking software, field staff monitoring, expense approval software, global field workforce management">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#F6F3ED;color:#1A1714;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.15}
+a{text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(246,243,237,0.96);backdrop-filter:blur(16px);border-bottom:1px solid #D8D2C8}
+.nav-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.logo{display:flex;align-items:center;gap:10px;color:#1A1714}
+.logo-box{width:32px;height:32px;background:#C0522A;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:13px;color:#fff}
+.logo-name{font-family:'Playfair Display',serif;font-weight:700;font-size:16px}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-size:13px;color:#6B6458;transition:color 0.2s}
+.nav-links a:hover{color:#1A1714}
+.nav-btn{background:#1A1714;color:#F6F3ED;padding:9px 20px;border-radius:6px;font-size:13px;font-weight:500;transition:background 0.2s}
+.nav-btn:hover{background:#C0522A}
+
+/* HERO */
+.hero{padding:130px 0 90px;position:relative;overflow:hidden}
+.hero-circles{position:absolute;right:-60px;top:40px;opacity:0.04;pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #D8D2C8;border-radius:100px;padding:5px 14px;font-size:11px;color:#6B6458;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:26px}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:#2B4A3C;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-size:clamp(36px,5vw,58px);font-weight:900;color:#1A1714;letter-spacing:-1.5px;margin-bottom:22px}
+.hero h1 em{font-style:italic;color:#C0522A}
+.hero-sub{font-size:16px;color:#6B6458;font-weight:300;line-height:1.75;margin-bottom:34px;max-width:420px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-dark{background:#1A1714;color:#F6F3ED;padding:13px 26px;border-radius:7px;font-size:14px;font-weight:500;transition:all 0.2s;display:inline-block}
+.btn-dark:hover{background:#C0522A}
+.btn-outline{color:#1A1714;padding:13px 20px;border-radius:7px;font-size:14px;border:1px solid #D8D2C8;transition:all 0.2s;display:inline-block}
+.btn-outline:hover{border-color:#1A1714}
+.hero-flags{display:flex;align-items:center;gap:14px;margin-top:36px;flex-wrap:wrap}
+.hflag{display:flex;align-items:center;gap:6px;font-size:13px;color:#6B6458}
+.hdiv{width:1px;height:13px;background:#D8D2C8}
+
+/* SPLIT CARD */
+.split-card{background:#fff;border:1px solid #D8D2C8;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(26,23,20,0.11)}
+.split-top{display:grid;grid-template-columns:1fr 1fr}
+.st-before{padding:9px 14px;background:#FDF0EC;color:#C0522A;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid #F0D0C4}
+.st-after{padding:9px 14px;background:#EDF5F1;color:#2B4A3C;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid #C4DDD3;text-align:right}
+.split-body{display:grid;grid-template-columns:1fr 3px 1fr}
+.split-div{background:linear-gradient(to bottom,#E8C4B4,#C8DDD4)}
+.s-before{padding:16px;background:#FFFBF9}
+.s-after{padding:16px;background:#F9FEFC}
+.pins{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px}
+.pin{height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.pin-u{background:rgba(192,82,42,0.08);color:#C0522A;font-weight:700;font-family:'Playfair Display',serif}
+.pin-k{background:rgba(43,74,60,0.08)}
+.rcpts{position:relative;height:52px;margin-bottom:10px}
+.rcpt{position:absolute;width:40px;height:50px;background:#fff;border:1px solid #D8D2C8;border-radius:3px;padding:4px;display:flex;flex-direction:column;gap:3px}
+.rline{height:4px;border-radius:2px;background:#EFEBE2}
+.rline-r{background:rgba(192,82,42,0.3)}
+.sstat{display:flex;align-items:center;justify-content:space-between;border-radius:6px;padding:8px 10px}
+.sstat-b{background:rgba(192,82,42,0.07)}
+.sstat-a{background:rgba(43,74,60,0.07)}
+.sval{font-family:'Playfair Display',serif;font-size:19px;font-weight:700}
+.sval-r{color:#C0522A}
+.sval-g{color:#2B4A3C}
+.slbl{font-size:9px;color:#6B6458}
+.orows{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.orow{display:flex;align-items:center;gap:5px;background:rgba(43,74,60,0.06);border-radius:4px;padding:5px 7px}
+.odot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.otext{font-size:10px;color:#3D3830;flex:1}
+.obadge{font-size:9px;padding:1px 5px;border-radius:100px}
+.ob-ok{background:rgba(43,74,60,0.12);color:#2B4A3C}
+.ob-no{background:rgba(192,82,42,0.12);color:#C0522A}
+
+/* TICKER */
+.ticker{background:#1A1714;padding:12px 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:flex;animation:scroll 26s linear infinite}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tick{display:inline-flex;align-items:center;gap:10px;padding:0 36px;font-size:13px;color:rgba(246,243,237,0.65);flex-shrink:0;font-weight:300}
+.tick strong{color:#E8C4B4;font-weight:500}
+
+/* SECTIONS */
+.kicker{font-size:11px;font-weight:500;color:#C0522A;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;display:block}
+.section-h{font-size:clamp(26px,4vw,42px);font-weight:900;color:#1A1714;letter-spacing:-0.8px}
+.section-sub{font-size:15px;color:#6B6458;font-weight:300;line-height:1.75}
+
+/* PROBLEMS */
+.problems{padding:90px 0}
+.prob-intro{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-bottom:56px}
+.diag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#D8D2C8;border-radius:14px;overflow:hidden}
+.diag-card{background:#fff;padding:28px 24px}
+.diag-card:hover{background:#FFFCF9}
+.diag-vis{height:70px;display:flex;align-items:center;margin-bottom:16px}
+.diag-card h3{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#1A1714;margin-bottom:8px;line-height:1.25}
+.diag-tag{display:inline-flex;background:rgba(192,82,42,0.08);border-radius:100px;padding:3px 10px;font-size:11px;color:#C0522A;font-weight:500}
+
+/* leak ring */
+.ring-wrap{position:relative;width:70px;height:70px;flex-shrink:0}
+.ring-svg{width:70px;height:70px}
+.ring-track{fill:none;stroke:#E8C4B4;stroke-width:6;stroke-linecap:round}
+.ring-fill{fill:none;stroke:#C0522A;stroke-width:6;stroke-linecap:round;stroke-dasharray:175;stroke-dashoffset:37}
+.ring-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#C0522A}
+/* ghost grid */
+.ghost-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;width:100%}
+.gp{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
+.gp-k{background:rgba(43,74,60,0.1)}
+.gp-u{background:rgba(192,82,42,0.07);font-family:'Playfair Display',serif;font-weight:700;color:rgba(192,82,42,0.4);font-size:13px}
+/* bars */
+.bar-list{display:flex;flex-direction:column;gap:6px;width:100%}
+.bar-row{display:flex;align-items:center;gap:7px}
+.bar-lbl{font-size:9px;color:#6B6458;width:48px;flex-shrink:0}
+.bar-track{flex:1;height:6px;background:#EFEBE2;border-radius:100px;overflow:hidden}
+.bar-fill{height:100%;border-radius:100px;background:#C0522A}
+.bar-val{font-size:9px;color:#C0522A;font-weight:500;width:18px;text-align:right;flex-shrink:0}
+/* receipt stack */
+.rstack{position:relative;width:66px;height:70px}
+.rs{position:absolute;width:44px;height:56px;background:#fff;border:1px solid #D8D2C8;border-radius:3px;padding:5px;display:flex;flex-direction:column;gap:3px;box-shadow:0 2px 6px rgba(0,0,0,0.07)}
+.rs-line{height:4px;border-radius:2px;background:#EFEBE2}
+.rs-line-r{background:rgba(192,82,42,0.28)}
+/* battery */
+.batt-row{display:flex;align-items:flex-end;gap:7px;height:70px}
+.batt-col{display:flex;flex-direction:column;align-items:center;gap:3px}
+.batt-shell{width:22px;height:40px;border-radius:3px;border:1.5px solid #D8D2C8;position:relative;display:flex;align-items:flex-end;padding:2px}
+.batt-shell::before{content:'';width:7px;height:3px;background:#D8D2C8;border-radius:1px;position:absolute;top:-4px;left:50%;transform:translateX(-50%)}
+.batt-fill{width:100%;border-radius:1px}
+.batt-lbl{font-size:8px;color:#6B6458}
+/* audit fade */
+.audit-rows{display:flex;flex-direction:column;gap:6px;width:100%}
+.audit-row{display:flex;align-items:center;gap:7px}
+.audit-dot{width:5px;height:5px;border-radius:50%;background:#C0522A;flex-shrink:0}
+.audit-line{height:5px;border-radius:3px;background:#D8D2C8}
+.audit-x{font-size:11px;font-weight:700;color:#C0522A}
+
+/* SOLUTIONS */
+.solutions{padding:90px 0;background:#EFEBE2}
+.sol-intro{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end;margin-bottom:52px}
+.sol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#D8D2C8;border-radius:14px;overflow:hidden}
+.sol-card{background:#fff;padding:28px 24px}
+.sol-card:hover{background:#F6F3ED}
+.sol-num{font-size:10px;color:#6B6458;letter-spacing:0.1em;margin-bottom:16px}
+.sol-icon{margin-bottom:16px}
+.sol-card h3{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#1A1714;margin-bottom:8px;line-height:1.25}
+.sol-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:12px}
+.pill-tag{font-size:10px;padding:2px 8px;border-radius:100px;background:#EFEBE2;color:#6B6458;border:1px solid #D8D2C8}
+.pill-tag-g{background:rgba(43,74,60,0.07);color:#2B4A3C;border-color:#C8DDD4}
+
+/* HOW */
+.how{padding:90px 0}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-top:52px}
+.steps::before{content:'';position:absolute;top:23px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,#E8C4B4,#D8D2C8,#C8DDD4)}
+.step{text-align:center;padding:0 10px;position:relative}
+.step-node{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;border:1.5px solid #D8D2C8;background:#F6F3ED;transition:all 0.3s}
+.step-node:hover{background:#1A1714;border-color:#1A1714}
+.step h3{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#1A1714;margin-bottom:6px}
+.step p{font-size:12px;color:#6B6458;line-height:1.6}
+
+/* SECURITY */
+.security{padding:70px 0;border-top:1px solid #D8D2C8}
+.sec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#D8D2C8;border-radius:14px;overflow:hidden;margin-top:44px}
+.sec-item{background:#fff;padding:24px;display:flex;align-items:flex-start;gap:13px}
+.sec-item:hover{background:#F6F3ED}
+.sec-icon{width:36px;height:36px;border-radius:8px;background:rgba(43,74,60,0.08);border:1px solid #C8DDD4;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sec-item h4{font-size:13px;font-weight:500;color:#1A1714;margin-bottom:3px}
+.sec-item p{font-size:12px;color:#6B6458;line-height:1.6}
+
+/* GLOBAL CTA */
+.global-cta{padding:100px 0;background:#1A1714;position:relative;overflow:hidden}
+.global-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 80%,rgba(192,82,42,0.12),transparent);pointer-events:none}
+.cta-inner{text-align:center;position:relative;z-index:1}
+.cta-globe{width:56px;height:56px;border:1px solid rgba(246,243,237,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 28px}
+.cta-kicker{font-size:11px;font-weight:500;color:#C0522A;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:16px;display:block}
+.cta-h{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,54px);font-weight:900;color:#F6F3ED;letter-spacing:-1.5px;margin-bottom:18px;line-height:1.1}
+.cta-h em{font-style:italic;color:#E8C4B4}
+.cta-sub{font-size:16px;color:rgba(246,243,237,0.5);font-weight:300;line-height:1.75;max-width:480px;margin:0 auto 40px}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.btn-cream{background:#F6F3ED;color:#1A1714;padding:15px 30px;border-radius:7px;font-size:15px;font-weight:500;transition:all 0.2s;display:inline-block}
+.btn-cream:hover{background:#E8C4B4}
+.btn-outline-light{color:rgba(246,243,237,0.7);padding:15px 28px;border-radius:7px;font-size:15px;border:1px solid rgba(246,243,237,0.18);transition:all 0.2s;display:inline-block}
+.btn-outline-light:hover{color:#F6F3ED;border-color:rgba(246,243,237,0.4)}
+.cta-trust{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(246,243,237,0.38)}
+.trust-dot{width:3px;height:3px;border-radius:50%;background:rgba(246,243,237,0.18);flex-shrink:0}
+
+/* FOOTER (contact CSS removed - handled on main website) */
+
+/* FOOTER */
+footer{background:#1A1714;color:#F6F3ED;padding:52px 0 26px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:44px}
+.foot-brand p{font-size:13px;color:rgba(246,243,237,0.38);margin-top:12px;line-height:1.7;max-width:240px}
+.foot-col h5{font-size:10px;color:rgba(246,243,237,0.32);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
+.foot-col a{display:block;font-size:13px;color:rgba(246,243,237,0.5);text-decoration:none;margin-bottom:9px;transition:color 0.2s}
+.foot-col a:hover{color:#F6F3ED}
+.foot-bottom{border-top:1px solid rgba(246,243,237,0.07);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot-bottom p{font-size:11px;color:rgba(246,243,237,0.28)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-grid,.prob-intro,.sol-intro{grid-template-columns:1fr}
+  .hero-visual,.nav-links{display:none}
+  .diag-grid,.sol-grid,.sec-grid,.foot-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}.steps::before{display:none}
+  .cta-btns{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+<div class="wrap"><div class="nav-row">
+  <a href="#" class="logo"><div class="logo-box">B3</div><span class="logo-name">FieldTrack Pro</span></a>
+  <ul class="nav-links">
+    <li><a href="#problems">Problems</a></li>
+    <li><a href="#solutions">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="https://the-big3-website.vercel.app/#contact" target="_blank">Contact</a></li>
+  </ul>
+  <a href="https://the-big3-website.vercel.app/#contact" target="_blank" class="nav-btn">Free Demo &rarr;</a>
+</div></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<svg class="hero-circles" width="420" height="420" viewBox="0 0 420 420" fill="none" aria-hidden="true">
+  <circle cx="210" cy="210" r="200" stroke="#1A1714" stroke-width="0.5"/>
+  <circle cx="210" cy="210" r="140" stroke="#1A1714" stroke-width="0.5"/>
+  <circle cx="210" cy="210" r="80" stroke="#1A1714" stroke-width="0.5"/>
+  <line x1="10" y1="210" x2="410" y2="210" stroke="#1A1714" stroke-width="0.5"/>
+  <line x1="210" y1="10" x2="210" y2="410" stroke="#1A1714" stroke-width="0.5"/>
+</svg>
+<div class="wrap"><div class="hero-grid">
+  <div>
+    <div class="hero-pill"><span class="pill-dot"></span> GPS + Expense Platform</div>
+    <h1>Know where your<br>team is. <em>Control</em><br>every expense.</h1>
+    <p class="hero-sub">Companies with field staff lose up to 22% of travel budgets to unverified claims. FieldTrack Pro ends that &mdash; live GPS every 15 minutes and automated expense approvals, for teams anywhere in the world.</p>
+    <div class="hero-btns">
+      <a href="https://the-big3-website.vercel.app/#contact" target="_blank" class="btn-dark">Book a Free Demo &rarr;</a>
+      <a href="#problems" class="btn-outline">See the Problem</a>
+    </div>
+    <div class="hero-flags">
+      <div class="hflag"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6" stroke="#D8D2C8" stroke-width="0.75"/><path d="M6.5 1a5.5 5.5 0 010 11" stroke="#6B6458" stroke-width="0.75" fill="none"/><path d="M1 6.5h11" stroke="#6B6458" stroke-width="0.75"/><path d="M6.5 1c-1.5 1.5-2.5 3.3-2.5 5.5s1 4 2.5 5.5" stroke="#6B6458" stroke-width="0.75" fill="none"/></svg><span>Available Worldwide</span></div>
+      <div class="hdiv"></div>
+      <div class="hflag"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 10l2.5-3L7 9l2.5-4L11 7" stroke="#6B6458" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span>Multi-Currency Support</span></div>
+      <div class="hdiv"></div>
+      <div class="hflag"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="#6B6458" stroke-width="0.75"/><path d="M6.5 3.5v3l2 1.5" stroke="#6B6458" stroke-width="1" stroke-linecap="round"/></svg><span>Live in 48 Hours</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="split-card">
+      <div class="split-top">
+        <span class="st-before">Without FieldTrack</span>
+        <span class="st-after">With FieldTrack</span>
+      </div>
+      <div class="split-body">
+        <div class="s-before">
+          <div class="pins">
+            <div class="pin pin-u">?</div><div class="pin pin-k">&#128205;</div>
+            <div class="pin pin-u">?</div><div class="pin pin-u">?</div>
+          </div>
+          <div class="rcpts">
+            <div class="rcpt" style="transform:rotate(-9deg);top:2px;left:0;z-index:1;box-shadow:0 2px 6px rgba(0,0,0,0.08)"><div class="rline"></div><div class="rline rline-r"></div><div class="rline"></div><div class="rline rline-r"></div></div>
+            <div class="rcpt" style="transform:rotate(4deg);top:0;left:13px;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.1)"><div class="rline rline-r"></div><div class="rline"></div><div class="rline rline-r"></div><div class="rline"></div></div>
+            <div class="rcpt" style="transform:rotate(-2deg);top:4px;left:26px;z-index:3;box-shadow:0 3px 10px rgba(0,0,0,0.12)"><div class="rline"></div><div class="rline rline-r"></div><div class="rline"></div><div class="rline rline-r"></div></div>
+          </div>
+          <div class="sstat sstat-b">
+            <div><div class="sval sval-r">22%</div><div class="slbl">Budget lost to fraud</div></div>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3v8M11 17l-2.5-2.5M11 17l2.5-2.5" stroke="#C0522A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="split-div"></div>
+        <div class="s-after">
+          <div class="pins" style="margin-bottom:10px">
+            <div class="pin pin-k">&#128205;</div><div class="pin pin-k">&#128205;</div>
+            <div class="pin pin-k">&#128205;</div><div class="pin pin-k">&#128205;</div>
+          </div>
+          <div class="orows">
+            <div class="orow"><div class="odot" style="background:#2B4A3C"></div><span class="otext">James &mdash; $180</span><span class="obadge ob-ok">&#10003;</span></div>
+            <div class="orow"><div class="odot" style="background:#C0522A"></div><span class="otext">Sara &mdash; $640</span><span class="obadge ob-no">Limit</span></div>
+            <div class="orow"><div class="odot" style="background:#2B4A3C"></div><span class="otext">Tom &mdash; $95</span><span class="obadge ob-ok">&#10003;</span></div>
+          </div>
+          <div class="sstat sstat-a">
+            <div><div class="sval sval-g">0%</div><div class="slbl">Fraud slips through</div></div>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 11l4.5 4.5 7.5-7.5" stroke="#2B4A3C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="tick">Field expense fraud costs companies <strong>18&ndash;22% of T&amp;E budgets</strong> annually &nbsp;&bull;&nbsp;</span>
+    <span class="tick">Managers spend <strong>8&ndash;10 hours/week</strong> on manual expense approvals &nbsp;&bull;&nbsp;</span>
+    <span class="tick"><strong>67% of managers</strong> cannot verify if field visits actually happened &nbsp;&bull;&nbsp;</span>
+    <span class="tick">1 in 4 expense disputes goes <strong>unresolved without an audit trail</strong> &nbsp;&bull;&nbsp;</span>
+    <span class="tick">FieldTrack Pro deploys in <strong>48 hours &mdash; no IT team needed</strong> &nbsp;&bull;&nbsp;</span>
+    <span class="tick">Field expense fraud costs companies <strong>18&ndash;22% of T&amp;E budgets</strong> annually &nbsp;&bull;&nbsp;</span>
+    <span class="tick">Managers spend <strong>8&ndash;10 hours/week</strong> on manual expense approvals &nbsp;&bull;&nbsp;</span>
+    <span class="tick"><strong>67% of managers</strong> cannot verify if field visits actually happened &nbsp;&bull;&nbsp;</span>
+    <span class="tick">1 in 4 expense disputes goes <strong>unresolved without an audit trail</strong> &nbsp;&bull;&nbsp;</span>
+    <span class="tick">FieldTrack Pro deploys in <strong>48 hours &mdash; no IT team needed</strong> &nbsp;&bull;&nbsp;</span>
+  </div>
+</div>
+
+<!-- PROBLEMS -->
+<section class="problems" id="problems">
+<div class="wrap">
+  <div class="prob-intro">
+    <div><span class="kicker">The Diagnosis</span><h2 class="section-h">Six ways your field operations bleed money every month</h2></div>
+    <div style="padding-top:6px"><p class="section-sub">Without a field tracking system, every expense claim is a leap of faith. Every site visit is unverifiable. Every approval is guesswork.</p></div>
+  </div>
+  <div class="diag-grid">
+
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="ring-wrap">
+          <svg class="ring-svg" viewBox="0 0 70 70">
+            <circle class="ring-track" cx="35" cy="35" r="28" transform="rotate(-90 35 35)"/>
+            <circle class="ring-fill" cx="35" cy="35" r="28" transform="rotate(-90 35 35)"/>
+          </svg>
+          <div class="ring-label">22%</div>
+        </div>
+      </div>
+      <h3>Budget leaking to unverified claims</h3>
+      <span class="diag-tag">Avg. monthly loss &uarr;</span>
+    </div>
+
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="ghost-grid">
+          <div class="gp gp-k">&#128205;</div><div class="gp gp-u">?</div><div class="gp gp-k">&#128205;</div><div class="gp gp-u">?</div><div class="gp gp-u">?</div>
+          <div class="gp gp-u">?</div><div class="gp gp-k">&#128205;</div><div class="gp gp-u">?</div><div class="gp gp-u">?</div><div class="gp gp-k">&#128205;</div>
+        </div>
+      </div>
+      <h3>No real-time location visibility</h3>
+      <span class="diag-tag">67% of visits unverifiable</span>
+    </div>
+
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="bar-list">
+          <div class="bar-row"><span class="bar-lbl">Reviewing</span><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span class="bar-val">4h</span></div>
+          <div class="bar-row"><span class="bar-lbl">Chasing</span><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div><span class="bar-val">3h</span></div>
+          <div class="bar-row"><span class="bar-lbl">Re-approving</span><div class="bar-track"><div class="bar-fill" style="width:40%"></div></div><span class="bar-val">2h</span></div>
+          <div class="bar-row"><span class="bar-lbl">Disputes</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-val">1h</span></div>
+        </div>
+      </div>
+      <h3>Hours lost to manual approval cycles</h3>
+      <span class="diag-tag">10 hrs/week per manager</span>
+    </div>
+
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="rstack">
+          <div class="rs" style="transform:rotate(-9deg);top:4px;left:0;z-index:1"><div class="rs-line"></div><div class="rs-line rs-line-r"></div><div class="rs-line"></div><div class="rs-line rs-line-r"></div><div class="rs-line"></div></div>
+          <div class="rs" style="transform:rotate(4deg);top:2px;left:11px;z-index:2"><div class="rs-line rs-line-r"></div><div class="rs-line"></div><div class="rs-line rs-line-r"></div><div class="rs-line"></div><div class="rs-line rs-line-r"></div></div>
+          <div class="rs" style="transform:rotate(-2deg);top:7px;left:20px;z-index:3"><div class="rs-line"></div><div class="rs-line rs-line-r"></div><div class="rs-line rs-line-r"></div><div class="rs-line"></div><div class="rs-line rs-line-r"></div></div>
+        </div>
+      </div>
+      <h3>Unverifiable receipts &amp; duplicates</h3>
+      <span class="diag-tag">1 in 5 inflated or duplicate</span>
+    </div>
+
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="batt-row">
+          <div class="batt-col"><div class="batt-shell"><div class="batt-fill" style="height:90%;background:#2B4A3C"></div></div><span class="batt-lbl">9am</span></div>
+          <div class="batt-col"><div class="batt-shell"><div class="batt-fill" style="height:55%;background:#A89820"></div></div><span class="batt-lbl">12pm</span></div>
+          <div class="batt-col"><div class="batt-shell"><div class="batt-fill" style="height:22%;background:#C0522A"></div></div><span class="batt-lbl">3pm</span></div>
+          <div class="batt-col"><div class="batt-shell"><div class="batt-fill" style="height:4%;background:#C0522A"></div></div><span class="batt-lbl" style="color:#C0522A">5pm</span></div>
+          <div class="batt-col" style="align-items:center;gap:2px;flex:1"><span style="font-size:20px">&#128263;</span><span style="font-size:8px;color:#C0522A;font-weight:500">Dark</span></div>
+        </div>
+      </div>
+      <h3>Employees go dark &mdash; no battery alerts</h3>
+      <span class="diag-tag">3 tracking gaps per employee/week</span>
+    </div>
+
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="audit-rows">
+          <div class="audit-row"><div class="audit-dot"></div><div class="audit-line" style="width:78px"></div><span class="audit-x">&#10007;</span></div>
+          <div class="audit-row" style="opacity:0.22"><div class="audit-dot" style="background:#D8D2C8"></div><div class="audit-line" style="width:54px"></div></div>
+          <div class="audit-row" style="opacity:0.11"><div class="audit-dot" style="background:#D8D2C8"></div><div class="audit-line" style="width:68px"></div></div>
+          <div class="audit-row" style="opacity:0.05"><div class="audit-dot" style="background:#D8D2C8"></div><div class="audit-line" style="width:42px"></div></div>
+        </div>
+      </div>
+      <h3>Zero audit trail for disputes &amp; compliance</h3>
+      <span class="diag-tag">25% of disputes unresolved</span>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- SOLUTIONS -->
+<section class="solutions" id="solutions">
+<div class="wrap">
+  <div class="sol-intro">
+    <div><span class="kicker">The Solution</span><h2 class="section-h">Every problem above &mdash; solved in one platform</h2></div>
+    <p class="section-sub">FieldTrack Pro is a mobile + web system built for companies with field employees. It runs silently in the background and gives managers complete control.</p>
+  </div>
+  <div class="sol-grid">
+
+    <div class="sol-card">
+      <div class="sol-num">01 / Mobile App</div>
+      <div class="sol-icon">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <circle cx="26" cy="26" r="25" stroke="#D8D2C8" stroke-width="0.75"/>
+          <circle cx="26" cy="26" r="17" stroke="#D8D2C8" stroke-width="0.75" stroke-dasharray="3 3"/>
+          <circle cx="26" cy="20" r="5" stroke="#2B4A3C" stroke-width="1.5"/>
+          <path d="M26 25c0 0-8 7-8 12h16c0-5-8-12-8-12z" stroke="#2B4A3C" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+          <circle cx="26" cy="20" r="2" fill="#2B4A3C"/>
+          <circle cx="38" cy="32" r="2.5" fill="#C0522A" opacity="0.4"/>
+          <circle cx="15" cy="30" r="2" fill="#C0522A" opacity="0.3"/>
+        </svg>
+      </div>
+      <h3>Background GPS every 15 minutes</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">Works offline</span>
+        <span class="pill-tag pill-tag-g">Screen locked</span>
+        <span class="pill-tag">Android + iOS</span>
+        <span class="pill-tag">Auto-sync</span>
+      </div>
+    </div>
+
+    <div class="sol-card">
+      <div class="sol-num">02 / Mobile App</div>
+      <div class="sol-icon">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <rect x="10" y="7" width="32" height="40" rx="3" stroke="#D8D2C8" stroke-width="0.75"/>
+          <rect x="14" y="13" width="24" height="3" rx="1.5" fill="#D8D2C8"/>
+          <rect x="14" y="19" width="18" height="3" rx="1.5" fill="#D8D2C8"/>
+          <rect x="14" y="25" width="22" height="3" rx="1.5" fill="#2B4A3C" opacity="0.45"/>
+          <line x1="14" y1="31" x2="38" y2="31" stroke="#C0522A" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="10" y="28" width="32" height="6" fill="rgba(192,82,42,0.05)" rx="1"/>
+          <rect x="14" y="36" width="14" height="3" rx="1.5" fill="#D8D2C8"/>
+          <path d="M10 36v6h6" stroke="#2B4A3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M42 36v6h-6" stroke="#2B4A3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3>OCR receipt scanning &mdash; reads amount &amp; date</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">Instant read</span>
+        <span class="pill-tag pill-tag-g">Photo upload</span>
+        <span class="pill-tag">No manual entry</span>
+        <span class="pill-tag">Duplicate check</span>
+      </div>
+    </div>
+
+    <div class="sol-card">
+      <div class="sol-num">03 / Mobile App</div>
+      <div class="sol-icon">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <rect x="7" y="7" width="17" height="17" rx="2" fill="rgba(43,74,60,0.09)" stroke="#2B4A3C" stroke-width="0.75"/>
+          <rect x="28" y="7" width="17" height="17" rx="2" fill="rgba(43,74,60,0.04)" stroke="#D8D2C8" stroke-width="0.75"/>
+          <rect x="7" y="28" width="17" height="17" rx="2" fill="rgba(192,82,42,0.04)" stroke="#D8D2C8" stroke-width="0.75"/>
+          <rect x="28" y="28" width="17" height="17" rx="2" fill="rgba(192,82,42,0.09)" stroke="#C0522A" stroke-width="0.75"/>
+          <text x="15.5" y="18.5" text-anchor="middle" font-size="8" fill="#2B4A3C" font-family="serif" font-weight="700">A</text>
+          <text x="36.5" y="18.5" text-anchor="middle" font-size="8" fill="#6B6458" font-family="serif">B</text>
+          <text x="15.5" y="39.5" text-anchor="middle" font-size="8" fill="#6B6458" font-family="serif">C</text>
+          <text x="36.5" y="39.5" text-anchor="middle" font-size="8" fill="#C0522A" font-family="serif" font-weight="700">D</text>
+        </svg>
+      </div>
+      <h3>Zone + grade spending limits, auto enforced</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">Zones A&ndash;D</span>
+        <span class="pill-tag pill-tag-g">Grades G1&ndash;G6</span>
+        <span class="pill-tag">Auto flag</span>
+        <span class="pill-tag">Daily limits</span>
+      </div>
+    </div>
+
+    <div class="sol-card">
+      <div class="sol-num">04 / Admin Dashboard</div>
+      <div class="sol-icon">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <rect x="5" y="5" width="42" height="30" rx="3" stroke="#D8D2C8" stroke-width="0.75"/>
+          <line x1="5" y1="17" x2="47" y2="17" stroke="#D8D2C8" stroke-width="0.5" stroke-dasharray="2 2"/>
+          <line x1="26" y1="5" x2="26" y2="35" stroke="#D8D2C8" stroke-width="0.5" stroke-dasharray="2 2"/>
+          <path d="M11 29 Q16 21 21 24 Q27 27 31 17 Q35 9 41 12" stroke="#2B4A3C" stroke-width="1.5" stroke-linecap="round" fill="none" stroke-dasharray="3 2"/>
+          <circle cx="41" cy="12" r="3.5" fill="#2B4A3C"/>
+          <circle cx="41" cy="12" r="6" stroke="#2B4A3C" stroke-width="0.75" opacity="0.3"/>
+          <rect x="5" y="39" width="19" height="8" rx="2" fill="rgba(43,74,60,0.09)"/>
+          <rect x="28" y="39" width="19" height="8" rx="2" fill="rgba(192,82,42,0.08)"/>
+          <text x="14.5" y="45" text-anchor="middle" font-size="6" fill="#2B4A3C">Active: 24</text>
+          <text x="37.5" y="45" text-anchor="middle" font-size="6" fill="#C0522A">Flags: 3</text>
+        </svg>
+      </div>
+      <h3>Live breadcrumb map with timestamped logs</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">Real-time</span>
+        <span class="pill-tag pill-tag-g">Battery history</span>
+        <span class="pill-tag">Filter by date</span>
+        <span class="pill-tag">Export</span>
+      </div>
+    </div>
+
+    <div class="sol-card">
+      <div class="sol-num">05 / Admin Dashboard</div>
+      <div class="sol-icon">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <rect x="7" y="9" width="38" height="34" rx="3" stroke="#D8D2C8" stroke-width="0.75"/>
+          <rect x="7" y="9" width="38" height="11" rx="3" fill="rgba(43,74,60,0.07)"/>
+          <line x1="7" y1="20" x2="45" y2="20" stroke="#D8D2C8" stroke-width="0.5"/>
+          <rect x="13" y="25" width="26" height="3" rx="1.5" fill="#D8D2C8"/>
+          <rect x="13" y="31" width="18" height="3" rx="1.5" fill="#D8D2C8"/>
+          <circle cx="39" cy="38" r="9" fill="#2B4A3C"/>
+          <path d="M35 38l3 3 5.5-5.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="26" y="16.5" text-anchor="middle" font-size="6.5" fill="#2B4A3C" font-weight="500">Approved &#10003; &bull; James R.</text>
+        </svg>
+      </div>
+      <h3>One-click approve/reject with full audit trail</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">Limit check</span>
+        <span class="pill-tag pill-tag-g">Receipt view</span>
+        <span class="pill-tag">Tamper-proof</span>
+        <span class="pill-tag">Compliance-ready</span>
+      </div>
+    </div>
+
+    <div class="sol-card">
+      <div class="sol-num">06 / Platform</div>
+      <div class="sol-icon">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <path d="M26 5L7 13v14c0 11 9 19 19 23 10-4 19-12 19-23V13L26 5z" stroke="#2B4A3C" stroke-width="1.5" stroke-linejoin="round" fill="rgba(43,74,60,0.05)"/>
+          <path d="M18 26l6 6 10-10" stroke="#2B4A3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3>Enterprise security &mdash; anti-mock GPS, JWT, RBAC</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">Anti-mock GPS</span>
+        <span class="pill-tag pill-tag-g">SSL + JWT</span>
+        <span class="pill-tag">Role-based access</span>
+        <span class="pill-tag">Bcrypt</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+<div class="wrap">
+  <div style="text-align:center">
+    <span class="kicker">Getting Started</span>
+    <h2 class="section-h" style="max-width:420px;margin:0 auto">Live in 48 hours. No IT team needed.</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-node">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a5 5 0 100 10A5 5 0 0010 2z" stroke="#1A1714" stroke-width="1.2"/><path d="M3 18c0-3 3-5 7-5s7 2 7 5" stroke="#1A1714" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Discovery Call</h3>
+      <p>30 mins to understand your zones, grades, and expense policy.</p>
+    </div>
+    <div class="step">
+      <div class="step-node">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="#1A1714" stroke-width="1.2"/><path d="M7 10h6M10 7v6" stroke="#1A1714" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Custom Setup</h3>
+      <p>We configure zones, limits, and branding. Ready in 48 hours.</p>
+    </div>
+    <div class="step">
+      <div class="step-node">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="5" y="2" width="10" height="16" rx="2" stroke="#1A1714" stroke-width="1.2"/><path d="M8 6h4M8 10h4" stroke="#1A1714" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/><circle cx="14" cy="14" r="4" fill="#F6F3ED" stroke="#2B4A3C" stroke-width="1.2"/><path d="M12.5 14l1 1 2-2" stroke="#2B4A3C" stroke-width="1" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Team Onboarding</h3>
+      <p>Employees install the app. Managers get dashboard access.</p>
+    </div>
+    <div class="step">
+      <div class="step-node">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#1A1714" stroke-width="1.2"/><path d="M10 6v4l3 2" stroke="#1A1714" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Go Live</h3>
+      <p>Full tracking begins. We support you for the first 30 days.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SECURITY -->
+<section class="security">
+<div class="wrap">
+  <div style="text-align:center">
+    <span class="kicker">Security</span>
+    <h2 class="section-h">Built for enterprise compliance</h2>
+  </div>
+  <div class="sec-grid">
+    <div class="sec-item"><div class="sec-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1L2 4v5c0 4 3 7 7 8 4-1 7-4 7-8V4L9 1z" stroke="#2B4A3C" stroke-width="1.2" stroke-linejoin="round"/></svg></div><div><h4>SSL + JWT Authentication</h4><p>All data encrypted. Sessions signed with tokens.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#2B4A3C" stroke-width="1.2"/><path d="M3 16c0-3 2.5-5 6-5s6 2 6 5" stroke="#2B4A3C" stroke-width="1.2" stroke-linecap="round"/></svg></div><div><h4>Role-Based Access Control</h4><p>Employees see only their data. Admins control all.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#2B4A3C" stroke-width="1.2"/><path d="M6 9l2 2 4-4" stroke="#2B4A3C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h4>Anti-Mock Location Detection</h4><p>Detects fake GPS apps. Court-admissible proof.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2" stroke="#2B4A3C" stroke-width="1.2"/><path d="M6 8h6M6 11h4" stroke="#2B4A3C" stroke-width="1" stroke-linecap="round"/></svg></div><div><h4>Tamper-Proof Audit Trail</h4><p>Every approval and change logged with timestamp.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l6 3v4c0 4-3 6-6 7-3-1-6-3-6-7V5l6-3z" stroke="#2B4A3C" stroke-width="1.2"/><path d="M6 9l2 2 4-4" stroke="#2B4A3C" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h4>Secure AWS S3 Storage</h4><p>Receipts in access-controlled buckets. No public URLs.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="6" width="14" height="10" rx="2" stroke="#2B4A3C" stroke-width="1.2"/><path d="M6 6V5a3 3 0 016 0v1" stroke="#2B4A3C" stroke-width="1.2" stroke-linecap="round"/></svg></div><div><h4>Rate Limiting &amp; Bcrypt</h4><p>Backend hardened with rate limits and password hashing.</p></div></div>
+  </div>
+</div>
+</section>
+
+<!-- GLOBAL CTA -->
+<section class="global-cta" id="contact">
+<div class="wrap">
+  <div class="cta-inner">
+    <div class="cta-globe">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+        <circle cx="13" cy="13" r="11" stroke="rgba(246,243,237,0.3)" stroke-width="1"/>
+        <path d="M2 13h22M13 2a16 16 0 010 22M13 2a16 16 0 000 22" stroke="rgba(246,243,237,0.3)" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+    <span class="cta-kicker">Ready to Get Started?</span>
+    <h2 class="cta-h">See FieldTrack Pro<br><em>in action</em> — free.</h2>
+    <p class="cta-sub">Book a personalised 20-minute demo or reach out directly. We set teams up in 48 hours — no IT department needed.</p>
+    <div class="cta-btns">
+      <a href="https://the-big3-website.vercel.app/#contact" target="_blank" class="btn-cream">Book a Meeting &rarr;</a>
+      <a href="https://the-big3-website.vercel.app/#contact" target="_blank" class="btn-outline-light">Contact Us</a>
+    </div>
+    <div class="cta-trust">
+      <span class="trust-item">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="rgba(246,243,237,0.38)" stroke-width="0.75"/><path d="M1.5 6h9M6 1.5a10 10 0 010 9M6 1.5a10 10 0 000 9" stroke="rgba(246,243,237,0.38)" stroke-width="0.75" fill="none"/></svg>
+        Available Worldwide
+      </span>
+      <span class="trust-dot"></span>
+      <span class="trust-item">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4.5" stroke="rgba(246,243,237,0.38)" stroke-width="0.75"/><path d="M6 3.5v2.5l1.5 1.5" stroke="rgba(246,243,237,0.38)" stroke-width="0.75" stroke-linecap="round"/></svg>
+        Live in 48 Hours
+      </span>
+      <span class="trust-dot"></span>
+      <span class="trust-item">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 6l2 2 4-4" stroke="rgba(246,243,237,0.38)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="6" r="4.5" stroke="rgba(246,243,237,0.38)" stroke-width="0.75"/></svg>
+        Free 2-Week Pilot
+      </span>
+      <span class="trust-dot"></span>
+      <span class="trust-item">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="2" y="4" width="8" height="6" rx="1.5" stroke="rgba(246,243,237,0.38)" stroke-width="0.75"/><path d="M4 4V3a2 2 0 014 0v1" stroke="rgba(246,243,237,0.38)" stroke-width="0.75" stroke-linecap="round"/></svg>
+        No Contract Lock-in
+      </span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo"><div class="logo-box">B3</div><span class="logo-name" style="color:#F6F3ED">FieldTrack Pro</span></a>
+      <p>A product by The Big 3. Think Big. We Do The Rest. Field workforce management for growing companies, worldwide.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Product</h5>
+      <a href="#problems">Problems</a>
+      <a href="#solutions">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#contact">Get a Demo</a>
+    </div>
+    <div class="foot-col">
+      <h5>Global Reach</h5>
+      <a href="#contact">Asia Pacific</a>
+      <a href="#contact">Middle East</a>
+      <a href="#contact">Europe</a>
+      <a href="#contact">Americas</a>
+    </div>
+    <div class="foot-col">
+      <h5>Company</h5>
+      <a href="https://the-big3-website.vercel.app/" target="_blank">The Big 3</a>
+      <a href="mailto:hello@thebig3.in">hello@thebig3.in</a>
+      <a href="https://the-big3-website.vercel.app/#contact" target="_blank">Book a Demo</a>
+      <a href="#privacy">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>&copy; 2026 The Big 3. All rights reserved. FieldTrack Pro.</p>
+    <p>Available Worldwide &middot; Deployed in 48 Hours &middot; No IT Team Needed</p>
+  </div>
+</div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+</body>
+</html>

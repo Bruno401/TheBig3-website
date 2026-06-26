@@ -2,8 +2,9 @@ import {
   Hero,
   About,
   Services,
-  AIAutomation,
+  SaaSProducts,
   Portfolio,
+  FAQ,
   Contact,
 } from '@/components/sections'
 
@@ -13,8 +14,9 @@ export default function HomePage() {
       <Hero />
       <About />
       <Services />
-      <AIAutomation />
       <Portfolio />
+      <SaaSProducts />
+      <FAQ />
       <Contact />
     </>
   )

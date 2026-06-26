@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudComm — One System for Every Order, Every Channel</title>
+<meta name="description" content="CloudComm connects Shopify, Amazon, Flipkart, Meesho, Myntra and every other sales channel into one order and warehouse management platform. Automate picking, packing, and delivery.">
+<meta name="keywords" content="multi-channel order management, OMS, WMS, Shopify orders, Amazon orders, Flipkart integration, warehouse management India, e-commerce automation">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#F6F3ED;color:#1A1714;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.15}
+a{text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(246,243,237,0.96);backdrop-filter:blur(16px);border-bottom:1px solid #D8D2C8}
+.nav-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.logo{display:flex;align-items:center;gap:10px;color:#1A1714}
+.logo-box{width:32px;height:32px;background:#2B4A3C;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:13px;color:#fff}
+.logo-name{font-family:'Playfair Display',serif;font-weight:700;font-size:16px}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-size:13px;color:#6B6458;transition:color 0.2s}
+.nav-links a:hover{color:#1A1714}
+.nav-btn{background:#1A1714;color:#F6F3ED;padding:9px 20px;border-radius:6px;font-size:13px;font-weight:500;transition:background 0.2s}
+.nav-btn:hover{background:#2B4A3C}
+
+/* HERO */
+.hero{padding:130px 0 80px;position:relative;overflow:hidden}
+.hero-hex{position:absolute;right:-80px;top:20px;opacity:0.03;pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #D8D2C8;border-radius:100px;padding:5px 14px;font-size:11px;color:#6B6458;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:26px}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:#2B4A3C;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-size:clamp(36px,5vw,56px);font-weight:900;color:#1A1714;letter-spacing:-1.5px;margin-bottom:22px}
+.hero h1 em{font-style:italic;color:#2B4A3C}
+.hero-sub{font-size:16px;color:#6B6458;font-weight:300;line-height:1.75;margin-bottom:34px;max-width:440px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-dark{background:#1A1714;color:#F6F3ED;padding:13px 26px;border-radius:7px;font-size:14px;font-weight:500;transition:all 0.2s;display:inline-block}
+.btn-dark:hover{background:#2B4A3C}
+.btn-outline{color:#1A1714;padding:13px 20px;border-radius:7px;font-size:14px;border:1px solid #D8D2C8;transition:all 0.2s;display:inline-block}
+.btn-outline:hover{border-color:#1A1714}
+.hero-trust{display:flex;align-items:center;gap:14px;margin-top:36px;flex-wrap:wrap}
+.htrust{display:flex;align-items:center;gap:6px;font-size:13px;color:#6B6458}
+.hdiv{width:1px;height:13px;background:#D8D2C8}
+
+/* ── HERO CONNECTOR CARD ─────────────────────────────── */
+.connector-card{background:#fff;border:1px solid #D8D2C8;border-radius:18px;overflow:hidden;box-shadow:0 24px 64px rgba(26,23,20,0.13);padding:0}
+.cc-top-bar{background:#1A1714;padding:8px 14px;display:flex;align-items:center;justify-content:space-between}
+.cc-top-title{font-size:9px;color:rgba(246,243,237,0.4);letter-spacing:0.1em;text-transform:uppercase;font-weight:500}
+.cc-live{display:flex;align-items:center;gap:5px;font-size:9px;color:#22D59E;font-weight:600}
+.cc-live-dot{width:5px;height:5px;border-radius:50%;background:#22D59E;animation:pulse 1.5s infinite}
+.cc-body{padding:16px}
+
+/* platform source rows */
+.cc-channels{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:12px}
+.cc-ch{display:flex;align-items:center;gap:6px;background:#F6F3ED;border:1px solid #E8E2D8;border-radius:7px;padding:6px 9px;position:relative}
+.cc-ch-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.cc-ch-name{font-size:10px;font-weight:600;color:#3D3830;flex:1}
+.cc-ch-count{font-size:9px;color:#6B6458;font-family:'DM Mono',monospace}
+.cc-ch-ok{font-size:8px;padding:1px 5px;border-radius:100px;background:rgba(43,74,60,0.1);color:#2B4A3C;font-weight:600}
+.cc-ch-warn{font-size:8px;padding:1px 5px;border-radius:100px;background:rgba(245,166,35,0.12);color:#A07010;font-weight:600}
+
+/* flow arrow to hub */
+.cc-arrow-row{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:12px;position:relative}
+.cc-arr-lines{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%}
+.cc-arr-line{height:1px;background:linear-gradient(90deg,transparent,#D8D2C8 40%,#2B4A3C 100%);width:100%}
+.cc-arr-dot{width:6px;height:6px;border-radius:50%;background:#2B4A3C;animation:slideDot 2s ease-in-out infinite;position:relative}
+@keyframes slideDot{0%{left:10%;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:88%;opacity:0}}
+.cc-hub{background:#1A1714;border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cc-hub-left{display:flex;flex-direction:column;gap:1px}
+.cc-hub-title{font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:#F6F3ED}
+.cc-hub-sub{font-size:8px;color:rgba(246,243,237,0.4)}
+.cc-hub-stats{display:flex;gap:10px}
+.cc-hub-stat{display:flex;flex-direction:column;align-items:center;gap:1px}
+.cc-hub-val{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#22D59E}
+.cc-hub-lbl{font-size:7px;color:rgba(246,243,237,0.4)}
+
+/* order status strip */
+.cc-statuses{display:flex;gap:3px}
+.cc-st{flex:1;border-radius:5px;padding:5px 6px;text-align:center}
+.cc-st-label{font-size:7px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+.cc-st-count{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;display:block;margin-top:1px}
+.cc-st-new{background:rgba(75,142,255,0.08)}.cc-st-new .cc-st-label{color:#4B8EFF}.cc-st-new .cc-st-count{color:#4B8EFF}
+.cc-st-pick{background:rgba(245,166,35,0.08)}.cc-st-pick .cc-st-label{color:#A07010}.cc-st-pick .cc-st-count{color:#A07010}
+.cc-st-ship{background:rgba(43,74,60,0.08)}.cc-st-ship .cc-st-label{color:#2B4A3C}.cc-st-ship .cc-st-count{color:#2B4A3C}
+.cc-st-done{background:rgba(43,74,60,0.05)}.cc-st-done .cc-st-label{color:#6B6458}.cc-st-done .cc-st-count{color:#3D3830}
+
+/* TICKER */
+.ticker{background:#1A1714;padding:12px 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:flex;animation:scroll 30s linear infinite}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tick{display:inline-flex;align-items:center;gap:10px;padding:0 36px;font-size:13px;color:rgba(246,243,237,0.65);flex-shrink:0;font-weight:300}
+.tick strong{color:#C8DDD4;font-weight:500}
+
+/* SECTIONS */
+.kicker{font-size:11px;font-weight:500;color:#2B4A3C;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;display:block}
+.section-h{font-size:clamp(26px,4vw,42px);font-weight:900;color:#1A1714;letter-spacing:-0.8px}
+.section-sub{font-size:15px;color:#6B6458;font-weight:300;line-height:1.75}
+
+/* ── PROBLEMS ──────────────────────────────────────────── */
+.problems{padding:90px 0}
+.prob-intro{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-bottom:56px}
+.diag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#D8D2C8;border-radius:14px;overflow:hidden}
+.diag-card{background:#fff;padding:26px 22px}
+.diag-card:hover{background:#FFFCF9}
+.diag-vis{height:68px;display:flex;align-items:center;margin-bottom:14px}
+.diag-card h3{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#1A1714;margin-bottom:7px;line-height:1.25}
+.diag-tag{display:inline-flex;background:rgba(192,82,42,0.08);border-radius:100px;padding:3px 10px;font-size:11px;color:#C0522A;font-weight:500}
+
+/* P1 - channel chaos visual */
+.ch-chaos{display:flex;flex-direction:column;gap:4px;width:100%}
+.ch-pill{display:flex;align-items:center;gap:5px;border-radius:4px;padding:4px 7px}
+.ch-mark{font-size:9px;font-weight:700;color:rgba(192,82,42,0.5);font-family:'Playfair Display',serif;margin-left:auto}
+
+/* P2 - export hell visual */
+.export-chain{display:flex;align-items:center;gap:4px;width:100%;overflow:hidden}
+.exp-box{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0}
+.exp-icon{width:26px;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;border:1px solid #D8D2C8}
+.exp-lbl{font-size:7px;color:#6B6458}
+.exp-arr{font-size:9px;color:#D8D2C8;flex-shrink:0}
+
+/* P3 - oversell */
+.stock-seq{display:flex;flex-direction:column;gap:3px;width:100%}
+.stk-row{display:flex;align-items:center;justify-content:space-between;padding:3px 7px;border-radius:3px;font-size:9px}
+.stk-label{color:#6B6458}.stk-val{font-family:'Playfair Display',serif;font-weight:700;font-size:11px}
+.stk-ok{background:rgba(43,74,60,0.06);color:#2B4A3C}
+.stk-warn{background:rgba(168,152,32,0.07);color:#A07010}
+.stk-bad{background:rgba(192,82,42,0.07);color:#C0522A}
+
+/* P4 - stuck order */
+.stuck-wrap{display:flex;flex-direction:column;gap:5px;width:100%}
+.stuck-chip{display:flex;align-items:center;justify-content:space-between;background:rgba(192,82,42,0.05);border-radius:5px;padding:5px 8px;border:1px solid rgba(192,82,42,0.12)}
+.sc-id{font-size:9px;font-weight:700;color:#1A1714;font-family:'DM Mono',monospace}
+.sc-badge{font-size:8px;padding:2px 6px;border-radius:100px;background:rgba(192,82,42,0.12);color:#C0522A;font-weight:600}
+.sc-timer{font-size:9px;color:#C0522A;display:flex;align-items:center;gap:4px}
+
+/* P5 - returns */
+.rtn-stack{position:relative;width:70px;height:68px;flex-shrink:0}
+.rtn{position:absolute;border:1px solid #D8D2C8;border-radius:4px;background:#fff;padding:4px 6px;display:flex;flex-direction:column;gap:2px}
+.rline{height:3px;border-radius:2px;background:#EFEBE2}
+.rline-r{background:rgba(192,82,42,0.25)}
+.rtn-lbl{font-size:6px;color:#C0522A;font-weight:700;margin-top:2px}
+
+/* P6 - fade log */
+.fade-log{display:flex;flex-direction:column;gap:5px;width:100%}
+.fl-row{display:flex;align-items:center;gap:5px}
+.fl-dot{width:4px;height:4px;border-radius:50%}
+.fl-line{height:4px;border-radius:2px;background:#D8D2C8}
+.fl-x{font-size:10px;font-weight:700;color:#C0522A}
+
+/* ── SOLUTIONS ─────────────────────────────────────────── */
+.solutions{padding:90px 0;background:#EFEBE2}
+.sol-intro{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end;margin-bottom:52px}
+.sol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#D8D2C8;border-radius:14px;overflow:hidden}
+.sol-card{background:#fff;padding:26px 22px}
+.sol-card:hover{background:#F6F3ED}
+.sol-num{font-size:10px;color:#6B6458;letter-spacing:0.1em;margin-bottom:14px}
+.sol-vis{height:68px;display:flex;align-items:center;margin-bottom:14px}
+.sol-card h3{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#1A1714;margin-bottom:7px;line-height:1.25}
+.sol-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px}
+.pill-tag{font-size:10px;padding:2px 8px;border-radius:100px;background:#EFEBE2;color:#6B6458;border:1px solid #D8D2C8}
+.pill-tag-g{background:rgba(43,74,60,0.07);color:#2B4A3C;border-color:#C8DDD4}
+
+/* S1 - connector hub visual */
+.hub-vis{width:100%;display:flex;align-items:center;gap:0}
+.hub-sources{display:flex;flex-direction:column;gap:3px}
+.hub-src{display:flex;align-items:center;gap:4px;font-size:8px;color:#6B6458;background:#F6F3ED;border:1px solid #E8E2D8;border-radius:3px;padding:2px 5px}
+.hub-src-dot{width:4px;height:4px;border-radius:50%}
+.hub-funnel{flex:1;position:relative;height:52px;display:flex;align-items:center}
+.hub-center{width:28px;height:28px;border-radius:50%;background:#2B4A3C;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin:0 auto}
+.hub-lines{position:absolute;top:0;left:0;width:100%;height:100%}
+
+/* S2 - pipeline nodes */
+.pipe-full{display:flex;flex-direction:column;gap:3px;width:100%}
+.pf-row{display:flex;align-items:center;gap:3px}
+.pf-nd-done{width:7px;height:7px;border-radius:50%;background:#2B4A3C;flex-shrink:0}
+.pf-nd-active{width:7px;height:7px;border-radius:50%;background:#C0522A;flex-shrink:0}
+.pf-nd-pend{width:7px;height:7px;border-radius:50%;background:#D8D2C8;flex-shrink:0}
+.pf-conn{height:1px;flex:1}
+.pf-c-done{background:#2B4A3C}.pf-c-mid{background:linear-gradient(90deg,#2B4A3C,#D8D2C8)}.pf-c-pend{background:#D8D2C8}
+.pf-labels{display:grid;grid-template-columns:repeat(6,1fr);gap:0;width:100%;margin-top:2px}
+.pf-lbl{font-size:6px;text-align:center;color:#6B6458;line-height:1.3}
+.pf-lbl-g{color:#2B4A3C;font-weight:600}.pf-lbl-r{color:#C0522A;font-weight:600}
+
+/* S3 - warehouse routing */
+.wh-route{display:flex;align-items:center;gap:5px;width:100%}
+.wh-box{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1}
+.wh-icon{width:26px;height:22px;border-radius:3px;border:1.5px solid #D8D2C8;display:flex;align-items:center;justify-content:center;font-size:8px;background:#F6F3ED}
+.wh-icon-active{border-color:#2B4A3C;background:rgba(43,74,60,0.08)}
+.wh-lbl{font-size:7px;color:#6B6458;text-align:center}
+.wh-pin{font-size:6px;padding:1px 4px;border-radius:3px;background:rgba(43,74,60,0.08);color:#2B4A3C;font-weight:600}
+
+/* S4 - barcode */
+.scan-wrap{display:flex;flex-direction:column;gap:4px;width:100%}
+.barcode{display:flex;align-items:flex-end;gap:1px;height:26px;margin-bottom:2px}
+.bbar{border-radius:1px;background:#1A1714}
+.scan-line-anim{height:1.5px;background:rgba(192,82,42,0.7);border-radius:1px;animation:scanline 1.8s ease-in-out infinite}
+@keyframes scanline{0%,100%{transform:translateY(0);opacity:0.3}50%{transform:translateY(-10px);opacity:1}}
+.scan-fb{display:flex;align-items:center;justify-content:space-between;background:rgba(43,74,60,0.07);border-radius:4px;padding:4px 7px}
+.sfb-item{font-size:8px;color:#2B4A3C;font-weight:500}
+.sfb-count{font-size:10px;font-weight:700;color:#2B4A3C;font-family:'Playfair Display',serif}
+
+/* S5 - live dashboard */
+.dash-wrap{display:flex;flex-direction:column;gap:4px;width:100%}
+.chart-bars{display:flex;align-items:flex-end;gap:3px;height:36px}
+.cbar{flex:1;border-radius:2px 2px 0 0;background:#D8D2C8}
+.cbar-active{background:#2B4A3C}
+.chart-metrics{display:flex;justify-content:space-between}
+.cm-val{font-family:'Playfair Display',serif;font-size:12px;font-weight:700;color:#2B4A3C;display:block}
+.cm-lbl{font-size:7px;color:#6B6458}
+
+/* S6 - RBAC */
+.rbac-wrap{display:flex;flex-direction:column;gap:2px;width:100%}
+.rbac-header{display:grid;grid-template-columns:50px repeat(4,1fr);gap:2px}
+.rbac-row{display:grid;grid-template-columns:50px repeat(4,1fr);gap:2px;align-items:center}
+.rbac-role{font-size:7px;color:#6B6458;text-align:right;padding-right:4px;line-height:1.3}
+.rbac-perm{font-size:7px;color:#6B6458;text-align:center;line-height:1.3}
+.rbac-cell{height:11px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:7px}
+.rc-yes{background:rgba(43,74,60,0.1);color:#2B4A3C;font-weight:700}
+.rc-no{background:rgba(192,82,42,0.06);color:rgba(192,82,42,0.35)}
+.rc-part{background:rgba(168,152,32,0.1);color:#A07010;font-weight:700}
+
+/* HOW */
+.how{padding:90px 0}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-top:52px}
+.steps::before{content:'';position:absolute;top:23px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,#C8DDD4,#D8D2C8,#C8DDD4)}
+.step{text-align:center;padding:0 10px}
+.step-node{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;border:1.5px solid #D8D2C8;background:#F6F3ED;transition:all 0.3s}
+.step-node:hover{background:#1A1714;border-color:#1A1714}
+.step-node:hover svg{stroke:#F6F3ED}
+.step h3{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:#1A1714;margin-bottom:6px}
+.step p{font-size:12px;color:#6B6458;line-height:1.6}
+
+/* PLATFORMS STRIP */
+.platforms-strip{padding:56px 0;background:#fff;border-top:1px solid #D8D2C8;border-bottom:1px solid #D8D2C8}
+.strip-label{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#6B6458;text-align:center;margin-bottom:28px}
+.platform-logos{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.plat-chip{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid #E8E2D8;background:#F6F3ED;font-size:12px;font-weight:500;color:#3D3830;transition:all 0.2s}
+.plat-chip:hover{border-color:#D8D2C8;background:#fff;box-shadow:0 2px 8px rgba(26,23,20,0.07)}
+.plat-chip-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.plat-chip-custom{border-style:dashed;color:#6B6458}
+
+/* SECURITY */
+.security{padding:70px 0;border-top:1px solid #D8D2C8}
+.sec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#D8D2C8;border-radius:14px;overflow:hidden;margin-top:44px}
+.sec-item{background:#fff;padding:22px;display:flex;align-items:flex-start;gap:12px}
+.sec-item:hover{background:#F6F3ED}
+.sec-icon{width:34px;height:34px;border-radius:8px;background:rgba(43,74,60,0.08);border:1px solid #C8DDD4;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sec-item h4{font-size:13px;font-weight:500;color:#1A1714;margin-bottom:3px}
+.sec-item p{font-size:12px;color:#6B6458;line-height:1.6}
+
+/* GLOBAL CTA */
+.global-cta{padding:100px 0;background:#1A1714;position:relative;overflow:hidden}
+.global-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 80%,rgba(43,74,60,0.2),transparent);pointer-events:none}
+.cta-inner{text-align:center;position:relative;z-index:1}
+.cta-icon-wrap{width:56px;height:56px;border:1px solid rgba(246,243,237,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 28px}
+.cta-kicker{font-size:11px;font-weight:500;color:#C8DDD4;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:16px;display:block}
+.cta-h{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,54px);font-weight:900;color:#F6F3ED;letter-spacing:-1.5px;margin-bottom:18px;line-height:1.1}
+.cta-h em{font-style:italic;color:#C8DDD4}
+.cta-sub{font-size:16px;color:rgba(246,243,237,0.5);font-weight:300;line-height:1.75;max-width:480px;margin:0 auto 40px}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.btn-cream{background:#F6F3ED;color:#1A1714;padding:15px 30px;border-radius:7px;font-size:15px;font-weight:500;transition:all 0.2s;display:inline-block}
+.btn-cream:hover{background:#C8DDD4}
+.btn-outline-light{color:rgba(246,243,237,0.7);padding:15px 28px;border-radius:7px;font-size:15px;border:1px solid rgba(246,243,237,0.18);transition:all 0.2s;display:inline-block}
+.btn-outline-light:hover{color:#F6F3ED;border-color:rgba(246,243,237,0.4)}
+.cta-trust{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(246,243,237,0.38)}
+.trust-dot{width:3px;height:3px;border-radius:50%;background:rgba(246,243,237,0.18);flex-shrink:0}
+
+/* FOOTER */
+footer{background:#1A1714;color:#F6F3ED;padding:52px 0 26px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:44px}
+.foot-brand p{font-size:13px;color:rgba(246,243,237,0.38);margin-top:12px;line-height:1.7;max-width:240px}
+.foot-col h5{font-size:10px;color:rgba(246,243,237,0.32);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
+.foot-col a{display:block;font-size:13px;color:rgba(246,243,237,0.5);text-decoration:none;margin-bottom:9px;transition:color 0.2s}
+.foot-col a:hover{color:#F6F3ED}
+.foot-bottom{border-top:1px solid rgba(246,243,237,0.07);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot-bottom p{font-size:11px;color:rgba(246,243,237,0.28)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-grid,.prob-intro,.sol-intro{grid-template-columns:1fr}
+  .hero-visual,.nav-links{display:none}
+  .diag-grid,.sol-grid,.sec-grid,.foot-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}.steps::before{display:none}
+  .cta-btns{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<div class="wrap"><div class="nav-row">
+  <a href="#" class="logo"><div class="logo-box">B3</div><span class="logo-name">CloudComm</span></a>
+  <ul class="nav-links">
+    <li><a href="#problems">Problems</a></li>
+    <li><a href="#solutions">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="https://the-big3-website.vercel.app/#contact" target="_blank">Contact</a></li>
+  </ul>
+  <a href="https://the-big3-website.vercel.app/#contact" target="_blank" class="nav-btn">Free Demo &rarr;</a>
+</div></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<svg class="hero-hex" width="400" height="400" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+  <rect x="50" y="50" width="300" height="300" rx="20" stroke="#1A1714" stroke-width="0.5"/>
+  <rect x="90" y="90" width="220" height="220" rx="14" stroke="#1A1714" stroke-width="0.5"/>
+  <line x1="50" y1="200" x2="350" y2="200" stroke="#1A1714" stroke-width="0.5"/>
+  <line x1="200" y1="50" x2="200" y2="350" stroke="#1A1714" stroke-width="0.5"/>
+</svg>
+<div class="wrap"><div class="hero-grid">
+  <div>
+    <div class="hero-pill"><span class="pill-dot"></span> OMS + WMS Platform</div>
+    <h1>Every channel.<br>Every order.<br><em>One system.</em></h1>
+    <p class="hero-sub">Your orders live on Shopify, Amazon, Flipkart, Meesho, and your own website — all tracked in five different places. CloudComm pulls them into one platform and automates the rest.</p>
+    <div class="hero-btns">
+      <a href="https://the-big3-website.vercel.app/#contact" target="_blank" class="btn-dark">Book a Free Demo &rarr;</a>
+      <a href="#problems" class="btn-outline">See the Problem</a>
+    </div>
+    <div class="hero-trust">
+      <div class="htrust"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 6l3 3 7-7" stroke="#2B4A3C" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Production-Ready</span></div>
+      <div class="hdiv"></div>
+      <div class="htrust"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#6B6458" stroke-width="0.8"/><path d="M6 3.5V6l1.5 1.5" stroke="#6B6458" stroke-width="0.9" stroke-linecap="round"/></svg><span>Live in 48 Hours</span></div>
+      <div class="hdiv"></div>
+      <div class="htrust"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="8" rx="1.5" stroke="#6B6458" stroke-width="0.8"/><path d="M1 5l5 3 5-3" stroke="#6B6458" stroke-width="0.8"/></svg><span>8 Platforms Supported</span></div>
+    </div>
+  </div>
+
+  <!-- HERO CARD — Connector Hub Visual -->
+  <div class="hero-visual">
+    <div class="connector-card">
+      <div class="cc-top-bar">
+        <span class="cc-top-title">CloudComm &middot; Connector Lab</span>
+        <span class="cc-live"><span class="cc-live-dot"></span>All channels live</span>
+      </div>
+      <div class="cc-body">
+
+        <!-- 8 channel sources in 2 columns -->
+        <div class="cc-channels">
+          <div class="cc-ch"><span class="cc-ch-dot" style="background:#96BF48"></span><span class="cc-ch-name">Shopify</span><span class="cc-ch-count">142</span><span class="cc-ch-ok">&#10003;</span></div>
+          <div class="cc-ch"><span class="cc-ch-dot" style="background:#FF9900"></span><span class="cc-ch-name">Amazon</span><span class="cc-ch-count">38</span><span class="cc-ch-ok">&#10003;</span></div>
+          <div class="cc-ch"><span class="cc-ch-dot" style="background:#2874F0"></span><span class="cc-ch-name">Flipkart</span><span class="cc-ch-count">23</span><span class="cc-ch-ok">&#10003;</span></div>
+          <div class="cc-ch"><span class="cc-ch-dot" style="background:#9B51E0"></span><span class="cc-ch-name">Meesho</span><span class="cc-ch-count">61</span><span class="cc-ch-ok">&#10003;</span></div>
+          <div class="cc-ch"><span class="cc-ch-dot" style="background:#FF3F6C"></span><span class="cc-ch-name">Myntra</span><span class="cc-ch-count">17</span><span class="cc-ch-ok">&#10003;</span></div>
+          <div class="cc-ch"><span class="cc-ch-dot" style="background:#9B59B6"></span><span class="cc-ch-name">WooCommerce</span><span class="cc-ch-count">87</span><span class="cc-ch-ok">&#10003;</span></div>
+          <div class="cc-ch"><span class="cc-ch-dot" style="background:#F26322"></span><span class="cc-ch-name">Magento</span><span class="cc-ch-count">55</span><span class="cc-ch-warn">Syncing</span></div>
+          <div class="cc-ch"><span class="cc-ch-dot" style="background:#4B8EFF"></span><span class="cc-ch-name">Website</span><span class="cc-ch-count">12</span><span class="cc-ch-ok">&#10003;</span></div>
+        </div>
+
+        <!-- flow into hub -->
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;padding:0 4px">
+          <div style="flex:1;height:1px;background:linear-gradient(90deg,#D8D2C8,#2B4A3C)"></div>
+          <div style="font-size:8px;color:#6B6458;white-space:nowrap">435 orders auto-synced today</div>
+          <div style="flex:1;height:1px;background:linear-gradient(90deg,#2B4A3C,#D8D2C8)"></div>
+        </div>
+
+        <!-- CloudComm hub -->
+        <div class="cc-hub">
+          <div class="cc-hub-left">
+            <div class="cc-hub-title">CloudComm OMS</div>
+            <div class="cc-hub-sub">All channels unified</div>
+          </div>
+          <div class="cc-hub-stats">
+            <div class="cc-hub-stat"><div class="cc-hub-val">435</div><div class="cc-hub-lbl">Today</div></div>
+            <div class="cc-hub-stat"><div class="cc-hub-val" style="color:#22D59E">0</div><div class="cc-hub-lbl">Stuck</div></div>
+            <div class="cc-hub-stat"><div class="cc-hub-val" style="color:#F5A623">3</div><div class="cc-hub-lbl">Alerts</div></div>
+          </div>
+        </div>
+
+        <!-- order status strip -->
+        <div class="cc-statuses">
+          <div class="cc-st cc-st-new"><span class="cc-st-label">New</span><span class="cc-st-count">84</span></div>
+          <div class="cc-st cc-st-pick"><span class="cc-st-label">Picking</span><span class="cc-st-count">47</span></div>
+          <div class="cc-st cc-st-ship"><span class="cc-st-label">Shipped</span><span class="cc-st-count">269</span></div>
+          <div class="cc-st cc-st-done"><span class="cc-st-label">Delivered</span><span class="cc-st-count">35</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="tick">E-commerce sellers on <strong>3+ channels lose 12% of revenue</strong> to fulfillment errors annually &nbsp;&bull;&nbsp;</span>
+    <span class="tick">Manual CSV exports take <strong>4 hours daily</strong> — that's 20 hours every week &nbsp;&bull;&nbsp;</span>
+    <span class="tick"><strong>1 in 5 returns</strong> is caused by a wrong item picked in the warehouse &nbsp;&bull;&nbsp;</span>
+    <span class="tick">67% of multi-channel sellers <strong>can't trace why an order was delayed</strong> &nbsp;&bull;&nbsp;</span>
+    <span class="tick">CloudComm syncs <strong>8 platforms in real-time &mdash; zero manual exports</strong> &nbsp;&bull;&nbsp;</span>
+    <span class="tick">E-commerce sellers on <strong>3+ channels lose 12% of revenue</strong> to fulfillment errors annually &nbsp;&bull;&nbsp;</span>
+    <span class="tick">Manual CSV exports take <strong>4 hours daily</strong> — that's 20 hours every week &nbsp;&bull;&nbsp;</span>
+    <span class="tick"><strong>1 in 5 returns</strong> is caused by a wrong item picked in the warehouse &nbsp;&bull;&nbsp;</span>
+    <span class="tick">67% of multi-channel sellers <strong>can't trace why an order was delayed</strong> &nbsp;&bull;&nbsp;</span>
+    <span class="tick">CloudComm syncs <strong>8 platforms in real-time &mdash; zero manual exports</strong> &nbsp;&bull;&nbsp;</span>
+  </div>
+</div>
+
+<!-- PROBLEMS -->
+<section class="problems" id="problems">
+<div class="wrap">
+  <div class="prob-intro">
+    <div><span class="kicker">The Diagnosis</span><h2 class="section-h">Six ways selling on multiple channels costs you every month</h2></div>
+    <div style="padding-top:6px"><p class="section-sub">Every new sales channel you add multiplies your operational complexity. Without a unified system, you're not scaling — you're drowning.</p></div>
+  </div>
+  <div class="diag-grid">
+
+    <!-- P1: Channels not connected -->
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="ch-chaos" style="width:100%">
+          <div class="ch-pill" style="background:rgba(150,191,72,0.08)"><span style="width:5px;height:5px;border-radius:50%;background:#96BF48;flex-shrink:0;display:block"></span><span style="font-size:9px;color:#6B6458;flex:1">Shopify</span><span class="ch-mark">???</span></div>
+          <div class="ch-pill" style="background:rgba(255,153,0,0.08)"><span style="width:5px;height:5px;border-radius:50%;background:#FF9900;flex-shrink:0;display:block"></span><span style="font-size:9px;color:#6B6458;flex:1">Amazon</span><span class="ch-mark">???</span></div>
+          <div class="ch-pill" style="background:rgba(40,116,240,0.08)"><span style="width:5px;height:5px;border-radius:50%;background:#2874F0;flex-shrink:0;display:block"></span><span style="font-size:9px;color:#6B6458;flex:1">Flipkart</span><span class="ch-mark">???</span></div>
+          <div class="ch-pill" style="background:rgba(155,81,224,0.08)"><span style="width:5px;height:5px;border-radius:50%;background:#9B51E0;flex-shrink:0;display:block"></span><span style="font-size:9px;color:#6B6458;flex:1">Meesho</span><span class="ch-mark">???</span></div>
+        </div>
+      </div>
+      <h3>Orders live in 5 places &mdash; no single view</h3>
+      <span class="diag-tag">Avg. 4+ disconnected channels</span>
+    </div>
+
+    <!-- P2: CSV export hell -->
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="export-chain" style="width:100%">
+          <div class="exp-box"><div class="exp-icon" style="background:rgba(150,191,72,0.1);border-color:#96BF48;color:#96BF48">Sh</div><span class="exp-lbl">Export CSV</span></div>
+          <span class="exp-arr">&rarr;</span>
+          <div class="exp-box"><div class="exp-icon" style="background:rgba(255,153,0,0.1);border-color:#FF9900;color:#FF9900">Az</div><span class="exp-lbl">Export CSV</span></div>
+          <span class="exp-arr">&rarr;</span>
+          <div class="exp-box"><div class="exp-icon" style="background:rgba(43,74,60,0.08);color:#2B4A3C">XL</div><span class="exp-lbl">Merge</span></div>
+          <span class="exp-arr">&rarr;</span>
+          <div class="exp-box"><div class="exp-icon" style="background:rgba(192,82,42,0.08);color:#C0522A">??</div><span class="exp-lbl">Errors</span></div>
+        </div>
+      </div>
+      <h3>4 hours daily lost to CSV exports and manual merging</h3>
+      <span class="diag-tag">20+ hours wasted per week</span>
+    </div>
+
+    <!-- P3: Overselling -->
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="stock-seq" style="width:100%">
+          <div class="stk-row stk-ok"><span class="stk-label">Stock on hand</span><span class="stk-val">5</span></div>
+          <div class="stk-row stk-ok"><span class="stk-label">After Shopify order</span><span class="stk-val">3</span></div>
+          <div class="stk-row stk-warn"><span class="stk-label">After Amazon order</span><span class="stk-val">1</span></div>
+          <div class="stk-row stk-bad"><span class="stk-label">After Flipkart order</span><span class="stk-val">&#8722;2 &nbsp;OVERSOLD</span></div>
+        </div>
+      </div>
+      <h3>Channels oversell because stock doesn&rsquo;t sync in real time</h3>
+      <span class="diag-tag">Avg. 8% oversell rate</span>
+    </div>
+
+    <!-- P4: Stuck orders -->
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="stuck-wrap" style="width:100%">
+          <div class="stuck-chip"><span class="sc-id">ORD-AMZ-10082</span><span class="sc-badge">PROCESSING</span></div>
+          <div class="stuck-chip"><span class="sc-id">ORD-MES-00291</span><span class="sc-badge">PROCESSING</span></div>
+          <div class="sc-timer"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#C0522A" stroke-width="0.8"/><path d="M5 3v2l1.5 1" stroke="#C0522A" stroke-width="0.8" stroke-linecap="round"/></svg>Stuck 4h 22min &mdash; no alert fired</div>
+        </div>
+      </div>
+      <h3>Orders get stuck mid-flow with no one to notice</h3>
+      <span class="diag-tag">67% of delays undetected</span>
+    </div>
+
+    <!-- P5: Returns -->
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="rtn-stack">
+          <div class="rtn" style="width:44px;height:50px;transform:rotate(-8deg);top:4px;left:2px;z-index:1;box-shadow:0 2px 6px rgba(0,0,0,0.07)"><div class="rline"></div><div class="rline rline-r"></div><div class="rline"></div><div class="rtn-lbl">PENDING</div></div>
+          <div class="rtn" style="width:44px;height:50px;transform:rotate(3deg);top:2px;left:13px;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.09)"><div class="rline rline-r"></div><div class="rline"></div><div class="rline rline-r"></div><div class="rtn-lbl">PENDING</div></div>
+          <div class="rtn" style="width:44px;height:50px;transform:rotate(-2deg);top:6px;left:24px;z-index:3;box-shadow:0 3px 10px rgba(0,0,0,0.11)"><div class="rline"></div><div class="rline rline-r"></div><div class="rline"></div><div class="rtn-lbl">REVIEW</div></div>
+        </div>
+      </div>
+      <h3>Returns pile up with no structured workflow</h3>
+      <span class="diag-tag">1 in 4 returns delayed</span>
+    </div>
+
+    <!-- P6: No audit -->
+    <div class="diag-card">
+      <div class="diag-vis">
+        <div class="fade-log" style="width:100%">
+          <div class="fl-row"><div class="fl-dot" style="background:#C0522A"></div><div class="fl-line" style="width:80px"></div><span class="fl-x">&#10007;</span></div>
+          <div class="fl-row" style="opacity:0.28"><div class="fl-dot" style="background:#D8D2C8"></div><div class="fl-line" style="width:60px"></div></div>
+          <div class="fl-row" style="opacity:0.12"><div class="fl-dot" style="background:#D8D2C8"></div><div class="fl-line" style="width:72px"></div></div>
+          <div class="fl-row" style="opacity:0.04"><div class="fl-dot" style="background:#D8D2C8"></div><div class="fl-line" style="width:48px"></div></div>
+        </div>
+      </div>
+      <h3>Zero audit trail across channels &mdash; disputes go unresolved</h3>
+      <span class="diag-tag">25% of disputes unresolved</span>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- PLATFORMS STRIP -->
+<div class="platforms-strip">
+  <p class="strip-label">Connect any platform &mdash; more added regularly</p>
+  <div class="platform-logos">
+    <div class="plat-chip"><span class="plat-chip-dot" style="background:#96BF48"></span>Shopify</div>
+    <div class="plat-chip"><span class="plat-chip-dot" style="background:#FF9900"></span>Amazon SP-API</div>
+    <div class="plat-chip"><span class="plat-chip-dot" style="background:#2874F0"></span>Flipkart</div>
+    <div class="plat-chip"><span class="plat-chip-dot" style="background:#9B51E0"></span>Meesho</div>
+    <div class="plat-chip"><span class="plat-chip-dot" style="background:#FF3F6C"></span>Myntra</div>
+    <div class="plat-chip"><span class="plat-chip-dot" style="background:#9B59B6"></span>WooCommerce</div>
+    <div class="plat-chip"><span class="plat-chip-dot" style="background:#F26322"></span>Magento</div>
+    <div class="plat-chip"><span class="plat-chip-dot" style="background:#4B8EFF"></span>Website Orders</div>
+    <div class="plat-chip plat-chip-custom"><span class="plat-chip-dot" style="background:#D8D2C8"></span>Any REST API</div>
+    <div class="plat-chip plat-chip-custom"><span class="plat-chip-dot" style="background:#D8D2C8"></span>ERP System</div>
+    <div class="plat-chip plat-chip-custom"><span class="plat-chip-dot" style="background:#D8D2C8"></span>GraphQL API</div>
+  </div>
+</div>
+
+<!-- SOLUTIONS -->
+<section class="solutions" id="solutions">
+<div class="wrap">
+  <div class="sol-intro">
+    <div><span class="kicker">The Solution</span><h2 class="section-h">Every problem above &mdash; solved in one platform</h2></div>
+    <p class="section-sub">CloudComm is a unified OMS + WMS that connects all your sales channels, automates the full order lifecycle, and gives you real-time visibility at every step.</p>
+  </div>
+  <div class="sol-grid">
+
+    <!-- S1: Connector Hub -->
+    <div class="sol-card">
+      <div class="sol-num">01 / Connector Lab</div>
+      <div class="sol-vis">
+        <div class="hub-vis">
+          <div class="hub-sources">
+            <div class="hub-src"><span class="hub-src-dot" style="background:#96BF48"></span>Shopify</div>
+            <div class="hub-src"><span class="hub-src-dot" style="background:#FF9900"></span>Amazon</div>
+            <div class="hub-src"><span class="hub-src-dot" style="background:#2874F0"></span>Flipkart</div>
+            <div class="hub-src"><span class="hub-src-dot" style="background:#FF3F6C"></span>Myntra</div>
+          </div>
+          <svg width="40" height="56" viewBox="0 0 40 56" fill="none" style="flex-shrink:0">
+            <line x1="0" y1="7" x2="20" y2="28" stroke="#D8D2C8" stroke-width="0.75"/>
+            <line x1="0" y1="21" x2="20" y2="28" stroke="#D8D2C8" stroke-width="0.75"/>
+            <line x1="0" y1="35" x2="20" y2="28" stroke="#D8D2C8" stroke-width="0.75"/>
+            <line x1="0" y1="49" x2="20" y2="28" stroke="#D8D2C8" stroke-width="0.75"/>
+            <line x1="20" y1="28" x2="40" y2="28" stroke="#2B4A3C" stroke-width="1.2"/>
+          </svg>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+            <div style="width:32px;height:32px;border-radius:50%;background:#2B4A3C;display:flex;align-items:center;justify-content:center">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l5.5 3v3.5c0 3-2.5 5-5.5 5.5C3.5 12.5 1 10.5 1 7.5V4L7 1z" stroke="#fff" stroke-width="1"/><path d="M4.5 7l2 2 3.5-3.5" stroke="#fff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span style="font-size:7px;color:#2B4A3C;font-weight:600">CloudComm</span>
+          </div>
+        </div>
+      </div>
+      <h3>Connect any channel in minutes &mdash; test before going live</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">8 platforms</span>
+        <span class="pill-tag pill-tag-g">Circuit breaker</span>
+        <span class="pill-tag">Deduplication</span>
+        <span class="pill-tag">Custom REST</span>
+      </div>
+    </div>
+
+    <!-- S2: Auto order lifecycle -->
+    <div class="sol-card">
+      <div class="sol-num">02 / Order Management</div>
+      <div class="sol-vis">
+        <div class="pipe-full" style="width:100%">
+          <div class="pf-row">
+            <div class="pf-nd-done"></div><div class="pf-conn pf-c-done"></div>
+            <div class="pf-nd-done"></div><div class="pf-conn pf-c-done"></div>
+            <div class="pf-nd-done"></div><div class="pf-conn pf-c-done"></div>
+            <div class="pf-nd-active"></div><div class="pf-conn" style="background:linear-gradient(90deg,#C0522A,#D8D2C8)"></div>
+            <div class="pf-nd-pend"></div><div class="pf-conn pf-c-pend"></div>
+            <div class="pf-nd-pend"></div>
+          </div>
+          <div class="pf-labels">
+            <span class="pf-lbl pf-lbl-g">Created</span>
+            <span class="pf-lbl pf-lbl-g">Confirmed</span>
+            <span class="pf-lbl pf-lbl-g">Assigned</span>
+            <span class="pf-lbl pf-lbl-r">Picked</span>
+            <span class="pf-lbl">Packed</span>
+            <span class="pf-lbl">Shipped</span>
+          </div>
+        </div>
+      </div>
+      <h3>Automated order lifecycle &mdash; created to delivered</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">Auto-progression</span>
+        <span class="pill-tag pill-tag-g">COD + Prepaid</span>
+        <span class="pill-tag">Recovery engine</span>
+        <span class="pill-tag">Manual override</span>
+      </div>
+    </div>
+
+    <!-- S3: Warehouse routing -->
+    <div class="sol-card">
+      <div class="sol-num">03 / Warehouse Management</div>
+      <div class="sol-vis">
+        <div class="wh-route" style="width:100%">
+          <div class="wh-box"><div class="wh-icon">&#128722;</div><span class="wh-lbl">WH-Delhi</span></div>
+          <span style="font-size:9px;color:#D8D2C8">&mdash;</span>
+          <div class="wh-box">
+            <div class="wh-icon wh-icon-active">&#128722;</div>
+            <span class="wh-lbl" style="color:#2B4A3C;font-weight:600">WH-Mumbai</span>
+            <span class="wh-pin">&#10003; 400001</span>
+          </div>
+          <span style="font-size:9px;color:#D8D2C8">&mdash;</span>
+          <div class="wh-box"><div class="wh-icon">&#128722;</div><span class="wh-lbl">WH-Bengaluru</span></div>
+        </div>
+      </div>
+      <h3>Pincode routing &rarr; correct warehouse every time</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">Smart routing</span>
+        <span class="pill-tag pill-tag-g">Zone &rarr; Bin path</span>
+        <span class="pill-tag">Bulk bin seeding</span>
+        <span class="pill-tag">Multi-warehouse</span>
+      </div>
+    </div>
+
+    <!-- S4: Scan & pack -->
+    <div class="sol-card">
+      <div class="sol-num">04 / Barcode Verification</div>
+      <div class="sol-vis">
+        <div class="scan-wrap" style="width:100%">
+          <div style="display:flex;align-items:flex-end;gap:4px">
+            <div class="barcode">
+              <div class="bbar" style="width:2px;height:22px"></div><div class="bbar" style="width:1px;height:17px;background:#3D3830"></div><div class="bbar" style="width:3px;height:24px"></div><div class="bbar" style="width:1px;height:15px;background:#3D3830"></div><div class="bbar" style="width:2px;height:22px"></div><div class="bbar" style="width:1px;height:19px;background:#3D3830"></div><div class="bbar" style="width:3px;height:25px"></div><div class="bbar" style="width:1px;height:17px;background:#3D3830"></div><div class="bbar" style="width:2px;height:22px"></div><div class="bbar" style="width:1px;height:13px;background:#3D3830"></div><div class="bbar" style="width:2px;height:23px"></div>
+            </div>
+            <div style="flex:1;position:relative;height:26px;overflow:hidden"><div class="scan-line-anim" style="position:absolute;left:0;right:0;top:50%"></div></div>
+          </div>
+          <div class="scan-fb">
+            <span class="sfb-item">SKU-WBH-002</span>
+            <span class="sfb-count">3 / 3 &#10003;</span>
+          </div>
+        </div>
+      </div>
+      <h3>Scan every item before pack &mdash; wrong pick blocked at API</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">Scan-to-pack gate</span>
+        <span class="pill-tag pill-tag-g">Session lock</span>
+        <span class="pill-tag">API enforced</span>
+        <span class="pill-tag">Real-time count</span>
+      </div>
+    </div>
+
+    <!-- S5: Live dashboard -->
+    <div class="sol-card">
+      <div class="sol-num">05 / Analytics &amp; Alerts</div>
+      <div class="sol-vis">
+        <div class="dash-wrap" style="width:100%">
+          <div class="chart-bars">
+            <div class="cbar" style="height:55%"></div>
+            <div class="cbar" style="height:70%"></div>
+            <div class="cbar" style="height:48%"></div>
+            <div class="cbar" style="height:85%"></div>
+            <div class="cbar cbar-active" style="height:100%"></div>
+          </div>
+          <div class="chart-metrics">
+            <div><span class="cm-val">435</span><span class="cm-lbl">Today</span></div>
+            <div><span class="cm-val" style="color:#C0522A">3</span><span class="cm-lbl">Alerts</span></div>
+            <div><span class="cm-val">0</span><span class="cm-lbl">Stuck</span></div>
+          </div>
+        </div>
+      </div>
+      <h3>Live dashboard with SLA alerts &mdash; no page refresh needed</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">WebSocket live</span>
+        <span class="pill-tag pill-tag-g">SLA escalation</span>
+        <span class="pill-tag">Multi-tab sync</span>
+        <span class="pill-tag">Bottleneck detect</span>
+      </div>
+    </div>
+
+    <!-- S6: RBAC -->
+    <div class="sol-card">
+      <div class="sol-num">06 / Access Control</div>
+      <div class="sol-vis">
+        <div class="rbac-wrap" style="width:100%">
+          <div class="rbac-header">
+            <span></span>
+            <span class="rbac-perm">Orders</span>
+            <span class="rbac-perm">WMS</span>
+            <span class="rbac-perm">Analytics</span>
+            <span class="rbac-perm">Settings</span>
+          </div>
+          <div class="rbac-row"><span class="rbac-role">Admin</span><div class="rbac-cell rc-yes">&#10003;</div><div class="rbac-cell rc-yes">&#10003;</div><div class="rbac-cell rc-yes">&#10003;</div><div class="rbac-cell rc-yes">&#10003;</div></div>
+          <div class="rbac-row"><span class="rbac-role">Ops Mgr</span><div class="rbac-cell rc-yes">&#10003;</div><div class="rbac-cell rc-part">&#9632;</div><div class="rbac-cell rc-yes">&#10003;</div><div class="rbac-cell rc-no">&#10005;</div></div>
+          <div class="rbac-row"><span class="rbac-role">Picker</span><div class="rbac-cell rc-part">&#9632;</div><div class="rbac-cell rc-yes">&#10003;</div><div class="rbac-cell rc-no">&#10005;</div><div class="rbac-cell rc-no">&#10005;</div></div>
+          <div class="rbac-row"><span class="rbac-role">Support</span><div class="rbac-cell rc-part">&#9632;</div><div class="rbac-cell rc-no">&#10005;</div><div class="rbac-cell rc-part">&#9632;</div><div class="rbac-cell rc-no">&#10005;</div></div>
+        </div>
+      </div>
+      <h3>17 roles, 40+ permissions &mdash; enforced at every API endpoint</h3>
+      <div class="sol-pills">
+        <span class="pill-tag pill-tag-g">API enforced</span>
+        <span class="pill-tag pill-tag-g">Custom roles</span>
+        <span class="pill-tag">17 built-in roles</span>
+        <span class="pill-tag">UI guards</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+<div class="wrap">
+  <div style="text-align:center">
+    <span class="kicker">Getting Started</span>
+    <h2 class="section-h" style="max-width:440px;margin:0 auto">From scattered channels to unified ops in 48 hours</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-node">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="stroke:#1A1714"><path d="M10 3L3 6v5c0 4 3 6 7 7 4-1 7-3 7-7V6L10 3z" stroke-width="1.2" stroke-linejoin="round" fill="none"/><path d="M7 10l2 2 4-4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Connect Your Channels</h3>
+      <p>Link Shopify, Amazon, Flipkart, Meesho, Myntra, or your website. Test each connection before going live in the Connector Lab.</p>
+    </div>
+    <div class="step">
+      <div class="step-node">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="stroke:#1A1714"><rect x="2" y="4" width="16" height="12" rx="2" stroke-width="1.2"/><path d="M6 4V3M14 4V3M2 9h16" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Configure Warehouses</h3>
+      <p>Add your warehouses, map pincode zones, and set up bin locations. Bulk-seed hundreds of bins in seconds.</p>
+    </div>
+    <div class="step">
+      <div class="step-node">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="stroke:#1A1714"><circle cx="10" cy="7" r="3.5" stroke-width="1.2"/><path d="M3 17c0-3 3-5 7-5s7 2 7 5" stroke-width="1.2" stroke-linecap="round"/><circle cx="15.5" cy="12.5" r="3" fill="#F6F3ED" stroke="#2B4A3C" stroke-width="1.2"/><path d="M14 12.5l1 1 2-1.5" stroke="#2B4A3C" stroke-width="0.9" stroke-linecap="round"/></svg>
+      </div>
+      <h3>Assign Your Team</h3>
+      <p>Onboard pickers, managers, and support agents with the right roles. Each person sees exactly what they need.</p>
+    </div>
+    <div class="step">
+      <div class="step-node">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="stroke:#1A1714"><path d="M3 10l3 3 4-4M10 10l3 3 4-4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Orders Run Themselves</h3>
+      <p>Orders from all channels flow in, get routed, picked, scanned, packed, and shipped — automatically.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SECURITY -->
+<section class="security">
+<div class="wrap">
+  <div style="text-align:center">
+    <span class="kicker">Security</span>
+    <h2 class="section-h">Enterprise-grade from day one</h2>
+  </div>
+  <div class="sec-grid">
+    <div class="sec-item"><div class="sec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 1L2 4v4.5c0 4 2.8 6.5 6.5 7.5 3.7-1 6.5-3.5 6.5-7.5V4L8.5 1z" stroke="#2B4A3C" stroke-width="1.2" stroke-linejoin="round"/><path d="M5.5 8.5l2 2 4-4" stroke="#2B4A3C" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h4>JWT + Refresh Token Rotation</h4><p>15-minute access tokens. Rotating 7-day refresh tokens. Sessions invalidated server-side on logout.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><rect x="2" y="6" width="13" height="9" rx="2" stroke="#2B4A3C" stroke-width="1.2"/><path d="M5.5 6V5a3 3 0 016 0v1" stroke="#2B4A3C" stroke-width="1.2" stroke-linecap="round"/><circle cx="8.5" cy="10.5" r="1.5" fill="#2B4A3C"/></svg></div><div><h4>bcrypt + Account Lockout</h4><p>Passwords hashed with bcrypt. 5 failed logins triggers a 30-minute lockout automatically.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="#2B4A3C" stroke-width="1.2"/><path d="M5.5 8.5l2 2 4-4" stroke="#2B4A3C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h4>True Multi-Tenant Isolation</h4><p>Every record scoped to its company. One tenant can never access another's data — at the API level.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><rect x="2" y="3.5" width="13" height="10" rx="2" stroke="#2B4A3C" stroke-width="1.2"/><path d="M5.5 7.5h6M5.5 10h4" stroke="#2B4A3C" stroke-width="1" stroke-linecap="round"/></svg></div><div><h4>Tamper-Proof Audit Log</h4><p>Every action logged with user ID, role, IP, module, and timestamp. Immutable and searchable.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M2.5 8.5h12M8.5 2.5v12" stroke="#2B4A3C" stroke-width="1.2" stroke-linecap="round"/><rect x="1.5" y="1.5" width="14" height="14" rx="3" stroke="#2B4A3C" stroke-width="1"/></svg></div><div><h4>Dual-Layer Rate Limiting</h4><p>1,000 req/15 min per IP + NestJS throttle. Login endpoint: 5 attempts per minute hard cap.</p></div></div>
+    <div class="sec-item"><div class="sec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 1.5l5.5 2.5v4c0 3.5-2.5 5.5-5.5 6.5C5.5 13.5 3 11.5 3 8V4l5.5-2.5z" stroke="#2B4A3C" stroke-width="1.2"/><path d="M6 8.5l2 2 3.5-3.5" stroke="#2B4A3C" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h4>Helmet + CORS + SQL-Proof</h4><p>Security headers, strict origin allowlist, and Prisma parameterized queries — injection impossible.</p></div></div>
+  </div>
+</div>
+</section>
+
+<!-- GLOBAL CTA -->
+<section class="global-cta" id="contact">
+<div class="wrap">
+  <div class="cta-inner">
+    <div class="cta-icon-wrap">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12h5l4 7 4-14 3 7h5" stroke="rgba(246,243,237,0.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <span class="cta-kicker">Ready to See It Live?</span>
+    <h2 class="cta-h">All your channels.<br><em>One command centre.</em></h2>
+    <p class="cta-sub">Book a 20-minute demo and we'll connect your first sales channel, configure your warehouse, and show you live orders flowing in — before you pay anything.</p>
+    <div class="cta-btns">
+      <a href="https://the-big3-website.vercel.app/#contact" target="_blank" class="btn-cream">Book a Meeting &rarr;</a>
+      <a href="https://the-big3-website.vercel.app/#contact" target="_blank" class="btn-outline-light">Contact Us</a>
+    </div>
+    <div class="cta-trust">
+      <span class="trust-item"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 5.5l3 3 6-6" stroke="rgba(246,243,237,0.38)" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Production-Ready v1.0</span>
+      <span class="trust-dot"></span>
+      <span class="trust-item"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="rgba(246,243,237,0.38)" stroke-width="0.75"/><path d="M5.5 3.5v2.5l1.5 1" stroke="rgba(246,243,237,0.38)" stroke-width="0.75" stroke-linecap="round"/></svg>Live in 48 Hours</span>
+      <span class="trust-dot"></span>
+      <span class="trust-item"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="2" width="9" height="7" rx="1.5" stroke="rgba(246,243,237,0.38)" stroke-width="0.75"/><path d="M1 4.5l4.5 2.5L10 4.5" stroke="rgba(246,243,237,0.38)" stroke-width="0.75"/></svg>8 Platforms Supported</span>
+      <span class="trust-dot"></span>
+      <span class="trust-item"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l2.5 2.5 5-5" stroke="rgba(246,243,237,0.38)" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/></svg>No Contract Lock-in</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo"><div class="logo-box">B3</div><span class="logo-name" style="color:#F6F3ED">CloudComm</span></a>
+      <p>A product by The Big 3. Think Big. We Do The Rest. Unified Order &amp; Warehouse Management for multi-channel e-commerce businesses.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Product</h5>
+      <a href="#problems">Problems</a>
+      <a href="#solutions">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#contact">Get a Demo</a>
+    </div>
+    <div class="foot-col">
+      <h5>Channels</h5>
+      <a href="#solutions">Shopify &amp; WooCommerce</a>
+      <a href="#solutions">Amazon &amp; Flipkart</a>
+      <a href="#solutions">Meesho &amp; Myntra</a>
+      <a href="#solutions">Website &amp; Custom API</a>
+    </div>
+    <div class="foot-col">
+      <h5>Company</h5>
+      <a href="https://the-big3-website.vercel.app/" target="_blank">The Big 3</a>
+      <a href="mailto:hello@thebig3.in">hello@thebig3.in</a>
+      <a href="https://the-big3-website.vercel.app/#contact" target="_blank">Book a Demo</a>
+      <a href="#privacy">Privacy Policy</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>&copy; 2026 The Big 3. All rights reserved. CloudComm.</p>
+    <p>OMS &middot; WMS &middot; 8 Platforms &middot; Real-Time &middot; Production-Ready</p>
+  </div>
+</div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+</body>
+</html>
