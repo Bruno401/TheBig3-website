@@ -3,6 +3,7 @@ import {
   About,
   Services,
   SaaSProducts,
+  Team,
   Portfolio,
   FAQ,
   Contact,
@@ -16,6 +17,7 @@ export default function HomePage() {
       <Services />
       <Portfolio />
       <SaaSProducts />
+      <Team />
       <FAQ />
       <Contact />
     </>
