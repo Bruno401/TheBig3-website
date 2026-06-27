@@ -198,8 +198,11 @@ export default function SaaSProducts() {
   const [activeProduct, setActiveProduct] = useState("")
 
   const handleDemo = (name: string) => {
-    setActiveProduct(name)
-    setDemoOpen(true)
+    const contactSection = document.getElementById('contact')
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' })
+    }
+    document.dispatchEvent(new Event('openContactForm'))
   }
 
   const handleKnowMore = (url: string) => {

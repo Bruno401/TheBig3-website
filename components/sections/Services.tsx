@@ -1,20 +1,19 @@
 'use client'
 import React, { Fragment } from 'react'
 
-import { Globe, Smartphone, Code2, Bot } from 'lucide-react'
+import { MonitorSmartphone, Database, TrendingUp, ShieldCheck, Bot } from 'lucide-react'
 
 /* ─── Data ────────────────────────────────────────────────── */
 
 const services = [
   {
     number: '01',
-    title: ['Website', 'Development'],
-    tags: ['Next.js', 'React', 'TypeScript', 'SEO', 'Performance'],
+    title: ['Web + App', 'Development'],
+    tags: ['NEXT.JS', 'REACT NATIVE', 'SaaS ARCHITECTURE', 'MOBILE ECOSYSTEMS', 'FULL-STACK', 'UI/UX DESIGN', 'SCALABILITY'],
     description:
-      'We design and develop fast, scalable, and SEO-optimised websites that strengthen your online presence and convert visitors into customers. Every website is built for performance, responsiveness, search visibility, and long-term business growth.',
-    Icon: Globe,
-    // Subtle dark-to-light card palette using existing brand colors
-    bg: '#120E1E',           // brand-ink
+      'We architect scalable, high-performance web platforms and bespoke mobile ecosystems tailored to your exact workflows. From complex SaaS product architectures to specialized field force automation apps, we build robust digital tools designed for long-term business growth.',
+    Icon: MonitorSmartphone,
+    bg: '#120E1E',
     text: '#FFFFFF',
     tagBg: 'rgba(255,255,255,0.10)',
     tagText: 'rgba(255,255,255,0.75)',
@@ -23,11 +22,11 @@ const services = [
   },
   {
     number: '02',
-    title: ['Application', 'Development'],
-    tags: ['Web Apps', 'Mobile Apps', 'UI/UX', 'API Integration', 'Cloud'],
+    title: ['ERP, CRM &', 'Custom AI Software'],
+    tags: ['CUSTOM ERP', 'CRM SYSTEMS', 'AI SOFTWARE', 'DATA INTEGRATION', 'ENTERPRISE SaaS', 'BUSINESS INTELLIGENCE', 'WORKFLOWS'],
     description:
-      'We create modern web and mobile applications tailored to your business processes. From customer-facing platforms to internal business systems, our applications are designed for usability, reliability, and future scalability.',
-    Icon: Smartphone,
+      'Centralize critical operations and eliminate fragmented data silos with bespoke ERP and CRM architectures. We embed tailored AI software layers directly into your central systems to turn complex enterprise datasets into predictive, actionable business intelligence.',
+    Icon: Database,
     bg: '#1E1830',
     text: '#FFFFFF',
     tagBg: 'rgba(255,255,255,0.10)',
@@ -37,11 +36,11 @@ const services = [
   },
   {
     number: '03',
-    title: ['Custom Software', '+ AI Development'],
-    tags: ['Custom Systems', 'AI Tools', 'Dashboards', 'Automation', 'Analytics'],
+    title: ['Digital', 'Marketing'],
+    tags: ['B2B SEO', 'PERFORMANCE MARKETING', 'LEAD GENERATION', 'CONTENT STRATEGY', 'GROWTH HACKING', 'ROI OPTIMIZATION', 'BRANDING'],
     description:
-      'We develop custom software solutions and AI-powered platforms that solve complex operational challenges. Whether it is workflow management, business intelligence, predictive systems, or intelligent applications, we build software aligned with your goals.',
-    Icon: Code2,
+      'Accelerate your market footprint and acquire high-value clients with performance-driven digital marketing frameworks. We leverage rigorous technical SEO and data-first growth strategies to transform your web assets into active, self-sustaining lead-generation engines.',
+    Icon: TrendingUp,
     bg: '#2C2344',
     text: '#FFFFFF',
     tagBg: 'rgba(255,255,255,0.10)',
@@ -51,17 +50,31 @@ const services = [
   },
   {
     number: '04',
-    title: ['AI Automation', 'For Business'],
-    tags: ['AI Agents', 'Lead Generation', 'CRM', 'Voice AI', 'Workflows'],
+    title: ['Cyber', 'Security'],
+    tags: ['THREAT DETECTION', 'DATA PRIVACY', 'VULNERABILITY ASSESSMENT', 'CLOUD SECURITY', 'COMPLIANCE', 'ENCRYPTION', 'DEFENSE'],
     description:
-      'Automate repetitive tasks, customer communication, lead qualification, reporting, and operational workflows using advanced AI automation systems. Reduce manual effort, improve efficiency, and allow your team to focus on high-value work.',
-    Icon: Bot,
+      'Protect your digital applications and intellectual property from sophisticated, evolving enterprise security threats. We implement proactive vulnerability management, end-to-end encryption, and rigid cloud guardrails to ensure resilient, compliant operational security.',
+    Icon: ShieldCheck,
     bg: '#3D3160',
     text: '#FFFFFF',
     tagBg: 'rgba(255,255,255,0.10)',
     tagText: 'rgba(255,255,255,0.75)',
     descColor: 'rgba(255,255,255,0.60)',
     iconColor: '#A392C6',
+  },
+  {
+    number: '05',
+    title: ['AI Automation', 'For Business'],
+    tags: ['AI AUTOMATION', 'AI AGENTS', 'WHATSAPP CHATBOTS', 'AI VOICE CALLING', 'PRODUCT WRAPPING', 'VIRTUAL ASSISTANTS', 'NLP TOOLS'],
+    description:
+      'Supercharge day-to-day efficiency by deploying autonomous AI voice calling, smart WhatsApp bots, and specialized virtual assistants. We engineer custom AI automation to eliminate repetitive workflows, significantly reducing operational overhead for your business 24/7.',
+    Icon: Bot,
+    bg: '#4F407A',
+    text: '#FFFFFF',
+    tagBg: 'rgba(255,255,255,0.10)',
+    tagText: 'rgba(255,255,255,0.75)',
+    descColor: 'rgba(255,255,255,0.60)',
+    iconColor: '#C4B5FD',
   },
 ]
 
