@@ -151,8 +151,8 @@ function AnimatedHero() {
 
             <div className="pointer-events-auto flex w-full flex-row flex-wrap gap-3 md:justify-start">
               <HeroPill
-                href="#contact"
-                label="Jump on a call"
+                href="tel:+919016856450"
+                label="Jump on a call "
                 variant="purple"
                 staticSrc="/gif/call-static.png"
                 gifSrc="/gif/call.gif"

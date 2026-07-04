@@ -74,7 +74,7 @@ export default function Navbar() {
           style={{ pointerEvents: scrolled ? 'none' : 'auto' }}
         >
           <Link href="/" aria-label="The Big 3 — Home">
-            <span className="font-display text-[25px] font-bold text-brand-ink tracking-tight">
+            <span className="font-display text-[25px] font-bold text-brand-ink tracking-widest">
               THE BIG 3
             </span>
           </Link>
