@@ -42,55 +42,70 @@ export default function FAQ() {
   return (
     <section className="bg-brand-paper section-padding relative overflow-hidden text-brand-ink">
       <div className="container relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 xl:gap-24">
           
           {/* Left Column - Title & Button */}
-          <div className="lg:col-span-5 flex flex-col items-start">
+          <div className="xl:col-span-5 flex flex-col items-start">
             <h2 className="font-display text-display-md mb-8">
               Frequently
               <br />
               asked questions
             </h2>
-            <Button 
-              className="bg-brand-ink text-brand-white rounded-full hover:bg-brand-purple px-6 h-12"
+            <motion.button
+              onClick={(e) => {
+                e.preventDefault();
+                document.dispatchEvent(new CustomEvent('openContactForm'));
+              }}
+              className="flex items-center gap-4 pl-6 pr-2.5 py-2.5 rounded-full cursor-pointer select-none bg-brand-ink hover:bg-brand-purple transition-colors text-white font-sans font-semibold text-[17.5px] uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50 w-fit"
+              whileHover={{ scale: 1.05, boxShadow: '0 6px 24px rgba(0,0,0,0.25)' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.15)' }}
             >
               Get a demo
-              <ArrowUpRight className="ml-2 w-4 h-4" />
-            </Button>
+              <motion.div
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-white text-brand-ink shrink-0"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              >
+                <ArrowUpRight className="w-5 h-5" />
+              </motion.div>
+            </motion.button>
           </div>
 
           {/* Right Column - Accordion */}
-          <div className="lg:col-span-7">
+          <div className="xl:col-span-7">
             <div className="border-t border-brand-border">
               {faqs.map((faq, index) => {
                 const isOpen = openIndex === index
                 return (
                   <div key={index} className="border-b border-brand-border">
-                    <button
-                      className="w-full py-6 flex items-center justify-between text-left focus:outline-none"
-                      onClick={() => setOpenIndex(isOpen ? null : index)}
-                      aria-expanded={isOpen}
-                    >
-                      <span className="font-medium text-body-lg pr-8">{faq.question}</span>
-                      <span className="text-brand-ink-muted flex-shrink-0">
-                        {isOpen ? <Minus className="w-5 h-5 stroke-[1.5]" /> : <Plus className="w-5 h-5 stroke-[1.5]" />}
-                      </span>
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pb-6 text-brand-ink-muted text-body-md pr-12">
-                            {faq.answer}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    <div className="-mx-4 px-4 sm:-mx-6 sm:px-6 rounded-2xl group hover:bg-brand-purple transition-colors duration-300">
+                      <button
+                        className="w-full py-6 flex items-center justify-between text-left focus:outline-none group-hover:text-white transition-colors duration-300"
+                        onClick={() => setOpenIndex(isOpen ? null : index)}
+                        aria-expanded={isOpen}
+                      >
+                        <span className="font-medium text-body-lg pr-8">{faq.question}</span>
+                        <span className="text-brand-ink-muted group-hover:text-white transition-colors duration-300 flex-shrink-0">
+                          {isOpen ? <Minus className="w-5 h-5 stroke-[1.5]" /> : <Plus className="w-5 h-5 stroke-[1.5]" />}
+                        </span>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pb-6 text-brand-ink-muted group-hover:text-white/80 transition-colors duration-300 text-body-md pr-12">
+                              {faq.answer}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   </div>
                 )
               })}

@@ -38,7 +38,8 @@ function HeroPill({ href, label, variant, staticSrc, gifSrc }: HeroPillProps) {
       href={href}
       className={cn(
         'flex items-center gap-4 pl-6 pr-2.5 py-2.5 rounded-full cursor-pointer select-none',
-        'font-sans font-semibold text-[17.5px] uppercase tracking-wider',
+        'font-sans font-semibold text-[17.5px] uppercase tracking-wider whitespace-nowrap',
+        'max-[319px]:gap-3 max-[319px]:pl-5 max-[319px]:text-[14px]',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50',
         variant === 'purple'
           ? 'bg-brand-purple text-white'
@@ -102,11 +103,11 @@ function AnimatedHero() {
   return (
     <section
       id="home"
-      className="min-h-screen overflow-hidden bg-brand-white pt-24 md:pt-28 lg:pt-16"
+      className="overflow-hidden bg-brand-white pt-24 md:pt-28 lg:pt-16"
     >
-      <div className="container mx-auto">
-        <div className="relative grid items-start gap-4 py-4 md:min-h-[calc(100svh-7rem)] md:grid-cols-[minmax(0,0.92fr)_minmax(320px,1.08fr)] md:items-center md:gap-4 md:py-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,0.68fr)] lg:gap-8 lg:py-24 xl:py-28">
-          <div className="relative z-30 flex w-full flex-col items-center gap-5 md:items-start lg:max-w-[44rem]">
+      <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
+        <div className="grid min-h-[600px] grid-cols-1 items-center gap-8 py-8 md:gap-10 lg:min-h-[720px] lg:grid-cols-2 lg:gap-12 lg:py-12">
+          <div className="relative z-30 flex w-full flex-col items-center gap-5 lg:items-start">
             <div className="pointer-events-auto">
               <Button
                 variant="secondary"
@@ -117,15 +118,15 @@ function AnimatedHero() {
               </Button>
             </div>
 
-            <div className="flex flex-col gap-5 text-center md:text-left">
-              <h1 className="font-display text-[clamp(3.15rem,13vw,4.35rem)] leading-[0.98] text-brand-ink drop-shadow-md md:text-[clamp(2.35rem,4.8vw,4.4rem)] md:leading-[1.03] lg:text-[clamp(3.4rem,5.4vw,4.8rem)]">
-                <span className="block lg:inline">Think Big.</span>{" "}
-                <span className="block lg:inline">We Build</span>
+            <div className="flex flex-col gap-5 text-center lg:text-left">
+              <h1 className="font-display text-[clamp(3.15rem,13vw,4.35rem)] leading-[0.98] text-brand-ink drop-shadow-md max-[319px]:text-[13vw] md:text-[clamp(2.75rem,5.5vw,4.4rem)] md:leading-[1.03] lg:text-[clamp(3rem,4.5vw,4.8rem)]">
+                <span className="block md:inline">Think Big.</span>{" "}
+                <span className="block md:inline">We Build</span>
                 <span className="relative block h-[1.05em] overflow-hidden text-brand-purple">
                   {titles.map((title, index) => (
                     <motion.span
                       key={title}
-                      className="absolute inset-x-0 text-center md:text-left"
+                      className="absolute inset-x-0 whitespace-nowrap text-center lg:text-left"
                       initial={{ opacity: 0, y: -80 }}
                       transition={{ type: "spring", stiffness: 50 }}
                       animate={
@@ -143,13 +144,13 @@ function AnimatedHero() {
                 </span>
               </h1>
 
-              <p className="mx-auto max-w-[19rem] font-sans text-[1.08rem] leading-[1.7] text-brand-ink-muted drop-shadow-sm md:mx-0 md:max-w-xl md:text-body-md lg:text-body-lg">
+              <p className="mx-auto max-w-[19rem] font-sans text-[1.08rem] leading-[1.7] text-brand-ink-muted drop-shadow-sm md:max-w-xl md:text-body-md lg:mx-0 lg:text-body-lg">
                 Websites, apps, software, and AI automation — built to your
                 exact requirements.
               </p>
             </div>
 
-            <div className="pointer-events-auto flex w-full flex-row flex-wrap gap-3 md:justify-start">
+            <div className="pointer-events-auto flex w-full flex-row flex-wrap justify-center gap-3 lg:justify-start">
               <HeroPill
                 href="tel:+919016856450"
                 label="Jump on a call "
@@ -167,15 +168,22 @@ function AnimatedHero() {
             </div>
           </div>
 
-          <div className="relative z-10 mx-auto h-[430px] w-full max-w-[430px] md:mt-0 md:h-[520px] md:max-w-none md:translate-y-4 lg:h-[560px] lg:translate-y-8 xl:h-[640px]">
-            <video
-              src="/video/Hero_video.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute bottom-[-8%] left-[-48%] z-10 w-[132%] max-w-none object-contain md:bottom-[2%] md:left-[-7%] md:w-[105%] lg:bottom-[-4%] lg:left-[-38%] lg:w-[130%] xl:left-[-34%]"
-            />
+          <div className="relative z-10 mx-auto w-full max-w-[380px] md:max-w-[560px] lg:max-w-[520px]">
+            {/* Fixed-aspect stage: the video zooms into the character region of the
+                16:9 source via % offsets, so the crop scales with the wrapper.
+                Below lg the stage is taller (4/5) and the character sits smaller
+                at the left so the floating cards fit on the right. */}
+            <div className="relative aspect-[4/5] overflow-hidden lg:aspect-[6/7]">
+              <video
+                src="/video/Hero_video.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className="absolute bottom-0 left-[-45%] w-[140%] max-w-none object-contain md:left-[-41%] lg:left-[-30%] lg:w-[170%]"
+              />
+            </div>
             <HeroWorkflowVisuals />
           </div>
         </div>

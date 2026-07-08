@@ -1,7 +1,7 @@
 "use client";
 
-import { Globe } from "lucide-react";
 import { motion } from "framer-motion";
+import { premiumEase } from "@/components/ui/reveal";
 
 const LinkedinIcon = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -33,7 +33,7 @@ const teamData: TeamMember[] = [
     image: "images/hardik.png",
     socials: {
       website: "#",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/hardikghodasara/",
     },
   },
   {
@@ -60,21 +60,21 @@ export default function Team() {
   return (
     <section className="bg-brand-white section-padding relative overflow-hidden text-brand-ink">
       <div className="container relative z-10">
-        <div className="flex flex-col items-center justify-center gap-12 md:gap-20">
+        <div className="flex flex-col gap-12 md:gap-20">
           <motion.div
             initial={{ y: -40, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{
               duration: 0.8,
-              ease: [0.21, 0.47, 0.32, 0.98],
+              ease: premiumEase,
             }}
-            className="max-w-2xl mx-auto flex flex-col items-center justify-center text-center gap-6"
+            className="mb-8"
           >
-            <div className="px-4 py-1.5 rounded-full border border-brand-ink/10 text-body-sm font-medium text-brand-ink-muted uppercase tracking-widest">
+            <p className="mb-4 font-sans text-label font-semibold uppercase tracking-[0.12em] text-brand-purple">
               Team
-            </div>
-            <h2 className="font-display text-display-md">
+            </p>
+            <h2 className="font-display max-w-4xl text-[clamp(2.2rem,5vw,4.2rem)] leading-[1.05] tracking-[-0.02em] text-brand-ink mb-6">
               Meet the creative minds behind our success
             </h2>
           </motion.div>
@@ -89,7 +89,7 @@ export default function Team() {
                   transition={{
                     duration: 0.8,
                     delay: index * 0.1,
-                    ease: [0.21, 0.47, 0.32, 0.98],
+                    ease: premiumEase,
                   }}
                   className="group flex flex-col items-center justify-center gap-6"
                 >
@@ -110,14 +110,6 @@ export default function Team() {
                       </p>
                     </div>
                     <div className="flex gap-2">
-                      <a
-                        href={value.socials.website}
-                        className="p-3 text-brand-ink-muted hover:text-brand-ink hover:bg-brand-paper rounded-full transition-colors duration-200"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Globe size={18} />
-                      </a>
                       <a
                         href={value.socials.linkedin}
                         className="p-3 text-brand-ink-muted hover:text-brand-ink hover:bg-brand-paper rounded-full transition-colors duration-200"

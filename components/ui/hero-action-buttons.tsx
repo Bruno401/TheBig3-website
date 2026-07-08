@@ -30,7 +30,7 @@ export function HeroActionButtons({
     >
       {/* ── Button 1: Chat ── */}
       <motion.button
-        aria-label="Chat with SoHub"
+        aria-label="Chat with Big3"
         onClick={onChatClick}
         className="
           flex items-center justify-between

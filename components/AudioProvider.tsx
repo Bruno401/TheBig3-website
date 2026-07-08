@@ -59,9 +59,15 @@ export default function AudioProvider({ children }: { children: React.ReactNode 
         }
         return
       }
+
+      // Do not add generic hover sounds to elements inside the portfolio section
+      if (target.closest('#portfolio')) {
+        lastHovered = null
+        return
+      }
       
-      // If hovering menu links, form buttons, inputs
-      const interactiveEl = target.closest('input, textarea, [data-sound-hover="pop"]') as HTMLElement
+      // If hovering menu links, form buttons, inputs, buttons, anchor tags
+      const interactiveEl = target.closest('button, a, input, textarea, [data-sound-hover="pop"]') as HTMLElement
       if (interactiveEl) {
         if (lastHovered !== interactiveEl) {
           playSound(popAudio.current)

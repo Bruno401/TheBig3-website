@@ -4,10 +4,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 1rem;
   }
 
   body {
     @apply bg-brand-white text-brand-ink font-sans antialiased;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -16,6 +18,12 @@
 
   a {
     @apply transition-colors duration-200;
+  }
+
+
+  ::selection {
+    background: rgba(117, 98, 171, 0.18);
+    color: #120E1E;
   }
 
   *,
@@ -59,6 +67,61 @@
   @media (prefers-reduced-motion: reduce) {
     .character-float {
       animation: none;
+    }
+  }
+
+
+  .premium-motion-card {
+    transform-style: preserve-3d;
+    transition: box-shadow 420ms ease, filter 420ms ease;
+    will-change: transform;
+  }
+
+  .premium-motion-card:hover {
+    box-shadow: 0 30px 90px rgba(18, 14, 30, 0.18);
+    filter: saturate(1.04);
+  }
+
+  .premium-image-card {
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+
+  .lazy-image-reveal {
+    opacity: 0;
+    transform: scale(1.035);
+    filter: blur(10px);
+    transition:
+      opacity 680ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lazy-image-reveal.is-loaded {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    .premium-motion-card,
+    .lazy-image-reveal {
+      transform: none !important;
+      filter: none !important;
+      opacity: 1 !important;
     }
   }
 

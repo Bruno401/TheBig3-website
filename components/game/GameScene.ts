@@ -78,6 +78,10 @@ export class GameScene extends Phaser.Scene {
   private hearts: Phaser.GameObjects.Image[] = []
   private startOverlay!: Phaser.GameObjects.Container
 
+  // Audio. The music instance lives on the game-wide sound manager, so it
+  // survives scene.restart() and is reused instead of re-added.
+  private bgm: Phaser.Sound.BaseSound | null = null
+
   constructor() {
     super({ key: 'GameScene' })
   }
@@ -95,6 +99,11 @@ export class GameScene extends Phaser.Scene {
     this.load.image('crystal', `${A}/collectibles/collectibles_stone.png`)
     this.load.image('heart', `${A}/ui/heart_big.png`)
     this.load.image('star', `${A}/effects/effects_golden_star.png`)
+
+    this.load.audio('bgm', `${A}/audio/game.mp3`)
+    this.load.audio('sfx-jump', `${A}/audio/jump.wav`)
+    this.load.audio('sfx-hit', `${A}/audio/hit.wav`)
+    this.load.audio('sfx-gameover', `${A}/audio/game-over.wav`)
 
     for (const d of [...SMALL_DECOR, ...TREE_DECOR]) {
       this.load.image(d.key, `${A}/environment/${d.file}`)
@@ -118,6 +127,10 @@ export class GameScene extends Phaser.Scene {
     this.groundBlocks = []
     this.backBlocks = []
     this.decors = []
+
+    // 'phase' tells the React overlay whether a run is in progress
+    // (idle → running → over); it auto-pauses a running game off-screen.
+    this.registry.set('phase', 'idle')
 
     // Front play line sits at 80% height (closer camera, like the reference).
     // The back terrace is raised ~70px above it to form a decorated ledge.
@@ -189,6 +202,9 @@ export class GameScene extends Phaser.Scene {
 
     // --- HUD ---
     this.buildHUD(W)
+
+    // --- Audio ---
+    this.setupAudio()
 
     // --- Input ---
     this.input.keyboard!.on('keydown-SPACE', this.onInputJump, this)
@@ -281,6 +297,48 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
+  // ─── Audio ───────────────────────────────────────────────────────────────────
+
+  // 'musicOn' / 'sfxOn' are seeded and toggled by the React overlay via the
+  // game registry (GameCanvas settings panel). Music plays only during an
+  // active run: beginGame starts it, scene pause suspends it, game over stops it.
+  private setupAudio() {
+    this.bgm = this.sound.get('bgm') ?? this.sound.add('bgm', { loop: true, volume: 0.35 })
+
+    const onMusicToggle = (_parent: unknown, on: boolean) => {
+      if (!on) this.bgm?.pause()
+      else if (this.isStarted && !this.isGameOver && !this.scene.isPaused()) this.startMusic()
+    }
+    this.registry.events.on('changedata-musicOn', onMusicToggle)
+
+    const onScenePause = () => this.bgm?.pause()
+    const onSceneResume = () => {
+      if (this.isStarted && !this.isGameOver) this.startMusic()
+    }
+    this.events.on(Phaser.Scenes.Events.PAUSE, onScenePause)
+    this.events.on(Phaser.Scenes.Events.RESUME, onSceneResume)
+
+    // Scene shutdown clears neither the registry emitter nor scene events,
+    // so detach by hand or the handlers stack up on every restart.
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.registry.events.off('changedata-musicOn', onMusicToggle)
+      this.events.off(Phaser.Scenes.Events.PAUSE, onScenePause)
+      this.events.off(Phaser.Scenes.Events.RESUME, onSceneResume)
+      this.bgm?.stop()
+    })
+  }
+
+  private startMusic() {
+    if (!this.bgm || this.registry.get('musicOn') === false) return
+    if (this.bgm.isPaused) this.bgm.resume()
+    else if (!this.bgm.isPlaying) this.bgm.play()
+  }
+
+  private playSfx(key: string, volume: number) {
+    if (this.registry.get('sfxOn') === false) return
+    this.sound.play(key, { volume })
+  }
+
   // ─── Start screen ────────────────────────────────────────────────────────────
 
   private showStartScreen(W: number, H: number) {
@@ -317,6 +375,8 @@ export class GameScene extends Phaser.Scene {
   private beginGame() {
     if (this.isStarted || this.isGameOver) return
     this.isStarted = true
+    this.registry.set('phase', 'running')
+    this.startMusic()
 
     this.tweens.add({
       targets: this.startOverlay,
@@ -482,6 +542,7 @@ export class GameScene extends Phaser.Scene {
     if (body.blocked.down) {
       body.setVelocityY(-700)
       this.jumpCount = 1
+      this.playSfx('sfx-jump', 0.5)
       // Pixar squish-and-stretch on jump
       this.tweens.add({
         targets: this.player,
@@ -494,6 +555,7 @@ export class GameScene extends Phaser.Scene {
     } else if (this.jumpCount < 2) {
       body.setVelocityY(-580)
       this.jumpCount = 2
+      this.playSfx('sfx-jump', 0.5)
       this.tweens.add({
         targets: this.player,
         scaleX: this.player.scaleX * 1.12,
@@ -521,6 +583,9 @@ export class GameScene extends Phaser.Scene {
       this.doGameOver()
       return
     }
+
+    // Non-fatal hit (first two); the third plays the game-over sound instead
+    this.playSfx('sfx-hit', 0.7)
 
     // 2-second invincibility flash
     this.tweens.add({
@@ -573,6 +638,9 @@ export class GameScene extends Phaser.Scene {
 
   private doGameOver() {
     this.isGameOver = true
+    this.registry.set('phase', 'over')
+    this.bgm?.stop()
+    this.playSfx('sfx-gameover', 0.75)
     ;(this.player.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0)
 
     // Freeze everything
@@ -618,6 +686,9 @@ export class GameScene extends Phaser.Scene {
     btn.on('pointerdown', () => this.scene.restart())
     this.time.delayedCall(400, () => {
       this.input.keyboard!.once('keydown-SPACE', () => this.scene.restart())
+      // Tap anywhere also restarts — position-independent, so it works even
+      // when the canvas is CSS-rotated for portrait devices.
+      this.input.once('pointerdown', () => this.scene.restart())
     })
   }
 

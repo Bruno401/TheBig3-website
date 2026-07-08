@@ -79,7 +79,7 @@ function BrowserDots() {
 
 function CodeCardContent() {
   return (
-    <div className="select-none font-mono text-[11px] leading-[1.8] text-brand-ink-muted md:text-[12px] lg:text-[13px]">
+    <div className="select-none whitespace-nowrap font-mono text-[11px] leading-[1.8] text-brand-ink-muted max-[319px]:text-[9px] md:text-[12px] lg:text-[13px]">
       <p>
         <span className="text-brand-ink-muted/60">{"// "}</span>
         <span>automate</span>
@@ -115,18 +115,18 @@ function HeroWorkflowVisuals() {
     >
       {/* ── 1. Purple dot node ── */}
       <motion.div
-        className="absolute right-[24%] top-[2%] md:right-[14%] md:top-[7%] lg:right-[18%] lg:top-[2%]"
+        className="absolute right-[28%] top-0 lg:right-[24%] lg:top-[-5%]"
         variants={fadeInUp}
       >
         <motion.div
-          className="h-[9px] w-[9px] rounded-full bg-brand-purple md:h-[10px] md:w-[10px]"
+          className="h-[10px] w-[10px] rounded-full bg-brand-purple"
           animate={pulseNode}
         />
       </motion.div>
 
       {/* ── 2. Dashed vertical line from dot to code card ── */}
       <motion.div
-        className="absolute right-[calc(24%_+_4px)] top-[5%] h-[8%] w-[1.5px] md:right-[calc(14%_+_4px)] md:top-[10%] md:h-[7%] lg:right-[calc(18%_+_4px)] lg:top-[5%] lg:h-[8%]"
+        className="absolute right-[calc(28%_+_3px)] top-[2%] h-[6%] w-[1.5px] lg:right-[calc(24%_+_4px)] lg:top-[-2%] lg:h-[5%]"
         variants={fadeInUp}
       >
         <svg
@@ -149,16 +149,17 @@ function HeroWorkflowVisuals() {
 
       {/* ── 3. Browser-style Code Card ── */}
       <motion.div
-        className="absolute right-[3%] top-[13%] md:right-0 md:top-[17%] lg:right-[9%] lg:top-[13%]"
+        className="absolute right-0 top-[9%] w-[48%] max-w-[210px] lg:right-[-4%] lg:top-0 lg:w-[34%]"
         variants={fadeInUp}
       >
         <motion.div
           className="
-            w-[194px] md:w-[190px] lg:w-[230px]
+            w-full
             bg-white
             border border-brand-border
-            rounded-[18px] md:rounded-[20px] lg:rounded-[24px]
-            px-4 py-3.5 md:px-5 md:py-4 lg:px-6 lg:py-5
+            rounded-[20px] xl:rounded-[24px]
+            px-5 py-4 xl:px-6 xl:py-5
+            max-[319px]:px-3.5 max-[319px]:py-3
           "
           style={{
             boxShadow: "0 4px 24px rgba(18, 14, 30, 0.06), 0 1px 4px rgba(18, 14, 30, 0.03)",
@@ -166,7 +167,7 @@ function HeroWorkflowVisuals() {
           animate={floatCodeCard}
         >
           {/* Browser dots */}
-          <div className="mb-4">
+          <div className="mb-4 max-[319px]:mb-2">
             <BrowserDots />
           </div>
 
@@ -176,10 +177,8 @@ function HeroWorkflowVisuals() {
 
         {/* ── 4. SVG Dashed L-connector from code card to process card ── */}
         <svg
-          className="absolute pointer-events-none"
-          width="142"
-          height="142"
-          viewBox="0 0 142 142"
+          className="pointer-events-none absolute h-[150px] w-[75px] max-[319px]:h-[100px] max-[319px]:w-[50px] md:h-[180px] md:w-[90px] lg:h-[200px] lg:w-[100px]"
+          viewBox="0 0 100 200"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{
@@ -190,7 +189,7 @@ function HeroWorkflowVisuals() {
           aria-hidden="true"
         >
           <path
-            d="M0 0 L0 76 Q0 96 20 96 L110 96"
+            d="M0 0 L0 136 Q0 156 20 156 L60 156"
             stroke="#A392C6"
             strokeWidth="1.5"
             strokeDasharray="6 4"
@@ -202,16 +201,17 @@ function HeroWorkflowVisuals() {
 
       {/* ── 5. Process Automation Card ── */}
       <motion.div
-        className="absolute right-[2%] top-[54%] md:right-0 md:top-[58%] lg:right-[2%] lg:top-[54%]"
+        className="absolute right-0 top-[52%] w-[38%] max-w-[160px] lg:right-[-8%] lg:top-[50%] lg:w-[30%]"
         variants={fadeInUp}
       >
         <motion.div
           className="
-            w-[120px] md:w-[126px] lg:w-[150px]
+            w-full
             bg-white
             border border-brand-border
-            rounded-[16px] md:rounded-[18px] lg:rounded-[20px]
-            px-3.5 py-3 md:px-4 md:py-3.5 lg:px-5 lg:py-4
+            rounded-[18px] xl:rounded-[20px]
+            px-4 py-3.5 xl:px-5 xl:py-4
+            max-[319px]:px-3 max-[319px]:py-2.5
           "
           style={{
             boxShadow: "0 4px 20px rgba(18, 14, 30, 0.05), 0 1px 3px rgba(18, 14, 30, 0.02)",
@@ -221,7 +221,7 @@ function HeroWorkflowVisuals() {
           {/* Top row — icon + status dot */}
           <div className="mb-2.5 flex items-start justify-between">
             {/* Purple circle icon */}
-            <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-brand-lavender md:h-[36px] md:w-[36px] lg:h-[40px] lg:w-[40px]">
+            <div className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-brand-lavender max-[319px]:h-[26px] max-[319px]:w-[26px] md:h-[36px] md:w-[36px] lg:h-[40px] lg:w-[40px]">
               <svg
                 width="18"
                 height="18"
@@ -241,10 +241,10 @@ function HeroWorkflowVisuals() {
           </div>
 
           {/* Text */}
-          <p className="font-sans text-[12px] font-medium leading-tight text-brand-ink md:text-[13px] lg:text-[14px]">
+          <p className="font-sans text-[12px] font-medium leading-tight text-brand-ink max-[319px]:text-[11px] md:text-[13px] lg:text-[14px]">
             Process
           </p>
-          <p className="mt-0.5 font-sans text-[10px] leading-tight text-brand-ink-muted md:text-[11px] lg:text-[12px]">
+          <p className="mt-0.5 font-sans text-[10px] leading-tight text-brand-ink-muted max-[319px]:text-[9px] md:text-[11px] lg:text-[12px]">
             Automated
           </p>
         </motion.div>
@@ -252,7 +252,7 @@ function HeroWorkflowVisuals() {
 
       {/* ── 6. Decorative outlined purple ring ── */}
       <motion.div
-        className="absolute right-[44%] top-[64%] md:right-[34%] md:top-[60%] lg:right-[30%]"
+        className="absolute left-[50%] top-[58%] lg:left-[4%] lg:top-[70%]"
         variants={fadeInUp}
       >
         <div className="h-[14px] w-[14px] rounded-full border-[1.5px] border-brand-purple-light" />

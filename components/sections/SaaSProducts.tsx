@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
-import { MapPin, ShieldCheck, FileText, BarChart2, ArrowUpRight, X, Link2, Package, ShoppingCart } from "lucide-react"
+import { motion, AnimatePresence, animate, useMotionValue, useReducedMotion } from "framer-motion"
+import { MapPin, ShieldCheck, FileText, BarChart2, ArrowUpRight, ArrowLeft, ArrowRight, X, Link2, Package, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { premiumEase } from "@/components/ui/reveal"
 
 // ─── Modals ──────────────────────────────────────────────────────────────────
 
@@ -191,11 +192,60 @@ const products = [
 // ─── Section ───────────────────────────────────────────────────────────────
 
 export default function SaaSProducts() {
-  const [activeTab, setActiveTab] = useState(0)
+  const reduceMotion = useReducedMotion()
+  const [active, setActive] = useState(0)
   const [knowMoreOpen, setKnowMoreOpen] = useState(false)
   const [activeKnowMoreUrl, setActiveKnowMoreUrl] = useState("")
   const [demoOpen, setDemoOpen] = useState(false)
   const [activeProduct, setActiveProduct] = useState("")
+
+  /* Horizontal swipe on the active card. Manual pointer tracking (not framer
+     drag) so vertical touch scrolling stays native via touch-action: pan-y. */
+  const dragX = useMotionValue(0)
+  const swipe = useRef<{ id: number; startX: number } | null>(null)
+
+  const startSwipe = (e: React.PointerEvent) => {
+    if (swipe.current) return
+    if (e.pointerType === "mouse" && e.button !== 0) return
+    // Prevent text selection / native image drag while swiping with a mouse
+    if (e.pointerType === "mouse") e.preventDefault()
+    swipe.current = { id: e.pointerId, startX: e.clientX }
+
+    const springBack = () => animate(dragX, 0, { type: "spring", stiffness: 400, damping: 32 })
+    const cleanup = () => {
+      swipe.current = null
+      window.removeEventListener("pointermove", move)
+      window.removeEventListener("pointerup", finish)
+      window.removeEventListener("pointercancel", cancel)
+    }
+    const move = (ev: PointerEvent) => {
+      if (!swipe.current || ev.pointerId !== swipe.current.id) return
+      const dx = ev.clientX - swipe.current.startX
+      dragX.set(Math.max(-90, Math.min(90, dx * 0.35)))
+    }
+    const finish = (ev: PointerEvent) => {
+      if (!swipe.current || ev.pointerId !== swipe.current.id) return
+      const dx = ev.clientX - swipe.current.startX
+      cleanup()
+      springBack()
+      if (Math.abs(dx) > 70) {
+        // Swallow the click a swipe would otherwise fire on the element under the pointer
+        const suppress = (ce: MouseEvent) => { ce.stopPropagation(); ce.preventDefault() }
+        window.addEventListener("click", suppress, { capture: true, once: true })
+        setTimeout(() => window.removeEventListener("click", suppress, { capture: true }), 150)
+        if (dx < 0) setActive(a => Math.min(a + 1, products.length - 1))
+        else setActive(a => Math.max(a - 1, 0))
+      }
+    }
+    const cancel = (ev: PointerEvent) => {
+      if (!swipe.current || ev.pointerId !== swipe.current.id) return
+      cleanup()
+      springBack()
+    }
+    window.addEventListener("pointermove", move)
+    window.addEventListener("pointerup", finish)
+    window.addEventListener("pointercancel", cancel)
+  }
 
   const handleDemo = (name: string) => {
     const contactSection = document.getElementById('contact')
@@ -210,39 +260,62 @@ export default function SaaSProducts() {
     setKnowMoreOpen(true)
   }
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % products.length)
+    }, 2000)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
-    <section className="relative bg-brand-white pb-24 md:pb-32" id="products">
+    <section 
+      className="relative bg-brand-white pb-24 md:pb-32" 
+      id="products"
+    >
       
       {/* Header */}
-      <div className="container mx-auto px-5 pb-12 pt-24 md:px-12 md:pb-16 md:pt-32 lg:px-20">
+      <motion.div
+        className="container mx-auto px-5 pb-12 pt-24 md:px-12 md:pb-16 md:pt-32 lg:px-20"
+        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+        whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.8, ease: premiumEase }}
+      >
         <div className="mb-8">
           <p className="mb-4 font-sans text-label font-semibold uppercase tracking-[0.12em] text-brand-purple">Our SaaS Products</p>
           <h2 className="font-display max-w-4xl text-[clamp(2.2rem,5vw,4.2rem)] leading-[1.05] tracking-[-0.02em] text-brand-ink mb-6">
             Powerful software built by <br className="hidden sm:block" />The Big3
           </h2>
-          <p className="text-body-lg text-brand-ink-muted max-w-3xl">Three products. Endless possibilities. Built to simplify, scale and succeed.</p>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Sticky Stack Cards */}
+      {/* Swipe Deck — cards stack in one grid cell; next card slides in from the right */}
       <div className="container mx-auto px-4 md:px-10 lg:px-16">
-        {products.map((product, i) => {
-          // Dynamic top offset so they stack visibly just like services
-          const topOffset = `calc(10vh + ${i * 48}px)`
-
-          return (
-            <React.Fragment key={product.number}>
-              <div
-                className="sticky w-full"
-                style={{
-                  top: topOffset,
-                  zIndex: i + 1,
-                }}
+        <div className="overflow-x-clip">
+          <div className="grid">
+            {products.map((product, i) => (
+              // Outer layer: slide-in/out position (percent). Inner layer: drag
+              // rubber-band (pixels). Separate elements because framer cannot
+              // mix % and px on one animated x value.
+              <motion.div
+                key={product.number}
+                className="col-start-1 row-start-1 w-full"
+                inert={i !== active}
+                initial={false}
+                animate={{ x: i <= active ? '0%' : '108%' }}
+                transition={{ type: 'spring', stiffness: 260, damping: 30 }}
+                style={{ zIndex: i + 1 }}
               >
-                <div
-                  className="relative w-full overflow-hidden rounded-[2rem] md:rounded-[2.5rem] flex flex-col lg:flex-row shadow-[0_-10px_40px_rgba(0,0,0,0.15)]"
+              <motion.div
+                className={`w-full ${i === active ? 'cursor-grab active:cursor-grabbing select-none' : ''}`}
+                onPointerDown={i === active ? startSwipe : undefined}
+                style={{ x: i === active ? dragX : 0, touchAction: 'pan-y' }}
+              >
+                <motion.div
+                  className="premium-motion-card relative w-full overflow-hidden rounded-[2rem] md:rounded-[2.5rem] flex flex-col lg:flex-row"
+                  whileHover={reduceMotion ? undefined : { y: -6, scale: 1.004 }}
+                  transition={{ type: 'spring', stiffness: 220, damping: 26 }}
                   style={{
-                    minHeight: '75vh',
                     background: product.bg,
                   }}
                 >
@@ -270,7 +343,14 @@ export default function SaaSProducts() {
                     {/* Feature Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                       {product.features.map((feature, idx) => (
-                        <div key={idx} className="flex gap-4 items-start">
+                        <motion.div
+                          key={idx}
+                          className="flex gap-4 items-start"
+                          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                          viewport={{ once: true, amount: 0.5 }}
+                          transition={{ duration: 0.55, delay: idx * 0.07, ease: premiumEase }}
+                        >
                           <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm border ${product.featureBg}`}>
                             <feature.icon className="w-5 h-5 stroke-[2]" />
                           </div>
@@ -278,7 +358,7 @@ export default function SaaSProducts() {
                             <h4 className="font-bold mb-1">{feature.title}</h4>
                             <p className={`text-body-sm ${product.mutedColor}`}>{feature.desc}</p>
                           </div>
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
 
@@ -303,28 +383,62 @@ export default function SaaSProducts() {
 
                   </div>
 
-                  {/* Right Image */}
-                  <div className="lg:w-5/12 relative min-h-[350px] lg:min-h-0 flex items-center justify-center p-8 lg:p-12 lg:pr-16">
-                    <Image 
-                      src={product.image} 
-                      alt={`${product.titleText} Dashboard`} 
-                      width={1000} 
-                      height={800} 
-                      className="w-full h-auto max-w-[500px] lg:max-w-none object-contain drop-shadow-2xl"
+                  {/* Right Image — hidden below lg so tablet/mobile cards stay compact */}
+                  <div className="relative hidden lg:flex lg:w-5/12 items-center justify-center p-8 lg:p-12 lg:pr-16">
+                    <Image
+                      src={product.image}
+                      alt={`${product.titleText} Dashboard`}
+                      width={1000}
+                      height={800}
+                      sizes="(min-width: 1024px) 38vw, 100vw"
+                      className="lazy-image-reveal w-full h-auto max-w-[500px] lg:max-w-none object-contain drop-shadow-2xl"
                       priority={i === 0}
+                      onLoad={(event) => event.currentTarget.classList.add('is-loaded')}
                     />
                   </div>
-                </div>
+                </motion.div>
+              </motion.div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
 
-                {/* Invisible spacer to align physical bottom edges so all cards un-stick simultaneously */}
-                <div style={{ height: `${(products.length - 1 - i) * 48}px` }} aria-hidden="true" />
-              </div>
+        {/* Deck navigation */}
+        <div className="mt-8 flex items-center justify-center gap-6 md:mt-10">
+          <button
+            type="button"
+            aria-label="Previous product"
+            onClick={() => setActive(a => Math.max(a - 1, 0))}
+            disabled={active === 0}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-ink text-brand-white transition-colors hover:bg-brand-purple disabled:cursor-default disabled:opacity-30 disabled:hover:bg-brand-ink"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
 
-              {/* Scroll distance spacer between cards (and after the last card) */}
-              <div style={{ height: '50vh' }} aria-hidden="true" />
-            </React.Fragment>
-          )
-        })}
+          <div className="flex items-center gap-2.5">
+            {products.map((product, i) => (
+              <button
+                key={product.number}
+                type="button"
+                aria-label={`Go to product ${product.number}`}
+                onClick={() => setActive(i)}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  i === active ? 'w-7 bg-brand-purple' : 'w-2.5 bg-brand-border hover:bg-brand-purple/40'
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            aria-label="Next product"
+            onClick={() => setActive(a => Math.min(a + 1, products.length - 1))}
+            disabled={active === products.length - 1}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-ink text-brand-white transition-colors hover:bg-brand-purple disabled:cursor-default disabled:opacity-30 disabled:hover:bg-brand-ink"
+          >
+            <ArrowRight className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       <KnowMoreModal 

@@ -1,7 +1,9 @@
 'use client'
-import React, { Fragment } from 'react'
+import React from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
 import { MonitorSmartphone, Database, TrendingUp, ShieldCheck, Bot } from 'lucide-react'
+import { premiumEase } from '@/components/ui/reveal'
 
 /* ─── Data ────────────────────────────────────────────────── */
 
@@ -81,6 +83,8 @@ const services = [
 /* ─── Component ───────────────────────────────────────────── */
 
 export default function Services() {
+  const reduceMotion = useReducedMotion()
+
   return (
     <section
       id="services"
@@ -88,7 +92,13 @@ export default function Services() {
       className="relative bg-brand-white pb-24 md:pb-32"
     >
       {/* ── Heading block ── */}
-      <div className="container mx-auto px-5 pb-12 pt-24 md:px-12 md:pb-16 md:pt-32 lg:px-20">
+      <motion.div
+        className="container mx-auto px-5 pb-12 pt-24 md:px-12 md:pb-16 md:pt-32 lg:px-20"
+        initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+        whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.8, ease: premiumEase }}
+      >
         <p className="mb-4 font-sans text-label font-semibold uppercase tracking-[0.12em] text-brand-purple">
           Services
         </p>
@@ -98,7 +108,7 @@ export default function Services() {
         >
           We build digital systems that help businesses grow, automate, and scale.
         </h2>
-      </div>
+      </motion.div>
 
       {/* ── Sticky stack ── */}
       <div className="container mx-auto px-4 md:px-10 lg:px-16">
@@ -109,15 +119,21 @@ export default function Services() {
 
           return (
             <React.Fragment key={service.number}>
-              <div
+              <motion.div
                 className="sticky w-full"
                 style={{
                   top: topOffset,
                   zIndex: i + 1,
                 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 44, scale: 0.97 }}
+                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.28 }}
+                transition={{ duration: 0.78, delay: i * 0.05, ease: premiumEase }}
               >
-                <div
-                  className="relative w-full overflow-hidden rounded-[2rem] md:rounded-[2.5rem]"
+                <motion.div
+                  className="premium-motion-card relative w-full overflow-hidden rounded-[2rem] md:rounded-[2.5rem]"
+                  whileHover={reduceMotion ? undefined : { y: -8, scale: 1.008 }}
+                  transition={{ type: 'spring', stiffness: 240, damping: 24 }}
                   style={{
                     height: '75vh',
                     background: service.bg,
@@ -162,10 +178,14 @@ export default function Services() {
 
                       {/* Tags */}
                       <div className="flex flex-wrap gap-2">
-                        {service.tags.map((tag) => (
-                          <span
+                        {service.tags.map((tag, tagIndex) => (
+                          <motion.span
                             key={tag}
                             className="rounded-full px-3 py-1 font-sans text-xs font-medium uppercase tracking-wider md:px-4 md:py-1.5 md:text-[11px]"
+                            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                            whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.8 }}
+                            transition={{ duration: 0.45, delay: 0.12 + tagIndex * 0.035, ease: premiumEase }}
                             style={{
                               background: service.tagBg,
                               color: service.tagText,
@@ -173,7 +193,7 @@ export default function Services() {
                             }}
                           >
                             {tag}
-                          </span>
+                          </motion.span>
                         ))}
                       </div>
                     </div>
@@ -195,11 +215,11 @@ export default function Services() {
                       background: `radial-gradient(circle, ${service.iconColor}22 0%, transparent 70%)`,
                     }}
                   />
-                </div>
+                </motion.div>
 
                 {/* Invisible spacer to align physical bottom edges so all cards un-stick simultaneously */}
                 <div style={{ height: `${(services.length - 1 - i) * 48}px` }} aria-hidden="true" />
-              </div>
+              </motion.div>
 
               {/* Scroll distance spacer between cards (and after the last card) */}
               <div style={{ height: '50vh' }} aria-hidden="true" />

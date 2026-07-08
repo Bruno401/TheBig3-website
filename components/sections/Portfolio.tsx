@@ -1,26 +1,26 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useDragControls } from 'framer-motion'
 
 /* ─── All local portfolio PNG images ─────────────────────────────────────── */
 
 const portfolioImages = [
-  { src: '/images/portfolio/NextWebsite.png',              alt: 'Next.js Website' },
-  { src: '/images/portfolio/interier-design-demo.png',     alt: 'Interior Design Demo' },
-  { src: '/images/portfolio/family-golf-clonee.png',       alt: 'Family Golf Clone' },
-  { src: '/images/portfolio/hotelbooking.png',             alt: 'Hotel Booking App' },
-  { src: '/images/portfolio/fanta-demo.png',               alt: 'Fanta Demo' },
-  { src: '/images/portfolio/mountain-explorer.png',        alt: 'Mountain Explorer' },
-  { src: '/images/portfolio/Animated-Monkey-Design.png',   alt: 'Animated Monkey Design' },
-  { src: '/images/portfolio/portfolio-website-demoo.png',  alt: 'Portfolio Website Demo' },
-  { src: '/images/portfolio/basic-simple-portfolio.png',   alt: 'Simple Portfolio' },
-  { src: '/images/portfolio/fitness-gym-design.png',       alt: 'Fitness Gym Design' },
-  { src: '/images/portfolio/duo-studio-clonee.png',        alt: 'Duo Studio Clone' },
-  { src: '/images/portfolio/Apple-Vision-Pro-Clone.png',   alt: 'Apple Vision Pro Clone' },
-  { src: '/images/portfolio/D-Task.png',                   alt: 'D-Task App' },
-  { src: '/images/portfolio/basic-portfolio-designs.png',  alt: 'Basic Portfolio Designs' },
-  { src: '/images/portfolio/cubarto-clone.png',            alt: 'Cubarto Clone' },
+  { src: '/images/portfolio/NextWebsite.png',              alt: 'Next.js Website',             link: 'https://morden-portfolio.netlify.app/' },
+  { src: '/images/portfolio/interier-design-demo.png',     alt: 'Interior Design Demo',        link: 'https://interier-design-demo.netlify.app/' },
+  { src: '/images/portfolio/family-golf-clonee.png',       alt: 'Family Golf Clone',           link: 'https://family-golf-clonee.netlify.app/' },
+  { src: '/images/portfolio/cyberfiction-clonee.png',      alt: 'cyberfiction-clonee',         link: 'https://cyberfiction-clonee.netlify.app/' },
+  { src: '/images/portfolio/fanta-demo.png',               alt: 'Fanta Demo',                  link: 'https://fanta-demo.netlify.app/' },
+  { src: '/images/portfolio/mountain-explorer.png',        alt: 'Mountain Explorer',           link: 'https://mountain-explorer.netlify.app/' },
+  { src: '/images/portfolio/Animated-Monkey-Design.png',   alt: 'Animated Monkey Design',      link: 'https://animated-monkey.netlify.app/' },
+  { src: '/images/portfolio/portfolio-website-demoo.png',  alt: 'Portfolio Website Demo',      link: 'https://portfolio-website-demoo.netlify.app/' },
+  { src: '/images/portfolio/basic-simple-portfolio.png',   alt: 'Simple Portfolio',            link: 'https://basic-simple-portfolio.netlify.app/' },
+  { src: '/images/portfolio/fitness-gym-design.png',       alt: 'Fitness Gym Design',          link: 'https://fitness-gym-design.netlify.app/' },
+  { src: '/images/portfolio/duo-studio-clonee.png',        alt: 'Duo Studio Clone',            link: 'https://duo-studio-clonee.netlify.app/' },
+  { src: '/images/portfolio/Apple-Vision-Pro-Clone.png',   alt: 'Apple Vision Pro Clone',      link: 'https://apple-vision-pro-clone.vercel.app/' },
+  { src: '/images/portfolio/D-Task.png',                   alt: 'D-Task App',                  link: 'https://d-task-demo.netlify.app/' },
+  { src: '/images/portfolio/basic-portfolio-designs.png',  alt: 'Basic Portfolio Designs',     link: 'https://basic-portfolio-designs.netlify.app/' },
+  { src: '/images/portfolio/cubarto-clone.png',            alt: 'Cubarto Clone',               link: 'https://cubarto-clone.netlify.app/' },
 ]
 
 // Pre-calculate positions for the 15 images to look scattered over the canvas
@@ -47,6 +47,17 @@ const imageLayout = [
 export default function Portfolio() {
   const [constraints, setConstraints] = useState({ left: -2000, right: 2000, top: -1000, bottom: 1000 })
 
+  /* Desktop: mouse drag pans the scattered canvas. Touch: `pan-y` keeps
+     vertical page scroll while horizontal swipes explore the canvas. The old
+     enter/exit "explore mode" toggle is gone — the corner arrow is the clean
+     way out of the canvas to the next section. */
+  const [coarsePointer, setCoarsePointer] = useState(false)
+  const dragControls = useDragControls()
+
+  useEffect(() => {
+    setCoarsePointer(window.matchMedia('(pointer: coarse)').matches)
+  }, [])
+
   useEffect(() => {
     const updateConstraints = () => {
       const vw = window.innerWidth
@@ -67,7 +78,7 @@ export default function Portfolio() {
     <section
       id="portfolio"
       aria-labelledby="portfolio-heading"
-      className="relative bg-brand-white h-[100vh] w-full overflow-hidden touch-none"
+      className="relative bg-brand-white h-[100vh] w-full overflow-hidden"
     >
       {/* ── Fixed overlay header ────────────────────────────────────────────── */}
       <div className="absolute inset-0 pointer-events-none z-50 flex flex-col items-center justify-center">
@@ -96,9 +107,9 @@ export default function Portfolio() {
             </span>
             .
           </h2>
-          {/* Drag instruction */}
-          <p className="mt-4 text-brand-ink/60 font-medium tracking-wide animate-pulse bg-brand-white/80 px-4 py-2 rounded-full backdrop-blur-sm border border-brand-purple/10 pointer-events-auto select-none">
-            Click & Drag to explore
+          {/* Informational hint (non-interactive) */}
+          <p className="mt-4 font-sans text-body-sm uppercase tracking-widest text-brand-ink-muted select-none">
+            {coarsePointer ? 'Swipe to explore' : 'Click & Drag to explore'}
           </p>
         </motion.div>
       </div>
@@ -111,6 +122,10 @@ export default function Portfolio() {
         <motion.div
           className="absolute top-[-25vh] left-[-50vw] w-[300vw] h-[150vh] cursor-grab active:cursor-grabbing"
           drag
+          dragListener={false}
+          dragControls={dragControls}
+          onPointerDown={(e) => dragControls.start(e)}
+          style={{ touchAction: 'pan-y' }}
           dragConstraints={constraints}
           dragElastic={0.2}
           dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
@@ -121,7 +136,7 @@ export default function Portfolio() {
               <motion.div
                 key={image.src}
                 data-project="true"
-                className="absolute shadow-2xl rounded-2xl overflow-hidden hover:scale-105 hover:z-[60] transition-all duration-300 bg-brand-purple/5"
+                className="premium-image-card absolute shadow-2xl rounded-2xl overflow-hidden hover:scale-105 hover:z-[60] transition-all duration-300 bg-brand-purple/5"
                 style={{
                   top: layout.top,
                   left: layout.left,
@@ -133,12 +148,21 @@ export default function Portfolio() {
                 viewport={{ once: true, margin: "200px" }}
                 transition={{ duration: 0.6, delay: (i % 5) * 0.1, ease: 'easeOut' }}
               >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  draggable={false} // Crucial for framer-motion drag to work
-                  className="w-full h-auto object-cover pointer-events-none"
-                />
+                <a href={image.link} target="_blank" rel="noopener noreferrer" className="block w-full h-full cursor-pointer" onClick={(e) => {
+                  // Prevent link from opening if user is just dragging the canvas
+                  // A simple way is to check if a drag happened, but for now we just add the link.
+                  // If framer motion drag prevents click automatically, then we're good.
+                }}>
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    draggable={false} // Crucial for framer-motion drag to work
+                    loading="lazy"
+                    decoding="async"
+                    onLoad={(event) => event.currentTarget.classList.add('is-loaded')}
+                    className="lazy-image-reveal w-full h-auto object-cover pointer-events-none"
+                  />
+                </a>
               </motion.div>
             )
           })}
@@ -153,6 +177,41 @@ export default function Portfolio() {
           background: 'linear-gradient(to right, transparent, #EAE3F1, transparent)',
         }}
       />
+
+      {/* Down arrow (touch devices only) → jump out of the canvas to the next
+          section. Desktop uses mouse click-and-drag, so the shortcut is hidden
+          there. `coarsePointer` starts false, so it only appears post-mount on
+          touch devices. */}
+      {coarsePointer && (
+        <motion.button
+          type="button"
+          onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
+          aria-label="Go to SaaS products section"
+          className="group absolute bottom-6 right-6 md:bottom-8 md:right-8 z-50 flex flex-col items-center gap-2 select-none cursor-pointer"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <motion.span
+            className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-purple text-white shadow-lg"
+            whileTap={{ scale: 0.95 }}
+            animate={{ y: [0, 6, 0] }}
+            transition={{ y: { repeat: Infinity, duration: 1.6, ease: 'easeInOut' } }}
+          >
+            <span className="flex items-center justify-center w-9 h-9 rounded-full bg-white shrink-0 overflow-hidden">
+              <img
+                src="/gif/arrow-static.png"
+                alt=""
+                width={24}
+                height={24}
+                draggable={false}
+                className="w-6 h-6 rotate-90 object-contain"
+              />
+            </span>
+          </motion.span>
+        </motion.button>
+      )}
     </section>
   )
 }

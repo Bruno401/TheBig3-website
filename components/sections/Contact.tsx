@@ -130,8 +130,47 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
     company: '', description: '', services: [], budget: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sendError, setSendError] = useState('')
   const [introDone, setIntroDone] = useState(false)
   const greeting = useRef(getGreeting())
+
+  // Sends the form through Web3Forms (client-side, no backend needed — works
+  // on the static Hostinger deploy). The access key is public by design: it
+  // can only submit this form to the inbox the key was generated for; the
+  // destination cannot be changed from the browser. The visitor's `email`
+  // field becomes the Reply-To of the delivered mail.
+  const handleSubmit = async (formType: 'say-hi' | 'project') => {
+    if (sending) return
+    setSending(true)
+    setSendError('')
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? '',
+          subject: `${formType === 'say-hi' ? 'Say Hi' : 'New Project'} enquiry from ${form.name} — thebig3.in`,
+          from_name: 'The Big3 Website',
+          form_type: formType === 'say-hi' ? 'Say Hi' : 'Start a Project',
+          name: form.name,
+          email: form.email,
+          phone: form.phone || '—',
+          company: form.company || '—',
+          services: form.services.length > 0 ? form.services.join(', ') : '—',
+          budget: form.budget || '—',
+          message: formType === 'say-hi' ? form.message : form.description,
+        }),
+      })
+      const data = await res.json()
+      if (!data.success) throw new Error(data.message)
+      setSubmitted(true)
+    } catch {
+      setSendError('Something went wrong sending your message. Please try again, or email us at info@thebig3.in')
+    } finally {
+      setSending(false)
+    }
+  }
 
   useEffect(() => {
     setIntroDone(false)
@@ -140,7 +179,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
     return () => clearTimeout(t)
   }, [step, isOpen])
 
-  const go = (next: Step, direction = 1) => { setIntroDone(false); setDir(direction); setStep(next) }
+  const go = (next: Step, direction = 1) => { setIntroDone(false); setSendError(''); setDir(direction); setStep(next) }
 
   const toggleService = (s: string) =>
     setForm(f => ({
@@ -148,9 +187,14 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
       services: f.services.includes(s) ? f.services.filter(x => x !== s) : [...f.services, s],
     }))
 
+  const isNameValid = form.name.trim().length >= 2
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+  const isSayHiValid = isNameValid && isEmailValid && form.message.trim().length >= 10
+  const isProjectFormValid = isNameValid && isEmailValid && form.description.trim().length >= 10
+
   const handleClose = () => {
     onClose()
-    setTimeout(() => { setIntroDone(false); setStep('landing'); setSubmitted(false) }, 400)
+    setTimeout(() => { setIntroDone(false); setStep('landing'); setSubmitted(false); setSendError('') }, 400)
   }
 
   const inputCls = 'w-full bg-brand-white border border-brand-border rounded-xl px-4 py-3 font-sans text-brand-ink placeholder:text-brand-ink-muted/50 text-body-lg focus:outline-none focus:ring-2 focus:ring-brand-purple/60 transition shadow-sm'
@@ -263,14 +307,14 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                   className="overflow-hidden flex flex-col gap-3 w-full max-w-md mx-auto"
                 >
                   <input className={inputCls} placeholder="Full Name"
-                    value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+                    value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value.replace(/[^a-zA-Z\s]/g, '') }))} />
                   <div className="grid grid-cols-2 gap-3">
                     <input className={inputCls} placeholder="Email" type="email"
                       value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
                     <input className={inputCls} placeholder="Phone" type="tel"
-                      value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
+                      value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value.replace(/[^\d\s+]/g, '') }))} />
                   </div>
-                  <textarea className={cn(inputCls, 'min-h-[100px] resize-none')} placeholder="Message"
+                  <textarea className={cn(inputCls, 'min-h-[100px] resize-none')} placeholder="Message" maxLength={2000}
                     value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
                 </motion.div>
               </motion.div>
@@ -404,17 +448,17 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 >
                   <div className="grid grid-cols-2 gap-3">
                     <input className={inputCls} placeholder="Full Name"
-                      value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+                      value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value.replace(/[^a-zA-Z\s]/g, '') }))} />
                     <input className={inputCls} placeholder="Email" type="email"
                       value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <input className={inputCls} placeholder="Company"
+                    <input className={inputCls} placeholder="Company" maxLength={100}
                       value={form.company} onChange={e => setForm(f => ({ ...f, company: e.target.value }))} />
                     <input className={inputCls} placeholder="Phone" type="tel"
-                      value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
+                      value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value.replace(/[^\d\s+]/g, '') }))} />
                   </div>
-                  <textarea className={cn(inputCls, 'min-h-[100px] resize-none')} placeholder="Project Description"
+                  <textarea className={cn(inputCls, 'min-h-[100px] resize-none')} placeholder="Project Description" maxLength={2000}
                     value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} />
                 </motion.div>
               </motion.div>
@@ -455,6 +499,21 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
           </AnimatePresence>
         </div>
 
+        {/* Send failure notice */}
+        <AnimatePresence>
+          {sendError && !submitted && (
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              className="absolute bottom-[5.5rem] left-8 right-8 z-50 text-center font-sans text-body-sm text-red-600"
+              role="alert"
+            >
+              {sendError}
+            </motion.p>
+          )}
+        </AnimatePresence>
+
         {/* Fixed navigation buttons */}
         <AnimatePresence>
           {step !== 'landing' && !submitted && introDone && (
@@ -465,7 +524,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="absolute bottom-6 left-8 md:left-16 z-50"
             >
-              {step === 'say-hi' && (
+              {step === 'say-hi' && !isSayHiValid && (
                 <PillButton
                   label="Go back"
                   variant="light"
@@ -477,7 +536,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                   onClick={() => go('landing', -1)}
                 />
               )}
-              {step === 'project-services' && (
+              {step === 'project-services' && form.services.length === 0 && (
                 <PillButton
                   label="Go back"
                   variant="light"
@@ -489,7 +548,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                   onClick={() => go('landing', -1)}
                 />
               )}
-              {step === 'project-budget' && (
+              {step === 'project-budget' && form.budget === '' && (
                 <PillButton
                   label="Go back"
                   variant="light"
@@ -501,7 +560,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                   onClick={() => go('project-services', -1)}
                 />
               )}
-              {step === 'project-form' && (
+              {step === 'project-form' && !isProjectFormValid && (
                 <PillButton
                   label="Go back"
                   variant="light"
@@ -525,17 +584,17 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="absolute bottom-6 right-8 md:right-16 z-50"
             >
-              {step === 'say-hi' && (
+              {step === 'say-hi' && isSayHiValid && (
                 <PillButton
-                  label="Submit"
+                  label={sending ? 'Sending…' : 'Submit'}
                   variant="purple"
                   staticSrc="/gif/approval-static.png"
                   gifSrc="/gif/approval.gif"
                   soundHover={true}
-                  onClick={() => setSubmitted(true)}
+                  onClick={() => handleSubmit('say-hi')}
                 />
               )}
-              {step === 'project-services' && (
+              {step === 'project-services' && form.services.length > 0 && (
                 <PillButton
                   label="Continue"
                   variant="light"
@@ -545,7 +604,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                   onClick={() => go('project-budget')}
                 />
               )}
-              {step === 'project-budget' && (
+              {step === 'project-budget' && form.budget !== '' && (
                 <PillButton
                   label="Continue"
                   variant="light"
@@ -555,14 +614,14 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                   onClick={() => go('project-form')}
                 />
               )}
-              {step === 'project-form' && (
+              {step === 'project-form' && isProjectFormValid && (
                 <PillButton
-                  label="Submit"
+                  label={sending ? 'Sending…' : 'Submit'}
                   variant="purple"
                   staticSrc="/gif/approval-static.png"
                   gifSrc="/gif/approval.gif"
                   soundHover={true}
-                  onClick={() => setSubmitted(true)}
+                  onClick={() => handleSubmit('project')}
                 />
               )}
             </motion.div>
@@ -604,7 +663,7 @@ export function PillButton({ href, onClick, label, variant, staticSrc, gifSrc, i
   const iconEl = (
     <motion.div
       className={cn(
-        'flex items-center justify-center w-10 h-10 rounded-full shrink-0',
+        'flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full shrink-0',
         variant === 'purple' ? 'bg-white' : 'bg-brand-white',
       )}
       whileHover={{ scale: 1.1 }}
@@ -615,7 +674,7 @@ export function PillButton({ href, onClick, label, variant, staticSrc, gifSrc, i
         alt=""
         width={25}
         height={25}
-        className={cn("object-contain", mirrorIcon && "scale-x-[-1]")}
+        className={cn("w-5 h-5 md:w-6 md:h-6 object-contain", mirrorIcon && "scale-x-[-1]")}
         unoptimized
       />
     </motion.div>
@@ -627,9 +686,9 @@ export function PillButton({ href, onClick, label, variant, staticSrc, gifSrc, i
       aria-label={label}
       data-sound-hover={soundHover ? "pop" : undefined}
       className={cn(
-        'flex items-center gap-4 py-2.5 rounded-full cursor-pointer select-none',
-        iconLeft ? 'pl-2.5 pr-6' : 'pl-6 pr-2.5',
-        'font-sans font-semibold text-[17.5px] uppercase tracking-wider',
+        'flex items-center gap-2 md:gap-4 py-2 md:py-2.5 rounded-full cursor-pointer select-none',
+        iconLeft ? 'pl-2 md:pl-2.5 pr-4 md:pr-6' : 'pl-4 md:pl-6 pr-2 md:pr-2.5',
+        'font-sans font-semibold text-[14px] md:text-[17.5px] uppercase tracking-wider',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple/50',
         variant === 'purple' ? 'bg-brand-purple text-white' : 'bg-brand-border text-brand-ink',
       )}
