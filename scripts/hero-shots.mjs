@@ -36,7 +36,7 @@ for (const device of DEVICES) {
 
   // capture exactly one viewport — what the user sees without scrolling
   await page.screenshot({
-    path: `${OUT_DIR}/${device.name}.png`,
+    path: `${OUT_DIR}/${device.name}.webp`,
     clip: { x: 0, y: 0, width: device.width, height: device.height },
   })
 

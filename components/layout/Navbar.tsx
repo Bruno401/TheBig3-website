@@ -105,7 +105,7 @@ export default function Navbar() {
               transition={springTransition}
             >
               <Image
-                src={chatState.playing ? `/gif/chat.gif?t=${chatState.key}` : '/gif/chat-static.png'}
+                src={chatState.playing ? `/gif/chat.gif?t=${chatState.key}` : '/gif/chat-static.webp'}
                 alt="Chat"
                 width={25}
                 height={25}
@@ -139,7 +139,7 @@ export default function Navbar() {
               transition={springTransition}
             >
               <Image
-                src={menuState.playing ? `/gif/menu.gif?t=${menuState.key}` : '/gif/menu-static.png'}
+                src={menuState.playing ? `/gif/menu.gif?t=${menuState.key}` : '/gif/menu-static.webp'}
                 alt="Menu"
                 width={22}
                 height={22}
@@ -169,7 +169,7 @@ export default function Navbar() {
           Menu
           <span className="flex items-center justify-center w-9 h-9 rounded-full bg-white">
             <Image
-              src={menuState.playing ? `/gif/menu.gif?t=${menuState.key}` : '/gif/menu-static.png'}
+              src={menuState.playing ? `/gif/menu.gif?t=${menuState.key}` : '/gif/menu-static.webp'}
               alt="Menu"
               width={20}
               height={20}
@@ -202,7 +202,6 @@ export default function Navbar() {
                   { href: '#services', label: 'Service' },
                   { href: '#portfolio', label: 'Portfolio' },
                   { href: '#products', label: 'Products' },
-                  { href: '#ai-automation', label: 'Ai Automation' },
                   { href: '#contact', label: 'Contact' },
                 ].map((link) => {
                   const isActive = activeSection === link.href.slice(1)

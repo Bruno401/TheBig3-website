@@ -238,11 +238,11 @@ the-big3/
 │   └── navigation.ts                 # NavLink, FooterLink
 │
 ├── public/                           # Static assets (served at root /)
-│   ├── character.png                 # Brand mascot (2× resolution, transparent BG)
+│   ├── character.webp                 # Brand mascot (2× resolution, transparent BG)
 │   ├── logo.svg                      # Company logo (converted from .ai)
 │   ├── favicon.ico                   # Browser tab icon
-│   ├── apple-touch-icon.png          # iOS home screen icon (180×180)
-│   ├── og-image.png                  # Open Graph social preview (1200×630)
+│   ├── apple-touch-icon.webp          # iOS home screen icon (180×180)
+│   ├── og-image.webp                  # Open Graph social preview (1200×630)
 │   └── images/
 │       └── portfolio/                # Project screenshots (WebP preferred)
 │           ├── project-1.webp
@@ -841,7 +841,7 @@ const buttonVariants = cva(
 > like a bug, not a design choice. Before using it, export a version with a **transparent
 > background** (PNG with alpha) — either re-export from the source render, or run it
 > through a background remover (e.g. remove.bg, or Photoshop's Select Subject). Save the
-> transparent version as `public/character.png`.
+> transparent version as `public/character.webp`.
 
 The mascot uses a gentle floating animation defined globally in `globals.css`. A soft
 shadow is added beneath it so it feels grounded against the light background rather than
@@ -915,7 +915,7 @@ export const metadata: Metadata = {
       "Full-service digital agency. Websites, apps, software, and AI automation built to your exact requirements.",
     images: [
       {
-        url: "/og-image.png", // 1200×630 px — create this asset
+        url: "/og-image.webp", // 1200×630 px — create this asset
         width: 1200,
         height: 630,
         alt: "The Big 3 — Digital Agency",
@@ -926,7 +926,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Big 3 — Web, App & AI Automation Development",
     description: "Full-service digital agency in India.",
-    images: ["/og-image.png"],
+    images: ["/og-image.webp"],
     creator: "@thebig3", // Update with real handle
   },
   robots: {
@@ -1004,7 +1004,7 @@ const jsonLd = {
 
 ### SEO Checklist
 
-- [ ] OG image created at 1200×630 px and placed at `public/og-image.png`
+- [ ] OG image created at 1200×630 px and placed at `public/og-image.webp`
 - [ ] Favicon and apple-touch-icon added to `public/`
 - [ ] `<h1>` used exactly once per page (in Hero)
 - [ ] All images have `alt` text
@@ -1151,7 +1151,7 @@ import Image from "next/image";
 
 // In components/ui/CharacterImage.tsx
 <Image
-  src="/character.png"
+  src="/character.webp"
   alt="The Big 3 mascot — a 3D animated developer character"
   width={500}
   height={700}

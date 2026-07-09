@@ -30,7 +30,7 @@ const teamData: TeamMember[] = [
   {
     name: "Hardik Ghodasara",
     role: "AI Automation Specialist & CFO",
-    image: "images/hardik.png",
+    image: "images/hardik.webp",
     socials: {
       website: "#",
       linkedin: "https://www.linkedin.com/in/hardikghodasara/",
@@ -39,7 +39,7 @@ const teamData: TeamMember[] = [
   {
     name: "Meet Gadara",
     role: "Backend & Database Specialist & CMO",
-    image: "images/meet.png",
+    image: "images/meet.webp",
     socials: {
       website: "#",
       linkedin: "#",
@@ -48,7 +48,7 @@ const teamData: TeamMember[] = [
   {
     name: "Karan Kalavadiya",
     role: "Full Stack Devloper & Security Auditor & CTO",
-    image: "images/karan.png",
+    image: "images/karan.webp",
     socials: {
       website: "#",
       linkedin: "#",

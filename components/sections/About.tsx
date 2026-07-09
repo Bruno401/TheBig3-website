@@ -83,7 +83,7 @@ export default function About() {
                       transition={springTransition}
                     >
                       <Image
-                        src={arrowState.playing ? `/gif/arrow.gif?t=${arrowState.key}` : '/gif/arrow-static.png'}
+                        src={arrowState.playing ? `/gif/arrow.gif?t=${arrowState.key}` : '/gif/arrow-static.webp'}
                         alt="Arrow"
                         width={12}
                         height={12}

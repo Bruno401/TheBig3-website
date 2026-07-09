@@ -155,14 +155,14 @@ function AnimatedHero() {
                 href="tel:+919016856450"
                 label="Jump on a call "
                 variant="purple"
-                staticSrc="/gif/call-static.png"
+                staticSrc="/gif/call-static.webp"
                 gifSrc="/gif/call.gif"
               />
               <HeroPill
                 href="#portfolio"
                 label="See our work"
                 variant="light"
-                staticSrc="/gif/arrow-static.png"
+                staticSrc="/gif/arrow-static.webp"
                 gifSrc="/gif/arrow.gif"
               />
             </div>
@@ -175,7 +175,7 @@ function AnimatedHero() {
                 at the left so the floating cards fit on the right. */}
             <div className="relative aspect-[4/5] overflow-hidden lg:aspect-[6/7]">
               <video
-                src="/video/Hero_video.mp4"
+                src="/video/Hero_video.webm"
                 autoPlay
                 loop
                 muted

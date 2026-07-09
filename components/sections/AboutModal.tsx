@@ -79,7 +79,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 {/* Banner Image */}
                 <div className="w-full relative aspect-[16/9] md:aspect-[21/9] rounded-2xl md:rounded-[2rem] overflow-hidden mb-20 md:mb-32 bg-brand-border/30">
                   <Image 
-                    src="/images/about-banner.png" 
+                    src="/images/about-banner.webp" 
                     alt="About The Big 3" 
                     fill 
                     className="object-cover"
@@ -169,7 +169,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
                           }}
                           label="Contact Us"
                           variant="light"
-                          staticSrc="/gif/form-static.png"
+                          staticSrc="/gif/form-static.webp"
                           gifSrc="/gif/form.gif"
                         />
                       </>

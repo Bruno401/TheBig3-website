@@ -550,7 +550,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 <PillButton
                   label="Go back"
                   variant="light"
-                  staticSrc="/gif/arrow-static.png"
+                  staticSrc="/gif/arrow-static.webp"
                   gifSrc="/gif/arrow.gif"
                   iconLeft={true}
                   mirrorIcon={true}
@@ -562,7 +562,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 <PillButton
                   label="Go back"
                   variant="light"
-                  staticSrc="/gif/arrow-static.png"
+                  staticSrc="/gif/arrow-static.webp"
                   gifSrc="/gif/arrow.gif"
                   iconLeft={true}
                   mirrorIcon={true}
@@ -574,7 +574,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 <PillButton
                   label="Go back"
                   variant="light"
-                  staticSrc="/gif/arrow-static.png"
+                  staticSrc="/gif/arrow-static.webp"
                   gifSrc="/gif/arrow.gif"
                   iconLeft={true}
                   mirrorIcon={true}
@@ -586,7 +586,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 <PillButton
                   label="Go back"
                   variant="light"
-                  staticSrc="/gif/arrow-static.png"
+                  staticSrc="/gif/arrow-static.webp"
                   gifSrc="/gif/arrow.gif"
                   iconLeft={true}
                   mirrorIcon={true}
@@ -610,7 +610,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 <PillButton
                   label={sending ? 'Sending…' : 'Submit'}
                   variant="purple"
-                  staticSrc="/gif/approval-static.png"
+                  staticSrc="/gif/approval-static.webp"
                   gifSrc="/gif/approval.gif"
                   soundHover={true}
                   onClick={() => handleSubmit('say-hi')}
@@ -620,7 +620,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 <PillButton
                   label="Continue"
                   variant="light"
-                  staticSrc="/gif/arrow-static.png"
+                  staticSrc="/gif/arrow-static.webp"
                   gifSrc="/gif/arrow.gif"
                   soundHover={true}
                   onClick={() => go('project-budget')}
@@ -630,7 +630,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 <PillButton
                   label="Continue"
                   variant="light"
-                  staticSrc="/gif/arrow-static.png"
+                  staticSrc="/gif/arrow-static.webp"
                   gifSrc="/gif/arrow.gif"
                   soundHover={true}
                   onClick={() => go('project-form')}
@@ -640,7 +640,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 <PillButton
                   label={sending ? 'Sending…' : 'Submit'}
                   variant="purple"
-                  staticSrc="/gif/approval-static.png"
+                  staticSrc="/gif/approval-static.webp"
                   gifSrc="/gif/approval.gif"
                   soundHover={true}
                   onClick={() => handleSubmit('project')}
@@ -773,14 +773,14 @@ function ContactCopy({
           onClick={(e) => { e.preventDefault(); onOpenBooking() }}
           label="Book a Meeting"
           variant="purple"
-          staticSrc="/gif/meeting-static.png"
+          staticSrc="/gif/meeting-static.webp"
           gifSrc="/gif/meeting.gif"
         />
         <PillButton
           onClick={(e) => { e.preventDefault(); onOpenContact() }}
           label="Contact Us"
           variant="light"
-          staticSrc="/gif/form-static.png"
+          staticSrc="/gif/form-static.webp"
           gifSrc="/gif/form.gif"
         />
       </motion.div>
@@ -807,7 +807,7 @@ export default function Contact() {
       {/* ── Desktop / Tablet (md+) ── */}
       <div className="relative hidden h-[90svh] min-h-[46rem] max-h-[62rem] md:block">
         <Image
-          src="/images/conatct_pc.png"
+          src="/images/conatct_pc.webp"
           alt="The Big 3 mascot sitting on a bench among lavender flowers"
           fill
           sizes="100vw"
@@ -830,7 +830,7 @@ export default function Contact() {
       {/* ── Mobile (<md) ── */}
       <div className="relative mx-auto aspect-[862/1824] w-full max-w-[47.9rem] md:hidden">
         <Image
-          src="/images/contact_mobile.png"
+          src="/images/contact_mobile.webp"
           alt="The Big 3 mascot sitting with a notebook among lavender flowers"
           fill
           sizes="100vw"

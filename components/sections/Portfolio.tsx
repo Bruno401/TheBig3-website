@@ -6,21 +6,21 @@ import { motion, useDragControls } from 'framer-motion'
 /* ─── All local portfolio PNG images ─────────────────────────────────────── */
 
 const portfolioImages = [
-  { src: '/images/portfolio/NextWebsite.png',              alt: 'Next.js Website',             link: 'https://morden-portfolio.netlify.app/' },
-  { src: '/images/portfolio/interier-design-demo.png',     alt: 'Interior Design Demo',        link: 'https://interier-design-demo.netlify.app/' },
-  { src: '/images/portfolio/family-golf-clonee.png',       alt: 'Family Golf Clone',           link: 'https://family-golf-clonee.netlify.app/' },
-  { src: '/images/portfolio/cyberfiction-clonee.png',      alt: 'cyberfiction-clonee',         link: 'https://cyberfiction-clonee.netlify.app/' },
-  { src: '/images/portfolio/fanta-demo.png',               alt: 'Fanta Demo',                  link: 'https://fanta-demo.netlify.app/' },
-  { src: '/images/portfolio/mountain-explorer.png',        alt: 'Mountain Explorer',           link: 'https://mountain-explorer.netlify.app/' },
-  { src: '/images/portfolio/Animated-Monkey-Design.png',   alt: 'Animated Monkey Design',      link: 'https://animated-monkey.netlify.app/' },
-  { src: '/images/portfolio/portfolio-website-demoo.png',  alt: 'Portfolio Website Demo',      link: 'https://portfolio-website-demoo.netlify.app/' },
-  { src: '/images/portfolio/basic-simple-portfolio.png',   alt: 'Simple Portfolio',            link: 'https://basic-simple-portfolio.netlify.app/' },
-  { src: '/images/portfolio/fitness-gym-design.png',       alt: 'Fitness Gym Design',          link: 'https://fitness-gym-design.netlify.app/' },
-  { src: '/images/portfolio/duo-studio-clonee.png',        alt: 'Duo Studio Clone',            link: 'https://duo-studio-clonee.netlify.app/' },
-  { src: '/images/portfolio/Apple-Vision-Pro-Clone.png',   alt: 'Apple Vision Pro Clone',      link: 'https://apple-vision-pro-clone.vercel.app/' },
-  { src: '/images/portfolio/D-Task.png',                   alt: 'D-Task App',                  link: 'https://d-task-demo.netlify.app/' },
-  { src: '/images/portfolio/basic-portfolio-designs.png',  alt: 'Basic Portfolio Designs',     link: 'https://basic-portfolio-designs.netlify.app/' },
-  { src: '/images/portfolio/cubarto-clone.png',            alt: 'Cubarto Clone',               link: 'https://cubarto-clone.netlify.app/' },
+  { src: '/images/portfolio/NextWebsite.webp',              alt: 'Next.js Website',             link: 'https://morden-portfolio.netlify.app/' },
+  { src: '/images/portfolio/interier-design-demo.webp',     alt: 'Interior Design Demo',        link: 'https://interier-design-demo.netlify.app/' },
+  { src: '/images/portfolio/family-golf-clonee.webp',       alt: 'Family Golf Clone',           link: 'https://family-golf-clonee.netlify.app/' },
+  { src: '/images/portfolio/cyberfiction-clonee.webp',      alt: 'cyberfiction-clonee',         link: 'https://cyberfiction-clonee.netlify.app/' },
+  { src: '/images/portfolio/fanta-demo.webp',               alt: 'Fanta Demo',                  link: 'https://fanta-demo.netlify.app/' },
+  { src: '/images/portfolio/mountain-explorer.webp',        alt: 'Mountain Explorer',           link: 'https://mountain-explorer.netlify.app/' },
+  { src: '/images/portfolio/Animated-Monkey-Design.webp',   alt: 'Animated Monkey Design',      link: 'https://animated-monkey.netlify.app/' },
+  { src: '/images/portfolio/portfolio-website-demoo.webp',  alt: 'Portfolio Website Demo',      link: 'https://portfolio-website-demoo.netlify.app/' },
+  { src: '/images/portfolio/basic-simple-portfolio.webp',   alt: 'Simple Portfolio',            link: 'https://basic-simple-portfolio.netlify.app/' },
+  { src: '/images/portfolio/fitness-gym-design.webp',       alt: 'Fitness Gym Design',          link: 'https://fitness-gym-design.netlify.app/' },
+  { src: '/images/portfolio/duo-studio-clonee.webp',        alt: 'Duo Studio Clone',            link: 'https://duo-studio-clonee.netlify.app/' },
+  { src: '/images/portfolio/Apple-Vision-Pro-Clone.webp',   alt: 'Apple Vision Pro Clone',      link: 'https://apple-vision-pro-clone.vercel.app/' },
+  { src: '/images/portfolio/D-Task.webp',                   alt: 'D-Task App',                  link: 'https://d-task-demo.netlify.app/' },
+  { src: '/images/portfolio/basic-portfolio-designs.webp',  alt: 'Basic Portfolio Designs',     link: 'https://basic-portfolio-designs.netlify.app/' },
+  { src: '/images/portfolio/cubarto-clone.webp',            alt: 'Cubarto Clone',               link: 'https://cubarto-clone.netlify.app/' },
 ]
 
 // Pre-calculate positions for the 15 images to look scattered over the canvas
@@ -159,8 +159,7 @@ export default function Portfolio() {
                     draggable={false} // Crucial for framer-motion drag to work
                     loading="lazy"
                     decoding="async"
-                    onLoad={(event) => event.currentTarget.classList.add('is-loaded')}
-                    className="lazy-image-reveal w-full h-auto object-cover pointer-events-none"
+                    className="w-full h-auto object-cover pointer-events-none"
                   />
                 </a>
               </motion.div>
@@ -201,7 +200,7 @@ export default function Portfolio() {
           >
             <span className="flex items-center justify-center w-9 h-9 rounded-full bg-white shrink-0 overflow-hidden">
               <img
-                src="/gif/arrow-static.png"
+                src="/gif/arrow-static.webp"
                 alt=""
                 width={24}
                 height={24}

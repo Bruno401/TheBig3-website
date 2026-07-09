@@ -138,12 +138,12 @@ export function GameCanvas({ rotated = false }: { rotated?: boolean }) {
           hearts row the scene draws at the top-left of the canvas. */}
       <div className="absolute top-2 left-[142px] z-20 flex items-center gap-2">
         <ArtButton
-          src={isPaused ? `${UI}/play.png` : `${UI}/pause.png`}
+          src={isPaused ? `${UI}/play.webp` : `${UI}/pause.webp`}
           label={isPaused ? 'Resume game' : 'Pause game'}
           onClick={() => (isPaused ? resumeGame() : pauseGame())}
         />
         <ArtButton
-          src={`${UI}/setting.png`}
+          src={`${UI}/setting.webp`}
           label="Audio settings"
           pressed={settingsOpen}
           onClick={() => setSettingsOpen((o) => !o)}

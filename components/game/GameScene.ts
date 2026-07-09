@@ -4,6 +4,14 @@ const A = '/images/game_assets'
 const BASE_SPEED = 300
 const MAX_SPEED = 680
 
+// Design-reference canvas that every absolute pixel size in this file was
+// tuned on (the desktop footer card). Smaller canvases — phones, tablets —
+// scale all world sizes, speeds and physics by `k` so the game keeps these
+// proportions instead of the player/obstacles towering over a short screen.
+const REF_W = 1350
+const REF_H = 630
+const MIN_SCALE = 0.45
+
 // The world has two ground surfaces:
 //   • Front lane  – the clean stone-grass strip the player runs on. No decor.
 //   • Back terrace – a second surface raised behind the lane, carrying ALL the
@@ -15,29 +23,29 @@ const BACK_PARALLAX = 0.72
 // obstacle set (log stump, flowering cactus, drone) so players never mistake
 // decoration for a hazard.
 //
-// *_trim.png = source art cropped to its visible alpha bounds. The raw source
+// *_trim.webp = source art cropped to its visible alpha bounds. The raw source
 // PNGs carry 5-30% of transparent padding (mostly at the bottom), so bottom-
 // anchoring the untrimmed art left every plant/rock hovering above the grass
 // line instead of standing on it.
 const SMALL_DECOR = [
-  { key: 'dec-grass-1', file: 'grass_small_1_trim.png', hMin: 26, hMax: 40, weight: 4 },
-  { key: 'dec-grass-2', file: 'grass_small_2_trim.png', hMin: 26, hMax: 40, weight: 4 },
-  { key: 'dec-grass-3', file: 'grass_small_3_trim.png', hMin: 26, hMax: 40, weight: 4 },
-  { key: 'dec-grass-med', file: 'grass_medium_1_trim.png', hMin: 34, hMax: 48, weight: 3 },
-  { key: 'dec-grass-flower-1', file: 'grass_with_flower_1_trim.png', hMin: 36, hMax: 52, weight: 3 },
-  { key: 'dec-grass-flower-2', file: 'grass_with_flower_2_trim.png', hMin: 36, hMax: 52, weight: 3 },
-  { key: 'dec-flower-1', file: 'flower_1_trim.png', hMin: 30, hMax: 44, weight: 2 },
-  { key: 'dec-flower-2', file: 'flower_2_trim.png', hMin: 36, hMax: 54, weight: 2 },
-  { key: 'dec-flower-3', file: 'flower_5_trim.png', hMin: 30, hMax: 44, weight: 2 },
-  { key: 'dec-bush-purple-1', file: 'flower_bush_purple_1_trim.png', hMin: 46, hMax: 66, weight: 2 },
-  { key: 'dec-bush-purple-2', file: 'flower_bush_purple_2_trim.png', hMin: 46, hMax: 66, weight: 2 },
-  { key: 'dec-bush-green', file: 'flower_bush_green_trim.png', hMin: 42, hMax: 58, weight: 2 },
-  { key: 'dec-rock-1', file: 'rocks_small_1_trim.png', hMin: 24, hMax: 38, weight: 2 },
-  { key: 'dec-rock-2', file: 'rocks_small_2_trim.png', hMin: 24, hMax: 38, weight: 2 },
+  { key: 'dec-grass-1', file: 'grass_small_1_trim.webp', hMin: 26, hMax: 40, weight: 4 },
+  { key: 'dec-grass-2', file: 'grass_small_2_trim.webp', hMin: 26, hMax: 40, weight: 4 },
+  { key: 'dec-grass-3', file: 'grass_small_3_trim.webp', hMin: 26, hMax: 40, weight: 4 },
+  { key: 'dec-grass-med', file: 'grass_medium_1_trim.webp', hMin: 34, hMax: 48, weight: 3 },
+  { key: 'dec-grass-flower-1', file: 'grass_with_flower_1_trim.webp', hMin: 36, hMax: 52, weight: 3 },
+  { key: 'dec-grass-flower-2', file: 'grass_with_flower_2_trim.webp', hMin: 36, hMax: 52, weight: 3 },
+  { key: 'dec-flower-1', file: 'flower_1_trim.webp', hMin: 30, hMax: 44, weight: 2 },
+  { key: 'dec-flower-2', file: 'flower_2_trim.webp', hMin: 36, hMax: 54, weight: 2 },
+  { key: 'dec-flower-3', file: 'flower_5_trim.webp', hMin: 30, hMax: 44, weight: 2 },
+  { key: 'dec-bush-purple-1', file: 'flower_bush_purple_1_trim.webp', hMin: 46, hMax: 66, weight: 2 },
+  { key: 'dec-bush-purple-2', file: 'flower_bush_purple_2_trim.webp', hMin: 46, hMax: 66, weight: 2 },
+  { key: 'dec-bush-green', file: 'flower_bush_green_trim.webp', hMin: 42, hMax: 58, weight: 2 },
+  { key: 'dec-rock-1', file: 'rocks_small_1_trim.webp', hMin: 24, hMax: 38, weight: 2 },
+  { key: 'dec-rock-2', file: 'rocks_small_2_trim.webp', hMin: 24, hMax: 38, weight: 2 },
 ]
 const TREE_DECOR = [
-  { key: 'dec-tree-large', file: 'tree_large_trim.png', hMin: 250, hMax: 310 },
-  { key: 'dec-tree-medium', file: 'tree_medium_trim.png', hMin: 190, hMax: 240 },
+  { key: 'dec-tree-large', file: 'tree_large_trim.webp', hMin: 250, hMax: 310 },
+  { key: 'dec-tree-medium', file: 'tree_medium_trim.webp', hMin: 190, hMax: 240 },
 ]
 
 export class GameScene extends Phaser.Scene {
@@ -64,6 +72,8 @@ export class GameScene extends Phaser.Scene {
 
   // State
   private groundY = 0
+  // Device scale factor: 1 on the reference desktop canvas, ~0.45–0.6 on phones
+  private k = 1
   private gameSpeed = BASE_SPEED
   private distScore = 0
   private gemScore = 0
@@ -90,15 +100,15 @@ export class GameScene extends Phaser.Scene {
     // far_back_pair.webp = far_back-1 + far_back-2 stitched into one seamless
     // strip, so tiling shows the two artworks alternating endlessly.
     this.load.image('bg-far', `${A}/background_layer/far_back_pair.webp`)
-    this.load.image('ground-block', `${A}/environment/stone_grass_horizontal_platform_1.png`)
-    this.load.image('player', `${A}/ui/player_profile_pic.png`)
-    this.load.image('cactus', `${A}/obstacles/obstacles_cactus.png`)
-    this.load.image('drone', `${A}/obstacles/obstacles_drone.png`)
-    this.load.image('tree-obs', `${A}/obstacles/obstacles_tree.png`)
-    this.load.image('coin', `${A}/collectibles/collectibles_coin.png`)
-    this.load.image('crystal', `${A}/collectibles/collectibles_stone.png`)
-    this.load.image('heart', `${A}/ui/heart_big.png`)
-    this.load.image('star', `${A}/effects/effects_golden_star.png`)
+    this.load.image('ground-block', `${A}/environment/stone_grass_horizontal_platform_1.webp`)
+    this.load.image('player', `${A}/ui/player_profile_pic.webp`)
+    this.load.image('cactus', `${A}/obstacles/obstacles_cactus.webp`)
+    this.load.image('drone', `${A}/obstacles/obstacles_drone.webp`)
+    this.load.image('tree-obs', `${A}/obstacles/obstacles_tree.webp`)
+    this.load.image('coin', `${A}/collectibles/collectibles_coin.webp`)
+    this.load.image('crystal', `${A}/collectibles/collectibles_stone.webp`)
+    this.load.image('heart', `${A}/ui/heart_big.webp`)
+    this.load.image('star', `${A}/effects/effects_golden_star.webp`)
 
     this.load.audio('bgm', `${A}/audio/game.mp3`)
     this.load.audio('sfx-jump', `${A}/audio/jump.wav`)
@@ -114,8 +124,11 @@ export class GameScene extends Phaser.Scene {
     const W = this.scale.width
     const H = this.scale.height
 
+    this.k = Phaser.Math.Clamp(Math.min(W / REF_W, H / REF_H), MIN_SCALE, 1)
+    const k = this.k
+
     // Reset all mutable state (scene.restart() calls create again)
-    this.gameSpeed = BASE_SPEED
+    this.gameSpeed = BASE_SPEED * k
     this.distScore = 0
     this.gemScore = 0
     this.lives = 3
@@ -135,7 +148,7 @@ export class GameScene extends Phaser.Scene {
     // Front play line sits at 80% height (closer camera, like the reference).
     // The back terrace is raised ~70px above it to form a decorated ledge.
     this.groundY = Math.round(H * 0.8)
-    this.backGroundY = this.groundY - 70
+    this.backGroundY = this.groundY - Math.round(70 * k)
 
     // --- Background ---
     // Far sky panorama stretched to cover the whole canvas. The texture holds
@@ -153,7 +166,7 @@ export class GameScene extends Phaser.Scene {
     let decorX = 30
     while (decorX < W) {
       this.spawnSmallDecor(decorX)
-      decorX += Phaser.Math.Between(70, 150)
+      decorX += Phaser.Math.Between(70, 150) * k
     }
     this.spawnTreeDecor(W * Phaser.Math.FloatBetween(0.15, 0.3))
     this.spawnTreeDecor(W * Phaser.Math.FloatBetween(0.65, 0.85))
@@ -164,7 +177,7 @@ export class GameScene extends Phaser.Scene {
     // --- Invisible ground physics platform ---
     // Sits ~8px below groundY so the player's feet plant into the visible
     // stone-grass surface instead of hovering above it.
-    this.groundBody = this.add.rectangle(W / 2, this.groundY + 12, W, 8, 0x000000, 0)
+    this.groundBody = this.add.rectangle(W / 2, this.groundY + Math.round(12 * k), W, 8, 0x000000, 0)
     this.physics.add.existing(this.groundBody, true)
 
     // --- Obstacle & crystal groups ---
@@ -172,15 +185,15 @@ export class GameScene extends Phaser.Scene {
     this.crystals = this.physics.add.group()
 
     // --- Player (profile pic as character) ---
-    const playerDisplayH = 126
+    const playerDisplayH = 126 * k
     const playerScale = playerDisplayH / 226 // native: 243×226
-    const playerY = this.groundY - playerDisplayH / 2 + 10
+    const playerY = this.groundY - playerDisplayH / 2 + 10 * k
 
-    this.player = this.physics.add.image(150, playerY, 'player')
+    this.player = this.physics.add.image(Math.round(150 * k), playerY, 'player')
     this.player.setScale(playerScale)
     this.player.setCollideWorldBounds(true)
-    ;(this.player.body as Phaser.Physics.Arcade.Body).setGravityY(950)
-    ;(this.player.body as Phaser.Physics.Arcade.Body).setMaxVelocityY(1100)
+    ;(this.player.body as Phaser.Physics.Arcade.Body).setGravityY(950 * k)
+    ;(this.player.body as Phaser.Physics.Arcade.Body).setMaxVelocityY(1100 * k)
     // Body in texture-space pixels (body_world = texPx * scale)
     this.player.setBodySize(200, 210, true)
     this.player.setDepth(5)
@@ -227,7 +240,7 @@ export class GameScene extends Phaser.Scene {
   // Front play surface. Blocks slightly overlap so the rounded left/right edges
   // tuck into each other and look continuous.
   private buildGround(W: number) {
-    const displayH = 170
+    const displayH = 170 * this.k
     const scale = displayH / this.GROUND_TEX_H
     const step = this.GROUND_TEX_W * scale * 0.88 // 12% overlap hides seams
     this.groundStep = step
@@ -249,7 +262,7 @@ export class GameScene extends Phaser.Scene {
   // an atmospheric-haze feel. Its lower body is hidden behind the front lane
   // (depth 3), leaving a decorated grass ledge peeking above the play line.
   private buildBackGround(W: number) {
-    const displayH = 138
+    const displayH = 138 * this.k
     const scale = displayH / this.GROUND_TEX_H
     const step = this.GROUND_TEX_W * scale * 0.88
     this.backStep = step
@@ -394,7 +407,7 @@ export class GameScene extends Phaser.Scene {
       delay: 7000,
       loop: true,
       callback: () => {
-        this.gameSpeed = Math.min(this.gameSpeed + 26, MAX_SPEED)
+        this.gameSpeed = Math.min(this.gameSpeed + 26 * this.k, MAX_SPEED * this.k)
       },
     })
   }
@@ -423,15 +436,15 @@ export class GameScene extends Phaser.Scene {
       r -= d.weight
       if (r <= 0) { pick = d; break }
     }
-    const h = Phaser.Math.Between(pick.hMin, pick.hMax)
+    const h = Phaser.Math.Between(pick.hMin, pick.hMax) * this.k
     // Bottom-anchored a few px into the terrace grass so stems look planted.
-    this.addDecorImage(pick.key, h, x, this.backGroundY + Phaser.Math.Between(2, 10))
+    this.addDecorImage(pick.key, h, x, this.backGroundY + Phaser.Math.Between(2, 10) * this.k)
   }
 
   private spawnTreeDecor(x: number) {
     const pick = TREE_DECOR[Math.random() < 0.6 ? 0 : 1]
-    const h = Phaser.Math.Between(pick.hMin, pick.hMax)
-    this.addDecorImage(pick.key, h, x, this.backGroundY + 14)
+    const h = Phaser.Math.Between(pick.hMin, pick.hMax) * this.k
+    this.addDecorImage(pick.key, h, x, this.backGroundY + 14 * this.k)
   }
 
   private queueDecor() {
@@ -470,24 +483,25 @@ export class GameScene extends Phaser.Scene {
   private spawnObstacle() {
     const W = this.scale.width
     const gY = this.groundY
+    const k = this.k
     const r = Math.random()
 
     let key: string, dispH: number, texH: number, texW: number, yPos: number, bodyFracW: number, bodyFracH: number
 
     if (r < 0.42) {
       // Cactus – ground obstacle
-      key = 'cactus'; texH = 520; texW = 432; dispH = 120
-      yPos = gY - dispH / 2 + 14
+      key = 'cactus'; texH = 520; texW = 432; dispH = 120 * k
+      yPos = gY - dispH / 2 + 14 * k
       bodyFracW = 0.38; bodyFracH = 0.78
     } else if (r < 0.68) {
       // Drone – aerial
-      key = 'drone'; texH = 388; texW = 548; dispH = 82
-      yPos = gY - Phaser.Math.Between(190, 280)
+      key = 'drone'; texH = 388; texW = 548; dispH = 82 * k
+      yPos = gY - Phaser.Math.Between(190, 280) * k
       bodyFracW = 0.65; bodyFracH = 0.55
     } else {
       // Log stump – taller ground obstacle
-      key = 'tree-obs'; texH = 487; texW = 512; dispH = 140
-      yPos = gY - dispH / 2 + 18
+      key = 'tree-obs'; texH = 487; texW = 512; dispH = 140 * k
+      yPos = gY - dispH / 2 + 18 * k
       bodyFracW = 0.42; bodyFracH = 0.82
     }
 
@@ -504,11 +518,11 @@ export class GameScene extends Phaser.Scene {
 
   private spawnGem() {
     const W = this.scale.width
-    const yPos = this.groundY - Phaser.Math.Between(90, 230)
+    const yPos = this.groundY - Phaser.Math.Between(90, 230) * this.k
     const key = Math.random() > 0.5 ? 'coin' : 'crystal'
     // coin: 148×217, crystal: 153×225
     const texH = key === 'coin' ? 217 : 225
-    const dispH = 60
+    const dispH = 60 * this.k
     const scale = dispH / texH
 
     const gem = this.crystals.create(W + 120, yPos, key) as Phaser.Physics.Arcade.Image
@@ -520,7 +534,7 @@ export class GameScene extends Phaser.Scene {
 
     this.tweens.add({
       targets: gem,
-      y: yPos - 20,
+      y: yPos - 20 * this.k,
       duration: 650,
       yoyo: true,
       repeat: -1,
@@ -540,7 +554,9 @@ export class GameScene extends Phaser.Scene {
     const body = this.player.body as Phaser.Physics.Arcade.Body
 
     if (body.blocked.down) {
-      body.setVelocityY(-700)
+      // Velocity and gravity both scale by k, so jump height scales by k
+      // while air time stays identical to the desktop tuning.
+      body.setVelocityY(-700 * this.k)
       this.jumpCount = 1
       this.playSfx('sfx-jump', 0.5)
       // Pixar squish-and-stretch on jump
@@ -553,7 +569,7 @@ export class GameScene extends Phaser.Scene {
         ease: 'Quad.easeOut',
       })
     } else if (this.jumpCount < 2) {
-      body.setVelocityY(-580)
+      body.setVelocityY(-580 * this.k)
       this.jumpCount = 2
       this.playSfx('sfx-jump', 0.5)
       this.tweens.add({
@@ -615,7 +631,7 @@ export class GameScene extends Phaser.Scene {
     // Float-up pop
     this.tweens.add({
       targets: gem,
-      y: gem.y - 45,
+      y: gem.y - 45 * this.k,
       alpha: 0,
       scaleX: gem.scaleX * 1.4,
       scaleY: gem.scaleY * 1.4,

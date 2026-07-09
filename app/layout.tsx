@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import SmoothScrollProvider from '@/components/layout/SmoothScrollProvider'
 import AudioProvider from '@/components/AudioProvider'
+import HapticFeedback from '@/components/HapticFeedback'
 
 import localFont from 'next/font/local'
 
@@ -40,13 +41,13 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} — Web, App & AI Automation Development`,
     description:
       'Full-service digital agency. Websites, apps, software, and AI automation built to your exact requirements.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: `${SITE_NAME} — Digital Agency` }],
+    images: [{ url: '/og-image.webp', width: 1200, height: 630, alt: `${SITE_NAME} — Digital Agency` }],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${SITE_NAME} — Web, App & AI Automation Development`,
     description: 'Full-service digital agency in India.',
-    images: ['/og-image.png'],
+    images: ['/og-image.webp'],
   },
   robots: {
     index: true,
@@ -66,6 +67,7 @@ export default function RootLayout({
         <a href="#main" className="skip-to-content">
           Skip to main content
         </a>
+        <HapticFeedback />
         <SmoothScrollProvider>
           <AudioProvider>
             <Navbar />

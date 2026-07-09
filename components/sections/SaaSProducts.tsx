@@ -133,7 +133,7 @@ const products = [
       { icon: FileText, title: "Automated Expenses", desc: "OCR & Smart Approvals" },
       { icon: BarChart2, title: "Powerful Analytics", desc: "Insights that matter" }
     ],
-    image: "/images/fieldtrack_pro.png",
+    image: "/images/fieldtrack_pro.webp",
     bg: "#E4D8EB", // saas 1
     textColor: "text-brand-ink",
     mutedColor: "text-brand-ink/70",
@@ -141,7 +141,7 @@ const products = [
     featureBg: "bg-brand-white text-brand-purple border-brand-border/50",
     btnPrimary: "bg-brand-ink text-brand-white hover:bg-brand-purple border-transparent",
     btnSecondary: "bg-brand-white border-transparent text-brand-ink hover:bg-brand-paper",
-    knowMoreLink: "/products/fieldtrack_pro_global.html",
+    knowMoreLink: "/products/fieldtrack_pro_global/",
   },
   {
     number: "02",
@@ -155,7 +155,7 @@ const products = [
       { icon: ShoppingCart, title: "Order Automation", desc: "Pick, Pack, Ship on autopilot" },
       { icon: BarChart2, title: "Real-time Insights", desc: "Analytics that help you decide faster" }
     ],
-    image: "/images/cloudcomm.png",
+    image: "/images/cloudcomm.webp",
     bg: "#ECE3F1", // saas 2
     textColor: "text-brand-ink",
     mutedColor: "text-brand-ink/70",
@@ -163,7 +163,7 @@ const products = [
     featureBg: "bg-brand-white text-brand-purple border-brand-border/50",
     btnPrimary: "bg-brand-ink text-brand-white hover:bg-brand-purple border-transparent",
     btnSecondary: "bg-brand-white border-transparent text-brand-ink hover:bg-brand-paper",
-    knowMoreLink: "/products/cloudcomm.html",
+    knowMoreLink: "/products/cloudcomm/",
   }
 ]
 
