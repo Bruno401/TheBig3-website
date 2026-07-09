@@ -45,6 +45,17 @@ function getGreeting() {
 /* ─── Cal.com booking modal ──────────────────────────────────────────── */
 function BookingModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
+  useEffect(() => {
     ;(function (C: any, A: string, L: string) {
       const p = function (a: any, ar: any) { a.q.push(ar) }
       const d = C.document
@@ -123,6 +134,17 @@ interface FormState {
 }
 
 function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
   const [step, setStep] = useState<Step>('landing')
   const [dir, setDir] = useState(1)
   const [form, setForm] = useState<FormState>({

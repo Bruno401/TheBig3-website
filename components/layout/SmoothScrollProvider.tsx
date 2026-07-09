@@ -26,6 +26,21 @@ export default function SmoothScrollProvider({
       prevent: (node: Element | null) => node?.hasAttribute('data-lenis-prevent') ?? false,
     })
 
+    ;(window as any).lenis = lenis
+
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.attributeName === 'style') {
+          if (document.body.style.overflow === 'hidden') {
+            lenis.stop()
+          } else {
+            lenis.start()
+          }
+        }
+      }
+    })
+    observer.observe(document.body, { attributes: true })
+
     lenis.on('scroll', ScrollTrigger.update)
 
     const updateLenis = (time: number) => {
@@ -37,9 +52,11 @@ export default function SmoothScrollProvider({
     gsap.ticker.lagSmoothing(0)
 
     return () => {
+      observer.disconnect()
       gsap.ticker.remove(updateLenis)
       lenis.off('scroll', ScrollTrigger.update)
       lenis.destroy()
+      delete (window as any).lenis
     }
   }, [])
 

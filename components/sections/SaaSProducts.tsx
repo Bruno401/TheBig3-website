@@ -164,28 +164,6 @@ const products = [
     btnPrimary: "bg-brand-ink text-brand-white hover:bg-brand-purple border-transparent",
     btnSecondary: "bg-brand-white border-transparent text-brand-ink hover:bg-brand-paper",
     knowMoreLink: "/products/cloudcomm.html",
-  },
-  {
-    number: "03",
-    titleText: "Digi",
-    titleItalic: "Studio",
-    subtitle: "Digital Asset Management & Workflow",
-    desc: "Centralize your creative assets, streamline approvals, and distribute content globally.",
-    features: [
-      { icon: MapPin, title: "Asset Organization", desc: "AI auto-tagging" },
-      { icon: ShieldCheck, title: "Version Control", desc: "Never lose a draft" },
-      { icon: FileText, title: "Review Workflows", desc: "Client approvals" },
-      { icon: BarChart2, title: "Distribution", desc: "CDN powered" }
-    ],
-    image: "/images/fieldtrack_pro.png",
-    bg: "#F5F0F8", // saas 3
-    textColor: "text-brand-ink",
-    mutedColor: "text-brand-ink/70",
-    italicColor: "text-brand-purple",
-    featureBg: "bg-brand-white text-brand-purple border-brand-border/50",
-    btnPrimary: "bg-brand-ink text-brand-white hover:bg-brand-purple border-transparent",
-    btnSecondary: "bg-brand-white border-transparent text-brand-ink hover:bg-brand-paper",
-    knowMoreLink: "/products/fieldtrack_pro_global.html", // Fallback for now
   }
 ]
 
@@ -194,6 +172,7 @@ const products = [
 export default function SaaSProducts() {
   const reduceMotion = useReducedMotion()
   const [active, setActive] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
   const [knowMoreOpen, setKnowMoreOpen] = useState(false)
   const [activeKnowMoreUrl, setActiveKnowMoreUrl] = useState("")
   const [demoOpen, setDemoOpen] = useState(false)
@@ -205,6 +184,7 @@ export default function SaaSProducts() {
   const swipe = useRef<{ id: number; startX: number } | null>(null)
 
   const startSwipe = (e: React.PointerEvent) => {
+    setIsPaused(true)
     if (swipe.current) return
     if (e.pointerType === "mouse" && e.button !== 0) return
     // Prevent text selection / native image drag while swiping with a mouse
@@ -261,11 +241,12 @@ export default function SaaSProducts() {
   }
 
   useEffect(() => {
+    if (isPaused) return
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % products.length)
     }, 2000)
     return () => clearInterval(timer)
-  }, [])
+  }, [isPaused])
 
   return (
     <section 
@@ -318,6 +299,7 @@ export default function SaaSProducts() {
                   style={{
                     background: product.bg,
                   }}
+                  onClick={() => setIsPaused(true)}
                 >
                   
                   {/* Left Content */}
