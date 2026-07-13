@@ -29,7 +29,7 @@ type TeamMember = {
 const teamData: TeamMember[] = [
   {
     name: "Hardik Ghodasara",
-    role: "AI Automation Specialist & CFO",
+    role: "Founder & AI Automation Specialist",
     image: "images/hardik.webp",
     socials: {
       website: "#",
@@ -38,20 +38,20 @@ const teamData: TeamMember[] = [
   },
   {
     name: "Meet Gadara",
-    role: "Backend & Database Specialist & CMO",
+    role: "founder & Backend & Database Specialist",
     image: "images/meet.webp",
     socials: {
       website: "#",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/meetgadara24/",
     },
   },
   {
     name: "Karan Kalavadiya",
-    role: "Full Stack Devloper & Security Auditor & CTO",
+    role: "founder & Full Stack Devloper & Security Auditor",
     image: "images/karan.webp",
     socials: {
       website: "#",
-      linkedin: "#",
+      linkedin: "https://www.linkedin.com/in/karan-kalavadiya/",
     },
   },
 ];

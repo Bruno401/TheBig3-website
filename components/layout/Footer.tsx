@@ -105,7 +105,7 @@ export default function Footer() {
           whileInView={{ y: 0 }}
           transition={{ type: "spring", stiffness: 100, damping: 20 }}
           viewport={{ once: false, margin: "-50px" }}
-          className="relative z-0 bg-[#120e1e] w-[90%] mx-auto rounded-[2rem] pb-8 px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-md -mt-8 pt-12"
+          className="relative z-0 bg-[#120e1e] w-full rounded-[2.5rem] py-5 px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-5 shadow-md mt-6"
         >
 
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
