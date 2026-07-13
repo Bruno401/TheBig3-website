@@ -38,7 +38,7 @@ const teamData: TeamMember[] = [
   },
   {
     name: "Meet Gadara",
-    role: "founder & Backend & Database Specialist",
+    role: "Founder & Backend & Database Specialist",
     image: "images/meet.webp",
     socials: {
       website: "#",
@@ -47,7 +47,7 @@ const teamData: TeamMember[] = [
   },
   {
     name: "Karan Kalavadiya",
-    role: "founder & Full Stack Devloper & Security Auditor",
+    role: "Founder & Full Stack Devloper & Security Auditor",
     image: "images/karan.webp",
     socials: {
       website: "#",
